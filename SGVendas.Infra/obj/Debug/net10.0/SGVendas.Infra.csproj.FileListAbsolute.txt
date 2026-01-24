@@ -11,6 +11,7 @@ C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.Infra.GeneratedMSBuildEditorCon
 C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.Infra.AssemblyInfoInputs.cache
 C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.Infra.AssemblyInfo.cs
 C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.Infra.csproj.CoreCompileInputs.cache
+C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.Infra.sourcelink.json
 C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.F3C35A21.Up2Date
 C:\SGV\SGVendas.Infra\obj\Debug\net10.0\SGVendas.Infra.dll
 C:\SGV\SGVendas.Infra\obj\Debug\net10.0\refint\SGVendas.Infra.dll

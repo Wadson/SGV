@@ -5,6 +5,7 @@ C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.GeneratedMSBuildEditorC
 C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.AssemblyInfoInputs.cache
 C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.AssemblyInfo.cs
 C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.csproj.CoreCompileInputs.cache
+C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.sourcelink.json
 C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.dll
 C:\SGV\SGVendas.Domain\obj\Debug\net10.0\refint\SGVendas.Domain.dll
 C:\SGV\SGVendas.Domain\obj\Debug\net10.0\SGVendas.Domain.pdb

@@ -15,9 +15,14 @@ namespace SGVendas
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Repositórios
+            builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+            builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
             builder.Services.AddScoped<IVendaRepository, VendaRepository>();
-            builder.Services.AddScoped<IVendaService, VendaService>();
             builder.Services.AddScoped<IVendaCommandRepository, VendaCommandRepository>();
+            builder.Services.AddScoped<IClienteService, ClienteService>();
+            builder.Services.AddScoped<IProdutoService, ProdutoService>();
+
 
             // Configuração do DbContext
             builder.Services.AddDbContext<SGVendasDbContext>(options =>
@@ -27,8 +32,6 @@ namespace SGVendas
             );
             // Registro dos serviços da aplicação
             builder.Services.AddScoped<IVendaService, VendaService>();
-
-            builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 

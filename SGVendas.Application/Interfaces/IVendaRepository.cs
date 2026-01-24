@@ -1,21 +1,16 @@
 ﻿using SGVendas.Domain.Entities;
-using System.Collections.Generic;
 
 namespace SGVendas.Application.Interfaces
 {
     /// <summary>
-    /// Contrato de acesso a dados da entidade Venda.
+    /// Contrato de acesso a dados da Venda
     /// </summary>
     public interface IVendaRepository
     {
-        /// <summary>
-        /// Persiste uma nova venda no banco de dados.
-        /// </summary>
-        int Adicionar(Venda venda);
+        Venda? ObterPorId(int vendaId);
 
-        /// <summary>
-        /// Retorna todas as vendas cadastradas.
-        /// </summary>
         IEnumerable<Venda> ObterTodas();
+
+        void Adicionar(Venda venda);
     }
 }

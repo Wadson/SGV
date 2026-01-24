@@ -1,42 +1,37 @@
 ﻿using SGVendas.Application.Interfaces;
 using SGVendas.Domain.Entities;
 using SGVendas.Infra.Context;
-using System.Collections.Generic;
-using System.Linq;
+
 namespace SGVendas.Infra.Repositories
 {
     /// <summary>
-    /// Implementação do repositório de vendas usando Entity Framework Core.
+    /// Implementação do repositório de Venda usando EF Core
     /// </summary>
     public class VendaRepository : IVendaRepository
     {
         private readonly SGVendasDbContext _context;
 
-        /// <summary>
-        /// DbContext é injetado automaticamente pelo ASP.NET Core.
-        /// </summary>
         public VendaRepository(SGVendasDbContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// Salva uma nova venda no banco.
-        /// </summary>
-        public int Adicionar(Venda venda)
+        public void Adicionar(Venda venda)
         {
             _context.Vendas.Add(venda);
-            _context.SaveChanges();
-
-            return venda.VendaID;
         }
 
-        /// <summary>
-        /// Retorna todas as vendas cadastradas.
-        /// </summary>
+        public Venda? ObterPorId(int vendaId)
+        {
+            return _context.Vendas
+                .FirstOrDefault(v => v.VendaID == vendaId);
+        }
+
         public IEnumerable<Venda> ObterTodas()
         {
-            return _context.Vendas.ToList();
+            return _context.Vendas
+                .OrderByDescending(v => v.DataVenda)
+                .ToList();
         }
     }
 }

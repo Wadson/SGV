@@ -12,7 +12,9 @@ namespace SGVendas.Application.DTOs
         /// Cliente da venda.
         /// </summary>
         public int ClienteID { get; set; }
-
+        public int VendedorID { get; set; }      
+        public int FormaPgtoID { get; set; }
+        public string Observacoes { get; set; } = string.Empty;
         /// <summary>
         /// Lista de itens da venda.
         /// </summary>

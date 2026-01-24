@@ -36,5 +36,7 @@
         /// Indica se o cliente está ativo no sistema.
         /// </summary>
         public bool Ativo { get; set; } = true;
+
+        public bool IsVendedor { get; set; } = false;
     }
 }

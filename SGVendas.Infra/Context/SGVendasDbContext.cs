@@ -40,6 +40,12 @@ namespace SGVendas.Infra.Context
         /// <summary>
         /// Método onde configuramos os mapeamentos.
         /// </summary>
+
+        /// <summary>
+        /// Tabela de Produtos.
+        /// </summary>
+        public DbSet<Produto> Produtos => Set<Produto>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Aplica automaticamente todos os mapeamentos da pasta Mappings

@@ -32,7 +32,8 @@ namespace SGVendas.Application.Services
         /// <summary>
         /// Cria e salva uma nova venda no banco.
         /// </summary>
-        public int CriarVenda(CriarVendaDto dto)
+        public async Task<int> CriarVendaAsync(CriarVendaDto dto)
+
         {
             // Serializa os itens exatamente como a SP espera
             var itensJson = JsonSerializer.Serialize(
@@ -44,12 +45,13 @@ namespace SGVendas.Application.Services
                 })
             );
 
-            return _vendaCommandRepository.RegistrarVenda(
-                dto.ClienteID,
-                null,           // FormaPgtoID (por enquanto)
-                null,           // Observações
-                itensJson
-            );
+            return await _vendaCommandRepository.RegistrarVendaAsync(
+             dto.ClienteID,
+             dto.FormaPgtoID,
+             dto.Observacoes,
+             itensJson
+         );
+
         }
 
         /// <summary>
