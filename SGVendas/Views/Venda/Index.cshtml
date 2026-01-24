@@ -106,6 +106,13 @@
           href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
+
+    <style>
+        .ui-autocomplete {
+            z-index: 1055 !important;
+        }
+    </style>
+
     <script>
         $(function () {
 
@@ -143,6 +150,35 @@
             // VARIÁVEIS DA VENDA
             // =========================
             let itens = [];
+
+                    // =========================
+        // AUTOCOMPLETE PRODUTO
+        // =========================
+        $("#txtProduto").autocomplete({
+            source: function (request, response) {
+                $.getJSON("/api/produtos/buscar", {
+                    termo: request.term
+                }, response);
+            },
+            select: function (event, ui) {
+
+                // Preenche campos automaticamente
+                $("#ProdutoID").val(ui.item.id);
+                $("#txtProduto").val(ui.item.label);
+                $("#PrecoUnitario").val(ui.item.preco.toFixed(2));
+                        
+                if (ui.item.estoque <= 0) {
+            alert("Produto sem estoque disponível.");
+            return false;
+        }
+
+                // Impede que o jQuery sobrescreva o value
+                return false;
+            },
+            minLength: 2
+        });
+
+
 
             // =========================
             // ADICIONAR ITEM

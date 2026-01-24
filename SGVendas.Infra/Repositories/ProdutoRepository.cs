@@ -13,13 +13,23 @@ namespace SGVendas.Infra.Repositories
             _context = context;
         }
 
-        public IEnumerable<Produto> Buscar(string termo)
+        public IEnumerable<Produto> BuscarProdutos(string termo)
+        {
+           
+               return _context.Produtos
+                .Where(p =>
+                (p.Status == "Disponível" || p.Status == "Em Produção") &&
+                p.NomeProduto.Contains(termo))
+
+                .OrderBy(p => p.NomeProduto)
+                .Take(10)
+                .ToList();
+        }
+
+        public Produto? ObterPorId(int produtoId)
         {
             return _context.Produtos
-                .Where(p => p.NomeProduto.Contains(termo))
-                .OrderBy(p => p.NomeProduto)
-                .Take(20)
-                .ToList();
+                .FirstOrDefault(p => p.ProdutoID == produtoId);
         }
     }
 }

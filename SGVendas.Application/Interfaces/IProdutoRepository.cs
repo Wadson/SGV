@@ -4,6 +4,7 @@ namespace SGVendas.Application.Interfaces
 {
     public interface IProdutoRepository
     {
-        IEnumerable<Produto> Buscar(string termo);
+        IEnumerable<Produto> BuscarProdutos(string termo);
+        Produto? ObterPorId(int produtoId);
     }
 }

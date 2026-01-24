@@ -120,7 +120,6 @@ C:\SGV\SGVendas\obj\Debug\net10.0\compressed\tgczkxhcuk-{0}-0j3bgjxly4-0j3bgjxly
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\8hxgj43yco-{0}-47otxtyo56-47otxtyo56.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\2zqr5o6ih8-{0}-4v8eqarkd7-4v8eqarkd7.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\fzccfo79r5-{0}-356vix0kms-356vix0kms.gz
-C:\SGV\SGVendas\obj\Debug\net10.0\compressed\x9q4kffgl9-{0}-83jwlth58m-83jwlth58m.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\rxznf7dhj9-{0}-mrlpezrjn3-mrlpezrjn3.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\gyczzzaupy-{0}-lzl9nlhx6b-lzl9nlhx6b.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\lbuzj1bp6b-{0}-ag7o75518u-ag7o75518u.gz
@@ -146,3 +145,4 @@ C:\SGV\SGVendas\obj\Debug\net10.0\SGVendas.pdb
 C:\SGV\SGVendas\obj\Debug\net10.0\SGVendas.genruntimeconfig.cache
 C:\SGV\SGVendas\obj\Debug\net10.0\ref\SGVendas.dll
 C:\SGV\SGVendas\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\SGV\SGVendas\obj\Debug\net10.0\compressed\x9q4kffgl9-{0}-0t47pc8l94-0t47pc8l94.gz

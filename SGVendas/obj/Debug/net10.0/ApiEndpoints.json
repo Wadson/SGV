@@ -32,6 +32,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "Method": "Buscar",
+    "RelativePath": "api/produtos/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "termo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
     "Method": "ObterClientes",
     "RelativePath": "api/venda/clientes",

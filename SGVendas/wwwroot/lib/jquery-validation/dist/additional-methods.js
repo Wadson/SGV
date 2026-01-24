@@ -16,7 +16,8 @@
 	}
 }(function( $ ) {
 
-( function() {
+	(function ()
+	{
 
 	function stripHtml( value ) {
 
@@ -39,7 +40,24 @@
 		var valueStripped = stripHtml( value ),
 			regex = /\b\w+\b/g;
 		return this.optional( element ) || valueStripped.match( regex ).length >= params[ 0 ] && valueStripped.match( regex ).length <= params[ 1 ];
-	}, $.validator.format( "Please enter between {0} and {1} words." ) );
+	}, $.validator.format("Please enter between {0} and {1} words."));
+
+		// =========================
+		// AUTOCOMPLETE PRODUTO
+		// =========================
+		$("#txtProduto").autocomplete({
+			source: function (request, response) {
+				$.getJSON("/api/produtos/buscar", {
+					termo: request.term
+				}, response);
+			},
+			select: function (event, ui) {
+				$("#ProdutoID").val(ui.item.id);
+				$("#PrecoUnitario").val(ui.item.preco.toFixed(2));
+			},
+			minLength: 2
+		});
+
 
 }() );
 

@@ -1,26 +1,25 @@
-﻿using SGVendas.Application.DTOs;
-using SGVendas.Application.Interfaces;
+﻿using SGVendas.Application.Interfaces;
+using SGVendas.Domain.Entities;
 
 namespace SGVendas.Application.Services
 {
     public class ProdutoService : IProdutoService
     {
-        private readonly IProdutoRepository _repository;
+        private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutoService(IProdutoRepository repository)
+        public ProdutoService(IProdutoRepository produtoRepository)
         {
-            _repository = repository;
+            _produtoRepository = produtoRepository;
         }
 
-        public IEnumerable<ProdutoDto> Buscar(string termo)
+        public IEnumerable<Produto> BuscarProdutos(string termo)
         {
-            return _repository.Buscar(termo)
-                .Select(p => new ProdutoDto
-                {
-                    ProdutoID = p.ProdutoID,
-                    NomeProduto = p.NomeProduto,
-                    PrecoDeVenda = p.PrecoDeVenda
-                });
+            return _produtoRepository.BuscarProdutos(termo);
+        }
+
+        public Produto? ObterProduto(int produtoId)
+        {
+            return _produtoRepository.ObterPorId(produtoId);
         }
     }
 }

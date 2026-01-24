@@ -54,7 +54,7 @@ namespace SGVendas.Web.Controllers
         [HttpGet("produtos")]
         public IActionResult ObterProdutos(string termo = "")
         {
-            var produtos = _produtoService.Buscar(termo);
+            var produtos = _produtoService.BuscarProdutos(termo);
             return Ok(produtos);
         }
     }

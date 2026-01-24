@@ -1,9 +1,10 @@
-﻿using SGVendas.Application.DTOs;
+﻿using SGVendas.Domain.Entities;
 
 namespace SGVendas.Application.Interfaces
 {
     public interface IProdutoService
     {
-        IEnumerable<ProdutoDto> Buscar(string termo);
+        IEnumerable<Produto> BuscarProdutos(string termo);
+        Produto? ObterProduto(int produtoId);
     }
 }

@@ -13,38 +13,16 @@ namespace SGVendas.Infra.Context
     public class SGVendasDbContext : DbContext
     {
         public DbSet<ItemVenda> ItensVenda => Set<ItemVenda>();
-
-        /// <summary>
-        /// Construtor usado pelo ASP.NET Core via DI.
-        /// </summary>
+      
         public SGVendasDbContext(DbContextOptions<SGVendasDbContext> options)
             : base(options)
         {
         }
-
-        /// <summary>
-        /// Tabela de Clientes.
-        /// </summary>
+     
         public DbSet<Cliente> Clientes => Set<Cliente>();
-
-        /// <summary>
-        /// Tabela de Vendas.
-        /// </summary>
-        public DbSet<Venda> Vendas => Set<Venda>();
-
-        /// <summary>
-        /// Tabela de Parcelas.
-        /// </summary>
-        public DbSet<Parcela> Parcelas => Set<Parcela>();
-
-        /// <summary>
-        /// Método onde configuramos os mapeamentos.
-        /// </summary>
-
-        /// <summary>
-        /// Tabela de Produtos.
-        /// </summary>
-        public DbSet<Produto> Produtos => Set<Produto>();
+        public DbSet<Venda> Vendas => Set<Venda>();    
+        public DbSet<Parcela> Parcelas => Set<Parcela>();       
+        public DbSet<Produto> Produtos => Set<Produto>();       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
