@@ -1,6 +1,7 @@
 ﻿using SGVendas.Application.Interfaces;
 using SGVendas.Domain.Entities;
 using SGVendas.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace SGVendas.Infra.Repositories
 {
@@ -13,21 +14,23 @@ namespace SGVendas.Infra.Repositories
             _context = context;
         }
 
-        public IEnumerable<Cliente> Buscar(string termo)
+        public IEnumerable<Cliente> BuscarClientes(string termo)
         {
             return _context.Clientes
                 .Where(c => c.Nome.Contains(termo))
                 .OrderBy(c => c.Nome)
-                .Take(20)
+                .Take(10)
                 .ToList();
         }
 
-        public IEnumerable<Cliente> ObterVendedores()
+        public IEnumerable<Cliente> BuscarVendedores(string termo)
         {
             return _context.Clientes
-                .Where(c => c.IsVendedor)
-                .OrderBy(c => c.Nome)
-                .ToList();
+             .Where(c => c.IsVendedor && c.Status == 1 && c.Nome.Contains(termo))
+             .OrderBy(c => c.Nome)
+             .Take(10)
+             .ToList();
+
         }
     }
 }

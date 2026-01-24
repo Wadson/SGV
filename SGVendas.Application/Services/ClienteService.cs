@@ -1,35 +1,25 @@
-﻿using SGVendas.Application.DTOs;
-using SGVendas.Application.Interfaces;
+﻿using SGVendas.Application.Interfaces;
+using SGVendas.Domain.Entities;
 
 namespace SGVendas.Application.Services
 {
     public class ClienteService : IClienteService
     {
-        private readonly IClienteRepository _repository;
+        private readonly IClienteRepository _clienteRepository;
 
-        public ClienteService(IClienteRepository repository)
+        public ClienteService(IClienteRepository clienteRepository)
         {
-            _repository = repository;
+            _clienteRepository = clienteRepository;
         }
 
-        public IEnumerable<ClienteDto> Buscar(string termo)
+        public IEnumerable<Cliente> BuscarClientes(string termo)
         {
-            return _repository.Buscar(termo)
-                .Select(c => new ClienteDto
-                {
-                    ClienteID = c.ClienteID,
-                    Nome = c.Nome
-                });
+            return _clienteRepository.BuscarClientes(termo);
         }
 
-        public IEnumerable<ClienteDto> ObterVendedores()
+        public IEnumerable<Cliente> BuscarVendedores(string termo)
         {
-            return _repository.ObterVendedores()
-                .Select(c => new ClienteDto
-                {
-                    ClienteID = c.ClienteID,
-                    Nome = c.Nome
-                });
+            return _clienteRepository.BuscarVendedores(termo);
         }
     }
 }

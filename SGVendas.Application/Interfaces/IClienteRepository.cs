@@ -4,7 +4,7 @@ namespace SGVendas.Application.Interfaces
 {
     public interface IClienteRepository
     {
-        IEnumerable<Cliente> Buscar(string termo);
-        IEnumerable<Cliente> ObterVendedores();
+        IEnumerable<Cliente> BuscarClientes(string termo);
+        IEnumerable<Cliente> BuscarVendedores(string termo);
     }
 }

@@ -27,7 +27,7 @@ namespace SGVendas.Web.Controllers
         [HttpGet("clientes")]
         public IActionResult ObterClientes(string termo = "")
         {
-            var clientes = _clienteService.Buscar(termo);
+            var clientes = _clienteService.BuscarClientes(termo);
             return Ok(clientes);
         }
 
@@ -35,11 +35,18 @@ namespace SGVendas.Web.Controllers
         /// Retorna vendedores (clientes marcados como vendedor).
         /// </summary>
         [HttpGet("vendedores")]
-        public IActionResult ObterVendedores()
+        public IActionResult ObterVendedores(string termo)
         {
-            var vendedores = _clienteService.ObterVendedores();
-            return Ok(vendedores);
+            var vendedores = _clienteService.BuscarVendedores(termo);
+
+            return Ok(vendedores.Select(v => new
+            {
+                id = v.ClienteID,
+                label = v.Nome,
+                value = v.Nome
+            }));
         }
+
 
         /// <summary>
         /// Retorna produtos (autocomplete).

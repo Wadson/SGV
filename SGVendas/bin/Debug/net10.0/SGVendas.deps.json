@@ -9,7 +9,6 @@
       "SGVendas/1.0.0": {
         "dependencies": {
           "SGVendas.Application": "1.0.0",
-          "SGVendas.Domain": "1.0.0",
           "SGVendas.Infra": "1.0.0"
         },
         "runtime": {

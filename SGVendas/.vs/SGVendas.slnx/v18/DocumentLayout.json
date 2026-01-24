@@ -1,7 +1,11 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4414E522-E632-209E-A6C7-1FF8A8754814}|..\\SGVendas.Infra\\SGVendas.Infra.csproj|c:\\sgv\\sgvendas.infra\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +13,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 24,
           "Children": [
             {
               "$type": "Bookmark",
@@ -106,6 +110,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClienteRepository.cs",
+              "DocumentMoniker": "C:\\SGV\\SGVendas.Infra\\Repositories\\ClienteRepository.cs",
+              "RelativeDocumentMoniker": "..\\SGVendas.Infra\\Repositories\\ClienteRepository.cs",
+              "ToolTip": "C:\\SGV\\SGVendas.Infra\\Repositories\\ClienteRepository.cs",
+              "RelativeToolTip": "..\\SGVendas.Infra\\Repositories\\ClienteRepository.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-24T16:35:51.351Z",
+              "EditorCaption": ""
             }
           ]
         },

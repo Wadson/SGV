@@ -1,10 +1,10 @@
-﻿using SGVendas.Application.DTOs;
+﻿using SGVendas.Domain.Entities;
 
 namespace SGVendas.Application.Interfaces
 {
     public interface IClienteService
     {
-        IEnumerable<ClienteDto> Buscar(string termo);
-        IEnumerable<ClienteDto> ObterVendedores();
+        IEnumerable<Cliente> BuscarClientes(string termo);
+        IEnumerable<Cliente> BuscarVendedores(string termo);
     }
 }

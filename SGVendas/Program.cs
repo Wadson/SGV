@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+ï»¿using Microsoft.EntityFrameworkCore;
 using SGVendas.Application.Interfaces;
 using SGVendas.Application.Services;
 using SGVendas.Infra.Repositories;
@@ -15,22 +15,25 @@ namespace SGVendas
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Repositórios
+            // RepositÃ³rios
             builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
             builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
             builder.Services.AddScoped<IVendaRepository, VendaRepository>();
             builder.Services.AddScoped<IVendaCommandRepository, VendaCommandRepository>();
             builder.Services.AddScoped<IClienteService, ClienteService>();
             builder.Services.AddScoped<IProdutoService, ProdutoService>();
+          
+           
 
 
-            // Configuração do DbContext
+
+            // ConfiguraÃ§Ã£o do DbContext
             builder.Services.AddDbContext<SGVendasDbContext>(options =>
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")
                 )
             );
-            // Registro dos serviços da aplicação
+            // Registro dos serviÃ§os da aplicaÃ§Ã£o
             builder.Services.AddScoped<IVendaService, VendaService>();
 
             var app = builder.Build();

@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "SGVendas.Web.Controllers.ClienteController",
+    "Method": "BuscarClientes",
+    "RelativePath": "api/clientes/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "termo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.ClienteController",
+    "Method": "BuscarVendedores",
+    "RelativePath": "api/clientes/vendedores",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "termo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
     "Method": "ObterClientes",
     "RelativePath": "api/venda/clientes",
@@ -38,7 +70,13 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "termo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   }
 ]

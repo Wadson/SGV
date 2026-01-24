@@ -28,7 +28,7 @@ namespace SGVendas.Infra.Mappings
             builder.Property(c => c.Telefone)
                    .HasMaxLength(20);
 
-            builder.Property(c => c.Ativo)
+            builder.Property(c => c.Status)
                    .HasDefaultValue(true);
         }
     }
