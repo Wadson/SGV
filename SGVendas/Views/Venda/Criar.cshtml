@@ -1,0 +1,41 @@
+﻿@model SGVendas.Application.DTOs.CriarVendaDto
+
+@{
+    ViewData["Title"] = "Nova Venda";
+}
+
+<h2>Nova Venda</h2>
+
+<form asp-action="Criar" method="post">
+    <div class="mb-3">
+        <label class="form-label">Cliente ID</label>
+        <input asp-for="ClienteID" class="form-control" />
+    </div>
+
+    <hr />
+
+    <h4>Itens da Venda</h4>
+
+    <div class="mb-3">
+        <label>Produto ID</label>
+        <input name="Itens[0].ProdutoID" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Quantidade</label>
+        <input name="Itens[0].Quantidade" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Preço Unitário</label>
+        <input name="Itens[0].PrecoUnitario" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Salvar Venda
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Voltar
+    </a>
+</form>

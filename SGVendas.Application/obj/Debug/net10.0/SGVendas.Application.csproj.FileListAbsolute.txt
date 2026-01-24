@@ -1,0 +1,15 @@
+C:\SGV\SGVendas.Application\bin\Debug\net10.0\SGVendas.Application.deps.json
+C:\SGV\SGVendas.Application\bin\Debug\net10.0\SGVendas.Application.dll
+C:\SGV\SGVendas.Application\bin\Debug\net10.0\SGVendas.Application.pdb
+C:\SGV\SGVendas.Application\bin\Debug\net10.0\SGVendas.Domain.dll
+C:\SGV\SGVendas.Application\bin\Debug\net10.0\SGVendas.Domain.pdb
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.csproj.AssemblyReference.cache
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.AssemblyInfoInputs.cache
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.AssemblyInfo.cs
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.csproj.CoreCompileInputs.cache
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.0BC9897F.Up2Date
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.dll
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\refint\SGVendas.Application.dll
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\SGVendas.Application.pdb
+C:\SGV\SGVendas.Application\obj\Debug\net10.0\ref\SGVendas.Application.dll

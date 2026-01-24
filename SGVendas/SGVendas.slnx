@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../SGVendas.Application/SGVendas.Application.csproj" />
+  <Project Path="../SGVendas.Domain/SGVendas.Domain.csproj" />
+  <Project Path="../SGVendas.Infra/SGVendas.Infra.csproj" />
+  <Project Path="SGVendas.csproj" />
+</Solution>
