@@ -17,25 +17,24 @@ namespace SGVendas.Application.Services
     public class VendaService : IVendaService
     {
         private readonly IVendaCommandRepository _vendaCommandRepository;
-
         private readonly IVendaRepository _vendaRepository;
+        private readonly IVendaCommandRepository _command;
 
-        /// <summary>
-        /// Repositório é injetado automaticamente.
-        /// </summary>
-        public VendaService(IVendaRepository vendaRepository, IVendaCommandRepository vendaCommandRepository)
+        public VendaService(IVendaRepository vendaRepository, 
+               IVendaCommandRepository vendaCommandRepository,
+               IVendaCommandRepository command)
         {
             _vendaRepository = vendaRepository;
             _vendaCommandRepository = vendaCommandRepository;
+            _command = command;
         }
 
         /// <summary>
         /// Cria e salva uma nova venda no banco.
         /// </summary>
         public async Task<int> CriarVendaAsync(CriarVendaDto dto)
-
         {
-            // Serializa os itens exatamente como a SP espera
+            // 🔹 JSON exatamente como a SP espera
             var itensJson = JsonSerializer.Serialize(
                 dto.Itens.Select(i => new
                 {
@@ -45,14 +44,24 @@ namespace SGVendas.Application.Services
                 })
             );
 
-            return await _vendaCommandRepository.RegistrarVendaAsync(
-             dto.ClienteID,
-             dto.FormaPgtoID,
-             dto.Observacoes,
-             itensJson
-         );
+            // 🔹 Chama sp_registrar_venda
+            var vendaId = await _command.RegistrarVendaAsync(
+                dto.ClienteID,
+                dto.FormaPgtoID,
+                dto.Observacoes,
+                itensJson
+            );
 
+            // 🔹 Exemplo: gerar parcelas (1x à vista por enquanto)
+            await _command.GerarParcelasAsync(
+                vendaId,
+                1,
+                DateTime.Today
+            );
+
+            return vendaId;
         }
+    
 
         /// <summary>
         /// Lista todas as vendas cadastradas.

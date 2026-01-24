@@ -288,5 +288,51 @@
             }
 
         });
+
+
+
+                // =====================================================
+        // FINALIZAR VENDA
+        // =====================================================
+        $("#btnFinalizar").click(function () {
+
+            if (itens.length === 0) {
+                alert("Adicione ao menos um produto.");
+                return;
+            }
+
+            const venda = {
+                clienteID: parseInt($("#ClienteID").val()),
+                vendedorID: parseInt($("#VendedorID").val()),
+                formaPgtoID: null,
+                observacoes: null,
+                itens: itens.map(i => ({
+                    produtoID: i.produtoId,
+                    quantidade: i.quantidade,
+                    precoUnitario: i.preco
+                }))
+            };
+
+            $.ajax({
+                url: "/api/vendas/finalizar",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(venda),
+                success: function (res) {
+                    alert("Venda realizada com sucesso! Nº " + res.vendaId);
+                    location.reload();
+                },
+                error: function (err) {
+                    alert("Erro ao finalizar venda.");
+                }
+            });
+        });
+
+
+
+
+
+
+
     </script>
 }

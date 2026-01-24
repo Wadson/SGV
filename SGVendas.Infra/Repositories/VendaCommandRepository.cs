@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SGVendas.Application.Interfaces;
 using SGVendas.Infra.Context;
 
@@ -15,25 +14,42 @@ namespace SGVendas.Infra.Repositories
         }
 
         public async Task<int> RegistrarVendaAsync(
-         int clienteId,
-         int? formaPgtoId,
-         string? observacoes,
-         string itensJson)
+            int clienteId,
+            int? formaPgtoId,
+            string? observacoes,
+            string itensJson)
         {
-            var vendaIdParam = new SqlParameter("@VendaID", System.Data.SqlDbType.Int)
-            {
-                Direction = System.Data.ParameterDirection.Output
-            };
-
             await _context.Database.ExecuteSqlRawAsync(
-                "EXEC dbo.sp_registrar_venda @ClienteID, @FormaPgtoID, @Observacoes, @Itens",
-                new SqlParameter("@ClienteID", clienteId),
-                new SqlParameter("@FormaPgtoID", (object?)formaPgtoId ?? DBNull.Value),
-                new SqlParameter("@Observacoes", (object?)observacoes ?? DBNull.Value),
-                new SqlParameter("@Itens", itensJson)
+                @"EXEC sp_registrar_venda 
+                    @ClienteID = {0},
+                    @FormaPgtoID = {1},
+                    @Observacoes = {2},
+                    @Itens = {3}",
+                clienteId,
+                formaPgtoId,
+                observacoes,
+                itensJson
             );
 
-            return vendaIdParam.Value is int id ? id : 0;
+            // A SP já insere e retorna o ID internamente
+            // Se futuramente quiser OUTPUT, ajustamos
+            return await _context.Vendas.MaxAsync(v => v.VendaID);
+        }
+
+        public async Task GerarParcelasAsync(
+            int vendaId,
+            int numeroParcelas,
+            DateTime dataPrimeiroVencimento)
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                @"EXEC sp_gerar_parcelas 
+                    @VendaID = {0},
+                    @NumeroParcelas = {1},
+                    @DataPrimeiroVencimento = {2}",
+                vendaId,
+                numeroParcelas,
+                dataPrimeiroVencimento
+            );
         }
     }
 }

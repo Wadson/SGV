@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\venda\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\venda\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": 24,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -111,19 +106,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Venda\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Venda\\Index.cshtml",
-              "ToolTip": "C:\\SGV\\SGVendas\\Views\\Venda\\Index.cshtml",
-              "RelativeToolTip": "Views\\Venda\\Index.cshtml",
-              "ViewState": "AgIAAAYBAAAAAAAAAAAqwCQBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-24T18:04:09.802Z",
-              "EditorCaption": ""
             }
           ]
         },

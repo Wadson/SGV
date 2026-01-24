@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
+using SGVendas.Application.Services;
 
 namespace SGVendas.Web.Controllers
 {
@@ -12,13 +14,13 @@ namespace SGVendas.Web.Controllers
     {
         private readonly IClienteService _clienteService;
         private readonly IProdutoService _produtoService;
+        private readonly IVendaService _vendaService;
 
-        public VendaApiController(
-            IClienteService clienteService,
-            IProdutoService produtoService)
+        public VendaApiController(IClienteService clienteService, IProdutoService produtoService, IVendaService vendaService)
         {
             _clienteService = clienteService;
             _produtoService = produtoService;
+            _vendaService = vendaService;
         }
 
         /// <summary>
@@ -56,6 +58,21 @@ namespace SGVendas.Web.Controllers
         {
             var produtos = _produtoService.BuscarProdutos(termo);
             return Ok(produtos);
+        }
+
+        [HttpPost("finalizar")]
+        public async Task<IActionResult> FinalizarVenda([FromBody] CriarVendaDto dto)
+        {
+            if (dto.Itens == null || !dto.Itens.Any())
+                return BadRequest("Venda sem itens.");
+
+            var vendaId = await _vendaService.CriarVendaAsync(dto);
+
+            return Ok(new
+            {
+                sucesso = true,
+                vendaId = vendaId
+            });
         }
     }
 }

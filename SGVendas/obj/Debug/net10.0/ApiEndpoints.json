@@ -65,6 +65,22 @@
   },
   {
     "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
+    "Method": "FinalizarVenda",
+    "RelativePath": "api/venda/finalizar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SGVendas.Application.DTOs.CriarVendaDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
     "Method": "ObterProdutos",
     "RelativePath": "api/venda/produtos",
     "HttpMethod": "GET",

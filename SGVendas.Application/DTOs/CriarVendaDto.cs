@@ -7,17 +7,39 @@ namespace SGVendas.Application.DTOs
     /// </summary>
     public class CriarVendaDto
     {
-
         /// <summary>
         /// Cliente da venda.
         /// </summary>
         public int ClienteID { get; set; }
-        public int VendedorID { get; set; }      
-        public int FormaPgtoID { get; set; }
-        public string Observacoes { get; set; } = string.Empty;
+
         /// <summary>
-        /// Lista de itens da venda.
+        /// Vendedor responsável pela venda.
         /// </summary>
-        public List<ItemVendaDto> Itens { get; set; } = new();
+        public int VendedorID { get; set; }
+
+        /// <summary>
+        /// Forma de pagamento (opcional).
+        /// </summary>
+        public int? FormaPgtoID { get; set; }
+
+        /// <summary>
+        /// Observações da venda.
+        /// </summary>
+        public string? Observacoes { get; set; }
+
+        /// <summary>
+        /// Lista de itens da venda (entrada do usuário).
+        /// </summary>
+        public List<CriarVendaItemDto> Itens { get; set; } = new();
+    }
+
+    /// <summary>
+    /// Item da venda usado apenas para criação.
+    /// </summary>
+    public class CriarVendaItemDto
+    {
+        public int ProdutoID { get; set; }
+        public int Quantidade { get; set; }
+        public decimal PrecoUnitario { get; set; }
     }
 }
