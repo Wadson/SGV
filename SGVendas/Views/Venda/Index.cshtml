@@ -6,7 +6,9 @@
 
 <hr />
 
+<!-- ========================================================= -->
 <!-- CABEÇALHO DA VENDA -->
+<!-- ========================================================= -->
 <div class="row mb-3">
 
     <div class="col-md-4">
@@ -23,7 +25,9 @@
 
     <div class="col-md-4">
         <label>Data da Venda</label>
-        <input type="date" id="dataVenda" class="form-control"
+        <input type="date"
+               id="dataVenda"
+               class="form-control"
                value="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>
 
@@ -31,7 +35,9 @@
 
 <hr />
 
+<!-- ========================================================= -->
 <!-- INCLUSÃO DE PRODUTOS -->
+<!-- ========================================================= -->
 <h4>Produtos</h4>
 
 <div class="row mb-3">
@@ -63,7 +69,9 @@
 
 <hr />
 
-<!-- GRID DE ITENS -->
+<!-- ========================================================= -->
+<!-- GRID DE ITENS DA VENDA -->
+<!-- ========================================================= -->
 <table class="table table-bordered" id="gridItens">
     <thead class="table-light">
         <tr>
@@ -75,13 +83,15 @@
         </tr>
     </thead>
     <tbody>
-        <!-- itens adicionados via jQuery -->
+        <!-- Itens inseridos via JavaScript -->
     </tbody>
 </table>
 
 <hr />
 
-<!-- TOTAIS -->
+<!-- ========================================================= -->
+<!-- TOTAL DA VENDA -->
+<!-- ========================================================= -->
 <div class="row">
     <div class="col-md-4 offset-md-8 text-end">
         <h4>
@@ -95,18 +105,23 @@
     </div>
 </div>
 
-<!-- ================= SCRIPTS ================= -->
+<!-- ========================================================= -->
+<!-- SCRIPTS -->
+<!-- ========================================================= -->
 @section Scripts {
 
-    <!-- jQuery -->
+    <!-- ========================= -->
+    <!-- LIBRARIES -->
+    <!-- ========================= -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- jQuery UI (Autocomplete) -->
     <link rel="stylesheet"
           href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-
+    <!-- ========================= -->
+    <!-- FIX Z-INDEX AUTOCOMPLETE -->
+    <!-- ========================= -->
     <style>
         .ui-autocomplete {
             z-index: 1055 !important;
@@ -116,9 +131,14 @@
     <script>
         $(function () {
 
-            // =========================
+            // =====================================================
+            // VARIÁVEL PRINCIPAL DA VENDA (FONTE DA VERDADE)
+            // =====================================================
+            let itens = [];
+
+            // =====================================================
             // AUTOCOMPLETE CLIENTE
-            // =========================
+            // =====================================================
             $("#txtCliente").autocomplete({
                 source: function (request, response) {
                     $.getJSON("/api/clientes/buscar", {
@@ -131,9 +151,9 @@
                 minLength: 2
             });
 
-            // =========================
+            // =====================================================
             // AUTOCOMPLETE VENDEDOR
-            // =========================
+            // =====================================================
             $("#txtVendedor").autocomplete({
                 source: function (request, response) {
                     $.getJSON("/api/clientes/vendedores", {
@@ -146,92 +166,101 @@
                 minLength: 2
             });
 
-            // =========================
-            // VARIÁVEIS DA VENDA
-            // =========================
-            let itens = [];
+            // =====================================================
+            // AUTOCOMPLETE PRODUTO
+            // =====================================================
+            $("#txtProduto").autocomplete({
+                source: function (request, response) {
+                    $.getJSON("/api/produtos/buscar", {
+                        termo: request.term
+                    }, response);
+                },
+                select: function (event, ui) {
 
-                    // =========================
-        // AUTOCOMPLETE PRODUTO
-        // =========================
-        $("#txtProduto").autocomplete({
-            source: function (request, response) {
-                $.getJSON("/api/produtos/buscar", {
-                    termo: request.term
-                }, response);
-            },
-            select: function (event, ui) {
+                    $("#ProdutoID").val(ui.item.id);
+                    $("#txtProduto").val(ui.item.label);
+                    $("#PrecoUnitario").val(ui.item.preco.toFixed(2));
 
-                // Preenche campos automaticamente
-                $("#ProdutoID").val(ui.item.id);
-                $("#txtProduto").val(ui.item.label);
-                $("#PrecoUnitario").val(ui.item.preco.toFixed(2));
-                        
-                if (ui.item.estoque <= 0) {
-            alert("Produto sem estoque disponível.");
-            return false;
-        }
+                    // Guarda estoque no input
+                    $("#txtProduto").data("estoque", ui.item.estoque);
 
-                // Impede que o jQuery sobrescreva o value
-                return false;
-            },
-            minLength: 2
-        });
+                    return false;
+                },
+                minLength: 2
+            });
 
-
-
-            // =========================
-            // ADICIONAR ITEM
-            // =========================
+            // =====================================================
+            // ADICIONAR ITEM AO GRID
+            // =====================================================
             $("#btnAdicionar").click(function () {
 
-                const produtoId = $("#ProdutoID").val();
+                const produtoId = parseInt($("#ProdutoID").val());
                 const produtoNome = $("#txtProduto").val();
                 const quantidade = parseInt($("#Quantidade").val());
                 const preco = parseFloat($("#PrecoUnitario").val().replace(",", "."));
+                const estoqueDisponivel = parseInt($("#txtProduto").data("estoque"));
 
                 if (!produtoId || quantidade <= 0 || isNaN(preco)) {
                     alert("Informe um produto válido.");
                     return;
                 }
 
-                const subtotal = quantidade * preco;
+                const itemExistente = itens.find(i => i.produtoId === produtoId);
 
-                itens.push({
-                    produtoId,
-                    produtoNome,
-                    quantidade,
-                    preco,
-                    subtotal
-                });
+                if (itemExistente) {
+
+                    if (itemExistente.quantidade + quantidade > itemExistente.estoque) {
+                        alert("Estoque insuficiente.");
+                        return;
+                    }
+
+                    itemExistente.quantidade += quantidade;
+                    itemExistente.subtotal = itemExistente.quantidade * itemExistente.preco;
+
+                } else {
+
+                    if (quantidade > estoqueDisponivel) {
+                        alert("Estoque insuficiente.");
+                        return;
+                    }
+
+                    itens.push({
+                        produtoId,
+                        produtoNome,
+                        quantidade,
+                        preco,
+                        estoque: estoqueDisponivel,
+                        subtotal: quantidade * preco
+                    });
+                }
 
                 atualizarGrid();
                 limparProduto();
             });
 
-            // =========================
-            // ATUALIZAR GRID
-            // =========================
+            // =====================================================
+            // ATUALIZAR GRID E TOTAL
+            // =====================================================
             function atualizarGrid() {
-                let tbody = $("#gridItens tbody");
+
+                const tbody = $("#gridItens tbody");
                 tbody.empty();
 
                 let total = 0;
 
-                $.each(itens, function (index, item) {
+                itens.forEach((item, index) => {
+
                     total += item.subtotal;
 
                     tbody.append(`
                         <tr>
                             <td>${item.produtoNome}</td>
                             <td>${item.quantidade}</td>
-                            <td>${item.preco.toFixed(2)}</td>
-                            <td>${item.subtotal.toFixed(2)}</td>
+                            <td>R$ ${item.preco.toFixed(2)}</td>
+                            <td>R$ ${item.subtotal.toFixed(2)}</td>
                             <td>
                                 <button class="btn btn-danger btn-sm"
-                                    onclick="removerItem(${index})">
-                                    X
-                                </button>
+                                    onclick="removerItem(${index})">X</button>
                             </td>
                         </tr>
                     `);
@@ -240,23 +269,23 @@
                 $("#TotalVenda").text(total.toFixed(2));
             }
 
-            // =========================
-            // LIMPAR PRODUTO
-            // =========================
-            function limparProduto() {
-                $("#ProdutoID").val("");
-                $("#txtProduto").val("");
-                $("#Quantidade").val(1);
-                $("#PrecoUnitario").val("");
-            }
-
-            // =========================
+            // =====================================================
             // REMOVER ITEM
-            // =========================
+            // =====================================================
             window.removerItem = function (index) {
                 itens.splice(index, 1);
                 atualizarGrid();
             };
+
+            // =====================================================
+            // LIMPAR CAMPOS DO PRODUTO
+            // =====================================================
+            function limparProduto() {
+                $("#ProdutoID").val("");
+                $("#txtProduto").val("").removeData("estoque");
+                $("#Quantidade").val(1);
+                $("#PrecoUnitario").val("");
+            }
 
         });
     </script>
