@@ -329,10 +329,10 @@
         // =====================================================
         $("#btnConfirmarPagamento").click(function () {
 
-            if (!$("#FormaPgtoID").val()) {
-                alert("Selecione a forma de pagamento.");
-                return;
-            }
+                 if (!$("#FormaPgtoID").val()) {
+            alert("Selecione a forma de pagamento.");
+            return;
+        }
 
                    const venda = {
             clienteID: parseInt($("#ClienteID").val()),
@@ -360,20 +360,24 @@
             });
         }
 
+                $.ajax({
+            url: "/api/vendas/finalizar",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(venda),
+            success: function (res) {
+                alert("Venda realizada com sucesso! ID: " + res.vendaId);
+                location.reload();
+            },
+            error: function (xhr) {
+                console.error(xhr);
+                alert(
+                    "ERRO AO FINALIZAR:\n\n" +
+                    (xhr.responseJSON?.erro || xhr.responseText || "Erro desconhecido")
+                );
+            }
+        });
 
-            $.ajax({
-                url: "/api/vendas/finalizar",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(venda),
-                success: function () {
-                    alert("Venda realizada com sucesso!");
-                    location.reload();
-                },
-                error: function () {
-                    alert("Erro ao finalizar venda.");
-                }
-            });
         });
 
             // ================= PAGAMENTO =================

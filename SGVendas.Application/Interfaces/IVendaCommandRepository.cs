@@ -24,6 +24,10 @@ namespace SGVendas.Application.Interfaces
             DateTime dataVencimento,
             decimal valor
         );
+
+        Task AtualizarValorTotalAsync(int vendaId, decimal valorTotal);
+        Task BaixarEstoqueAsync(int produtoId, int quantidade);
+
     }
 
 

@@ -24,6 +24,8 @@ public class VendaService : IVendaService
             dto.VendedorID,
             dto.Observacoes
         );
+        if (dto.FormaPgtoID <= 0)
+            throw new Exception("Forma de pagamento inválida.");
 
         // 2️⃣ ITENS
         foreach (var item in dto.Itens)
@@ -49,6 +51,28 @@ public class VendaService : IVendaService
                 );
             }
         }
+
+        decimal totalVenda = 0;
+
+        // 2️⃣ ITENS
+        foreach (var item in dto.Itens)
+        {
+            totalVenda += item.Quantidade * item.PrecoUnitario;
+
+            await _command.RegistrarItemAsync(
+                vendaId,
+                item.ProdutoID,
+                item.Quantidade,
+                item.PrecoUnitario);
+
+                 // 🔥 BAIXA ESTOQUE
+            await _command.BaixarEstoqueAsync(
+                item.ProdutoID,
+                item.Quantidade);
+        }
+
+        // 🔥 ATUALIZA TOTAL DA VENDA
+        await _command.AtualizarValorTotalAsync(vendaId, totalVenda);
 
         scope.Complete();
         return vendaId;

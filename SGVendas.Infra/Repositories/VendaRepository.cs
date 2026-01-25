@@ -4,9 +4,6 @@ using SGVendas.Infra.Context;
 
 namespace SGVendas.Infra.Repositories
 {
-    /// <summary>
-    /// Implementação do repositório de Venda usando EF Core
-    /// </summary>
     public class VendaRepository : IVendaRepository
     {
         private readonly SGVendasDbContext _context;

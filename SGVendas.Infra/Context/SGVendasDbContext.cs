@@ -6,10 +6,6 @@ using System.Reflection.Emit;
 
 namespace SGVendas.Infra.Context
 {
-    /// <summary>
-    /// Contexto principal do Entity Framework.
-    /// Representa a sessão de conexão com o banco de dados.
-    /// </summary>
     public class SGVendasDbContext : DbContext
     {
         public DbSet<ItemVenda> ItensVenda => Set<ItemVenda>();
@@ -24,7 +20,6 @@ namespace SGVendas.Infra.Context
         public DbSet<Parcela> Parcelas => Set<Parcela>();       
         public DbSet<Produto> Produtos => Set<Produto>();
         public DbSet<FormaPagamento> FormaPagamento => Set<FormaPagamento>();
-
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

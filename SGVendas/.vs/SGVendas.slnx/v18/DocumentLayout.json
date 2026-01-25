@@ -1,14 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{4414E522-E632-209E-A6C7-1FF8A8754814}|..\\SGVendas.Infra\\SGVendas.Infra.csproj|c:\\sgv\\sgvendas.infra\\repositories\\vendacommandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B79A40F1-53C1-DEFE-788E-24E0F75C6A89}|..\\SGVendas.Application\\SGVendas.Application.csproj|c:\\sgv\\sgvendas.application\\services\\vendaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -16,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": 24,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -113,32 +106,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "VendaCommandRepository.cs",
-              "DocumentMoniker": "C:\\SGV\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
-              "RelativeDocumentMoniker": "..\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
-              "ToolTip": "C:\\SGV\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
-              "RelativeToolTip": "..\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAASwBoAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T02:17:55.531Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "VendaService.cs",
-              "DocumentMoniker": "C:\\SGV\\SGVendas.Application\\Services\\VendaService.cs",
-              "RelativeDocumentMoniker": "..\\SGVendas.Application\\Services\\VendaService.cs",
-              "ToolTip": "C:\\SGV\\SGVendas.Application\\Services\\VendaService.cs",
-              "RelativeToolTip": "..\\SGVendas.Application\\Services\\VendaService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T02:17:27.117Z",
-              "EditorCaption": ""
             }
           ]
         },

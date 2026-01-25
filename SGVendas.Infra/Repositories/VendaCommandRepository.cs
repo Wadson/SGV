@@ -18,34 +18,46 @@ namespace SGVendas.Infra.Repositories
         // REGISTRA VENDA + ITENS (SP sp_registrar_venda)
         // ======================================================
         public async Task<int> RegistrarVendaAsync(
-      int clienteId,
-      int formaPgtoId,
-      int vendedorId,
-      string? observacoes
-  )
+           int clienteId,
+           int formaPgtoId,
+           int vendedorId,
+           string? observacoes
+       )
         {
-            var vendaId = await _context.Database
-                .SqlQueryRaw<int>(
-                    @"EXEC sp_registrar_venda 
-                @ClienteID, 
-                @FormaPgtoID, 
-                @VendedorID, 
-                @Observacoes",
-                    new SqlParameter("@ClienteID", clienteId),
-                    new SqlParameter("@FormaPgtoID", formaPgtoId),
-                    new SqlParameter("@VendedorID", vendedorId),
-                    new SqlParameter("@Observacoes", observacoes ?? (object)DBNull.Value)
-                )
-                .FirstAsync();
+            var vendaIdParam = new SqlParameter
+            {
+                ParameterName = "@VendaID",
+                SqlDbType = System.Data.SqlDbType.Int,
+                Direction = System.Data.ParameterDirection.Output
+            };
 
-            return vendaId;
+            await _context.Database.ExecuteSqlRawAsync(
+                @"
+        EXEC sp_registrar_venda
+            @ClienteID,
+            @FormaPgtoID,
+            @VendedorID,
+            @Observacoes,
+            @VendaID OUTPUT
+        ",
+                new SqlParameter("@ClienteID", clienteId),
+                new SqlParameter("@FormaPgtoID", formaPgtoId),
+                new SqlParameter("@VendedorID", vendedorId),
+                new SqlParameter("@Observacoes", observacoes ?? (object)DBNull.Value),
+                vendaIdParam
+            );
+
+            return (int)vendaIdParam.Value;
         }
+
+
+
+
         public async Task RegistrarItemAsync(
-    int vendaId,
-    int produtoId,
-    int quantidade,
-    decimal precoUnitario
-)
+                                            int vendaId,
+                                            int produtoId,
+                                            int quantidade,
+                                            decimal precoUnitario)
         {
             await _context.Database.ExecuteSqlRawAsync(
                 @"INSERT INTO ItemVenda
@@ -79,8 +91,7 @@ namespace SGVendas.Infra.Repositories
             int vendaId,
             int numeroParcela,
             DateTime dataVencimento,
-            decimal valor
-        )
+            decimal valor)
         {
             await _context.Database.ExecuteSqlRawAsync(
                 @"
@@ -106,6 +117,25 @@ namespace SGVendas.Infra.Repositories
                 new SqlParameter("@DataVencimento", dataVencimento),
                 new SqlParameter("@ValorParcela", valor)
             );
+        }
+
+        public async Task AtualizarValorTotalAsync(int vendaId, decimal valorTotal)
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                  @"UPDATE Venda
+                  SET ValorTotal = @ValorTotal
+                  WHERE VendaID = @VendaID",
+                new SqlParameter("@ValorTotal", valorTotal),
+                new SqlParameter("@VendaID", vendaId));
+        }
+        public async Task BaixarEstoqueAsync(int produtoId, int quantidade)
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                @"UPDATE Produtos
+                SET Estoque = Estoque - @Quantidade
+                WHERE ProdutoID = @ProdutoID",
+                new SqlParameter("@Quantidade", quantidade),
+                new SqlParameter("@ProdutoID", produtoId));
         }
     }
 }

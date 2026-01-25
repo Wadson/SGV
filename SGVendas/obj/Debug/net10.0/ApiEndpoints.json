@@ -58,7 +58,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.Api.VendaApiController",
+    "ContainingType": "SGVendas.Web.Controllers.VendasApiController",
     "Method": "Finalizar",
     "RelativePath": "api/vendas/finalizar",
     "HttpMethod": "POST",
