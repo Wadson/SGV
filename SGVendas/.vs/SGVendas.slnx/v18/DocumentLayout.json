@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\cliente\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\cliente\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\cliente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\cliente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\shared\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\shared\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\controllers\\clientecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:controllers\\clientecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\cliente\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\cliente\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\shared\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\shared\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\controllers\\clienteapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": 28,
+          "SelectedChildIndex": 24,
           "Children": [
             {
               "$type": "Bookmark",
@@ -130,26 +130,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Cliente\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Cliente\\Index.cshtml",
               "ToolTip": "C:\\SGV\\SGVendas\\Views\\Cliente\\Index.cshtml",
               "RelativeToolTip": "Views\\Cliente\\Index.cshtml",
-              "ViewState": "AgIAACIAAAAAAAAAAAAmwEIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAqwCYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-01-25T18:21:20.859Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "ClienteController.cs",
               "DocumentMoniker": "C:\\SGV\\SGVendas\\Controllers\\ClienteController.cs",
               "RelativeDocumentMoniker": "Controllers\\ClienteController.cs",
               "ToolTip": "C:\\SGV\\SGVendas\\Controllers\\ClienteController.cs",
               "RelativeToolTip": "Controllers\\ClienteController.cs",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAUwGkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA2wCMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-25T18:19:47.026Z",
               "EditorCaption": ""
@@ -164,12 +164,11 @@
               "RelativeToolTip": "Controllers\\ClienteApiController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAcwC4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T18:17:07.411Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-25T18:17:07.411Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Criar.cshtml",
               "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Shared\\Criar.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\Criar.cshtml",
@@ -177,12 +176,11 @@
               "RelativeToolTip": "Views\\Shared\\Criar.cshtml",
               "ViewState": "AgIAACUAAAAAAAAAAAAmwC4AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-25T18:13:22.594Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-25T18:13:22.594Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Criar.cshtml",
               "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Cliente\\Criar.cshtml",
               "RelativeDocumentMoniker": "Views\\Cliente\\Criar.cshtml",

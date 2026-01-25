@@ -17,12 +17,26 @@
 
 
 <form method="get" class="mb-3">
-    <input type="text"
-           name="filtro"
-           value="@Context.Request.Query["filtro"]"
-           class="form-control"
-           placeholder="Pesquisar cliente por nome, CPF ou CNPJ" />
+    <div class="input-group">
+        <input type="text"
+               name="filtro"
+               value="@ViewBag.Filtro"
+               class="form-control"
+               placeholder="Pesquisar cliente por nome, CPF ou CNPJ" />
+
+        <button type="submit" class="btn btn-primary">
+            Pesquisar
+        </button>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Filtro))
+        {
+            <a asp-action="Index" class="btn btn-secondary">
+                Limpar
+            </a>
+        }
+    </div>
 </form>
+
 
 
 

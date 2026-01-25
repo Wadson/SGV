@@ -13,12 +13,27 @@ namespace SGVendas.Web.Controllers
             _repo = repo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string filtro)
         {
             var clientes = _repo.Listar();
+
+            if (!string.IsNullOrWhiteSpace(filtro))
+            {
+                filtro = filtro.Trim().ToLower();
+
+                clientes = clientes.Where(c =>
+                    (!string.IsNullOrEmpty(c.Nome) && c.Nome.ToLower().Contains(filtro)) ||
+                    (!string.IsNullOrEmpty(c.Cpf) && c.Cpf.Contains(filtro)) ||
+                    (!string.IsNullOrEmpty(c.Cnpj) && c.Cnpj.Contains(filtro))
+                ).ToList();
+            }
+
             ViewBag.Total = clientes.Count();
+            ViewBag.Filtro = filtro;
+
             return View(clientes);
         }
+
 
         [HttpGet]
         public IActionResult Criar()
