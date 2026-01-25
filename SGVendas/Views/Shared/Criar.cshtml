@@ -7,35 +7,54 @@
 <h2>Nova Venda</h2>
 
 <form asp-action="Criar" method="post">
-    <div class="mb-3">
-        <label class="form-label">Cliente ID</label>
-        <input asp-for="ClienteID" class="form-control" />
-    </div>
+
+    <!-- ID OCULTO (USADO PELO MODEL BINDING) -->
+    <input type="hidden" asp-for="ClienteID" />
+
+    <!-- IDENTIFICAÇÃO DO CLIENTE -->
+    <fieldset class="border p-3 mb-3">
+        <legend>Identificação do Cliente</legend>
+
+        <div class="mb-3">
+            <label class="form-label">Cliente ID</label>
+            <input asp-for="ClienteID" class="form-control" />
+            <span asp-validation-for="ClienteID" class="text-danger"></span>
+        </div>
+    </fieldset>
 
     <hr />
 
+    <!-- ITENS DA VENDA -->
     <h4>Itens da Venda</h4>
 
-    <div class="mb-3">
-        <label>Produto ID</label>
-        <input name="Itens[0].ProdutoID" class="form-control" />
+    <fieldset class="border p-3 mb-3">
+        <legend>Item 1</legend>
+
+        <div class="mb-3">
+            <label>Produto ID</label>
+            <input name="Itens[0].ProdutoID" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Quantidade</label>
+            <input name="Itens[0].Quantidade" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Preço Unitário</label>
+            <input name="Itens[0].PrecoUnitario" class="form-control" />
+        </div>
+    </fieldset>
+
+    <!-- BOTÕES -->
+    <div class="mt-3">
+        <button type="submit" class="btn btn-success">
+            Salvar Venda
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Voltar
+        </a>
     </div>
 
-    <div class="mb-3">
-        <label>Quantidade</label>
-        <input name="Itens[0].Quantidade" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label>Preço Unitário</label>
-        <input name="Itens[0].PrecoUnitario" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        Salvar Venda
-    </button>
-
-    <a asp-action="Index" class="btn btn-secondary">
-        Voltar
-    </a>
 </form>

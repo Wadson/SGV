@@ -1,6 +1,27 @@
 [
   {
-    "ContainingType": "SGVendas.Web.Controllers.ClienteController",
+    "ContainingType": "SGVendas.Web.Controllers.CidadeController",
+    "Method": "Buscar",
+    "RelativePath": "api/cidades/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nome",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "uf",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.ClienteApiController",
     "Method": "BuscarClientes",
     "RelativePath": "api/clientes/buscar",
     "HttpMethod": "GET",
@@ -16,7 +37,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.ClienteController",
+    "ContainingType": "SGVendas.Web.Controllers.ClienteApiController",
     "Method": "BuscarVendedores",
     "RelativePath": "api/clientes/vendedores",
     "HttpMethod": "GET",
@@ -27,6 +48,22 @@
         "Name": "termo",
         "Type": "System.String",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.EnderecoController",
+    "Method": "BuscarPorCep",
+    "RelativePath": "api/endereco/cep/{cep}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cep",
+        "Type": "System.String",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

@@ -1,43 +1,105 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SGVendas.Application.Interfaces;
+using SGVendas.Domain.Entities;
 
 namespace SGVendas.Web.Controllers
 {
-    [ApiController]
-    [Route("api/clientes")]
-    public class ClienteController : ControllerBase
+    public class ClienteController : Controller
     {
-        private readonly IClienteService _clienteService;
+        private readonly IClienteCadastroRepository _repo;
 
-        public ClienteController(IClienteService clienteService)
+        public ClienteController(IClienteCadastroRepository repo)
         {
-            _clienteService = clienteService;
+            _repo = repo;
         }
 
-        [HttpGet("buscar")]
-        public IActionResult BuscarClientes(string termo)
+        public IActionResult Index()
         {
-            var clientes = _clienteService.BuscarClientes(termo);
-
-            return Ok(clientes.Select(c => new
-            {
-                id = c.ClienteID,
-                label = c.Nome,
-                value = c.Nome
-            }));
+            var clientes = _repo.Listar();
+            ViewBag.Total = clientes.Count();
+            return View(clientes);
         }
 
-        [HttpGet("vendedores")]
-        public IActionResult BuscarVendedores(string termo)
+        [HttpGet]
+        public IActionResult Criar()
         {
-            var vendedores = _clienteService.BuscarVendedores(termo);
+            return View(new Cliente());
+        }
 
-            return Ok(vendedores.Select(v => new
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Criar(Cliente cliente)
+        {
+            // 🔒 Validação PF / PJ
+            if (cliente.TipoCliente == "FISICA")
             {
-                id = v.ClienteID,
-                label = v.Nome,
-                value = v.Nome
-            }));
+                cliente.Cnpj = null;
+                cliente.IE = null;
+
+                if (string.IsNullOrWhiteSpace(cliente.Cpf))
+                    ModelState.AddModelError("Cpf", "CPF é obrigatório");
+
+                if (string.IsNullOrWhiteSpace(cliente.Nome))
+                    ModelState.AddModelError("Nome", "Nome é obrigatório");
+            }
+            else if (cliente.TipoCliente == "JURIDICA")
+            {
+                cliente.Cpf = null;
+                cliente.RG = null;
+                cliente.OrgaoExpedidorRG = null;
+                cliente.DataNascimento = null;
+
+                if (string.IsNullOrWhiteSpace(cliente.Cnpj))
+                    ModelState.AddModelError("Cnpj", "CNPJ é obrigatório");
+
+                if (string.IsNullOrWhiteSpace(cliente.Nome))
+                    ModelState.AddModelError("Nome", "Razão Social é obrigatória");
+            }
+            else
+            {
+                ModelState.AddModelError("TipoCliente", "Selecione o tipo de cliente");
+            }
+
+            if (!ModelState.IsValid)
+                return View(cliente);
+
+            cliente.DataCriacao = DateTime.Now;
+            cliente.Status = 1;
+
+            _repo.Criar(cliente);
+
+            TempData["Sucesso"] = "Cliente salvo com sucesso!";
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        public IActionResult Editar(int id)
+        {
+            var cliente = _repo.ObterPorId(id);
+            return View("Criar", cliente);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(Cliente cliente)
+        {
+            // mesma validação do Criar
+            if (!ModelState.IsValid)
+                return View("Criar", cliente);
+
+            cliente.DataAtualizacao = DateTime.Now;
+            _repo.Atualizar(cliente);
+
+            TempData["Sucesso"] = "Cliente atualizado com sucesso!";
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult Excluir(int id)
+        {
+            _repo.Excluir(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

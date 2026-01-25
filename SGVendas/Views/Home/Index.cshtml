@@ -1,13 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Início";
+    ViewData["Title"] = "SGVendas - Principal";
 }
 
 <h1>SGVendas</h1>
+<hr />
 
-<p>
-    Sistema Web de Vendas e Controle de Contas a Receber
-</p>
-
-<a class="btn btn-primary" asp-controller="Venda" asp-action="Index">
-    Ir para Vendas
-</a>
+<div class="menu-principal">
+    <a class="btn btn-primary" href="/Cliente">Clientes</a>
+    <a class="btn btn-primary" href="/Produto">Produtos</a>
+    <a class="btn btn-primary" href="/Fornecedor">Fornecedores</a>
+    <a class="btn btn-success" href="/Venda">Vendas</a>
+</div>

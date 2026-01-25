@@ -32,5 +32,21 @@ namespace SGVendas.Infra.Repositories
              .ToList();
 
         }
+        public IEnumerable<Cliente> Listar(string filtro = null)
+        {
+            var query = _context.Clientes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filtro))
+            {
+                query = query.Where(c =>
+                    c.Nome.Contains(filtro) ||
+                    c.Cpf.Contains(filtro) ||
+                    c.Cnpj.Contains(filtro));
+            }
+
+            return query.OrderBy(c => c.Nome).ToList();
+        }
+
+
     }
 }

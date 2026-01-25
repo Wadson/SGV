@@ -1,0 +1,106 @@
+Listagem de caminhos de pasta
+
+C:.
+¦   
+¦   
++---SGVendas
+¦   ¦   appsettings.Development.json
+¦   ¦   appsettings.json
+¦   ¦   Program.cs
+¦   ¦   SGVendas.csproj
+¦   ¦   SGVendas.csproj.user
+¦   ¦   SGVendas.slnx  
+¦   ¦
+¦   +---Controllers
+¦   ¦       ClienteController.cs
+¦   ¦       FormaPagamentoApiController.cs
+¦   ¦       HomeController.cs
+¦   ¦       ProdutoController.cs
+¦   ¦       VendaApiControlle.cs
+¦   ¦       VendaController.cs
+¦   ¦       
+¦   +---Models
+¦   ¦       ErrorViewModel.cs
+¦   ¦       
+¦   ¦       
+¦   +---Views
+¦   ¦   ¦   _ViewImports.cshtml
+¦   ¦   ¦   _ViewStart.cshtml
+¦   ¦   ¦   
+¦   ¦   +---Home
+¦   ¦   ¦       Index.cshtml
+¦   ¦   ¦       Privacy.cshtml
+¦   ¦   ¦       
+¦   ¦   +---Shared
+¦   ¦   ¦       Criar.cshtml
+¦   ¦   ¦       Error.cshtml
+¦   ¦   ¦       _Layout.cshtml
+¦   ¦   ¦       _Layout.cshtml.css
+¦   ¦   ¦       _ValidationScriptsPartial.cshtml
+¦   ¦   ¦       
+¦   ¦   +---Venda
+¦   ¦           Index.cshtml
+¦   ¦                  
++---SGVendas.Application
+¦   ¦   SGVendas.Application.csproj
+¦   ¦  
+¦   ¦               
+¦   +---DTOs
+¦   ¦       ClienteDto.cs
+¦   ¦       CriarVendaDto.cs
+¦   ¦       ItemVendaDto.cs
+¦   ¦       ProdutoDto.cs
+¦   ¦       VendaDto.cs
+¦   ¦       
+¦   +---Interfaces
+¦   ¦       IClienteRepository.cs
+¦   ¦       IClienteService.cs
+¦   ¦       IProdutoRepository.cs
+¦   ¦       IProdutoService.cs
+¦   ¦       IVendaCommandRepository.cs
+¦   ¦       IVendaRepository.cs
+¦   ¦       IVendaService.cs
+¦   ¦       
+¦   ¦                   
+¦   +---Services
+¦           ClienteService.cs
+¦           ProdutoService.cs
+¦           VendaService.cs
+¦           
++---SGVendas.Domain
+¦   ¦   SGVendas.Domain.csproj
+¦   ¦   
+¦   ¦               
+¦   +---Entities
+¦   ¦       Cliente.cs
+¦   ¦       FormaPagamento.cs
+¦   ¦       ItemVenda.cs
+¦   ¦       Parcela.cs
+¦   ¦       Produto.cs
+¦   ¦       Venda.cs
+¦   ¦       
+¦   +---Enums
+¦   ¦       EnumStatusParcela.cs
+¦   ¦       EnumStatusVenda.cs
+¦   ¦                  
++---SGVendas.Infra
+    ¦   SGVendas.Infra.csproj
+    ¦     
+    ¦               
+    +---Context
+    ¦       SGVendasDbContext.cs
+    ¦       
+    +---Mappings
+    ¦       ClienteMap.cs
+    ¦       FormaPagamentoMap.cs
+    ¦       ItemVendaMap.cs
+    ¦       ParcelaMap.cs
+    ¦       VendaMap.cs
+    ¦  
+    ¦                   
+    +---Repositories
+            ClienteRepository.cs
+            ProdutoRepository.cs
+            VendaCommandRepository.cs
+            VendaRepository.cs
+            

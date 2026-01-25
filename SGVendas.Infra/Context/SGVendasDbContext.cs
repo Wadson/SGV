@@ -14,19 +14,41 @@ namespace SGVendas.Infra.Context
             : base(options)
         {
         }
-     
+        public DbSet<Cidade> Cidade { get; set; }        
+        public DbSet<Estado> Estado { get; set; }
+
+      
+
         public DbSet<Cliente> Clientes => Set<Cliente>();
         public DbSet<Venda> Vendas => Set<Venda>();    
         public DbSet<Parcela> Parcelas => Set<Parcela>();       
         public DbSet<Produto> Produtos => Set<Produto>();
         public DbSet<FormaPagamento> FormaPagamento => Set<FormaPagamento>();
-       
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // ===== CONFIGURAÇÃO CLIENTE (NULLABLES) =====
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.Property(e => e.Cpf)
+                      .IsRequired(false);
+
+                entity.Property(e => e.Cnpj)
+                      .IsRequired(false);
+
+                entity.Property(e => e.DataNascimento)
+                      .IsRequired(false);
+
+                entity.Property(e => e.CidadeID)
+                      .IsRequired(false);
+            });
+
             // Aplica automaticamente todos os mapeamentos da pasta Mappings
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SGVendasDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
         }
+
+
     }
 }
