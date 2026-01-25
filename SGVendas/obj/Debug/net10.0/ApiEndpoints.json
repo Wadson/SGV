@@ -58,25 +58,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
-    "Method": "ObterClientes",
-    "RelativePath": "api/venda/clientes",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "termo",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
-    "Method": "FinalizarVenda",
-    "RelativePath": "api/venda/finalizar",
+    "ContainingType": "SGVendas.Web.Controllers.Api.VendaApiController",
+    "Method": "Finalizar",
+    "RelativePath": "api/vendas/finalizar",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -85,38 +69,6 @@
         "Name": "dto",
         "Type": "SGVendas.Application.DTOs.CriarVendaDto",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
-    "Method": "ObterProdutos",
-    "RelativePath": "api/venda/produtos",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "termo",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SGVendas.Web.Controllers.VendaApiController",
-    "Method": "ObterVendedores",
-    "RelativePath": "api/venda/vendedores",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "termo",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []
