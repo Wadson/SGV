@@ -178,16 +178,24 @@
     </style>
 
     <script>
+
         $(function () {
 
             let itens = [];
 
             // ================= AUTOCOMPLETE CLIENTE =================
-            $("#txtCliente").autocomplete({
-                source: (r, s) => $.getJSON("/api/clientes/buscar", { termo: r.term }, s),
-                select: (_, ui) => $("#ClienteID").val(ui.item.id),
-                minLength: 2
-            });
+                  $("#txtCliente").autocomplete({
+            source: function (request, response) {
+                $.getJSON("/api/clientes/buscar", { termo: request.term }, response);
+            },
+            select: function (event, ui) {
+                $("#ClienteID").val(ui.item.id);
+                $("#txtCliente").val(ui.item.label);
+                return false;
+            },
+            minLength: 2
+        });
+
 
             // ================= AUTOCOMPLETE VENDEDOR =================
             $("#txtVendedor").autocomplete({
@@ -250,6 +258,123 @@
             }
 
             window.removerItem = i => { itens.splice(i,1); atualizarGrid(); };
+
+
+                    // =====================================================
+        // BOTÃO FINALIZAR (ABRE MODAL)
+        // =====================================================
+        $("#btnFinalizar").click(function () {
+
+            if (!$("#ClienteID").val()) {
+                alert("Selecione um cliente válido da lista.");
+                return;
+            }
+
+            if (!$("#VendedorID").val()) {
+                alert("Selecione um vendedor válido da lista.");
+                return;
+            }
+
+            if (itens.length === 0) {
+                alert("Adicione ao menos um produto.");
+                return;
+            }
+
+            $("#modalPagamento").modal("show");
+        });
+
+        // =====================================================
+        // MOSTRA / ESCONDE PARCELAS
+        // =====================================================
+        $("#TipoPagamento").change(function () {
+
+            if ($(this).val() === "parcelado") {
+                gerarParcelas();
+                $("#areaParcelas").show();
+            } else {
+                $("#areaParcelas").hide();
+                $("#gridParcelas tbody").empty();
+            }
+        });
+
+        // =====================================================
+        // GERA PARCELAS AUTOMATICAMENTE
+        // =====================================================
+        function gerarParcelas() {
+
+            const numeroParcelas = parseInt($("#NumeroParcelas").val() || 1);
+            const total = parseFloat($("#TotalVenda").text().replace(",", "."));
+            const valorParcela = (total / numeroParcelas).toFixed(2);
+
+            const tbody = $("#gridParcelas tbody");
+            tbody.empty();
+
+            for (let i = 1; i <= numeroParcelas; i++) {
+
+                const vencimento = new Date();
+                vencimento.setMonth(vencimento.getMonth() + i);
+
+                tbody.append(`
+                    <tr>
+                        <td>${i}</td>
+                        <td>${vencimento.toISOString().split("T")[0]}</td>
+                        <td>${valorParcela}</td>
+                    </tr>
+                `);
+            }
+        }
+
+        // =====================================================
+        // CONFIRMAR PAGAMENTO (GRAVA TUDO)
+        // =====================================================
+        $("#btnConfirmarPagamento").click(function () {
+
+            if (!$("#FormaPgtoID").val()) {
+                alert("Selecione a forma de pagamento.");
+                return;
+            }
+
+                   const venda = {
+            clienteID: parseInt($("#ClienteID").val()),
+            vendedorID: parseInt($("#VendedorID").val()),
+            formaPgtoID: parseInt($("#FormaPgtoID").val()),
+            observacoes: "Venda Web",
+
+            itens: itens.map(i => ({
+                produtoID: i.produtoId,
+                quantidade: i.quantidade,
+                precoUnitario: i.preco
+            })),
+
+            parcelas: [] };
+
+
+            // Parcelas
+                   if ($("#TipoPagamento").val() === "parcelado") {
+            $("#gridParcelas tbody tr").each(function () {
+                venda.parcelas.push({
+                    numero: parseInt($(this).find("td:eq(0)").text()),
+                    dataVencimento: $(this).find("td:eq(1)").text(),
+                    valor: parseFloat($(this).find("td:eq(2)").text())
+                });
+            });
+        }
+
+
+            $.ajax({
+                url: "/api/vendas/finalizar",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(venda),
+                success: function () {
+                    alert("Venda realizada com sucesso!");
+                    location.reload();
+                },
+                error: function () {
+                    alert("Erro ao finalizar venda.");
+                }
+            });
+        });
 
             // ================= PAGAMENTO =================
             $("#btnFinalizar").click(() => $("#modalPagamento").modal("show"));

@@ -1,9 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
 using SGVendas.Infra.Context;
-using System.Data;
 
 namespace SGVendas.Infra.Repositories
 {
@@ -16,71 +14,98 @@ namespace SGVendas.Infra.Repositories
             _context = context;
         }
 
-        public async Task<int> RegistrarVendaAsync(CriarVendaDto dto)
+        // ======================================================
+        // REGISTRA VENDA + ITENS (SP sp_registrar_venda)
+        // ======================================================
+        public async Task<int> RegistrarVendaAsync(
+      int clienteId,
+      int formaPgtoId,
+      int vendedorId,
+      string? observacoes
+  )
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
-            try
-            {
-                // =========================
-                // 1️⃣ REGISTRA VENDA
-                // =========================
-                var vendaId = await _context.Database.ExecuteSqlRawAsync(
+            var vendaId = await _context.Database
+                .SqlQueryRaw<int>(
                     @"EXEC sp_registrar_venda 
-                      @ClienteID,
-                      @FormaPgtoID,
-                      @VendedorID,
-                      @Observacoes",
-                    new SqlParameter("@ClienteID", dto.ClienteID),
-                    new SqlParameter("@FormaPgtoID", dto.FormaPgtoID),
-                    new SqlParameter("@VendedorID", dto.VendedorID),
-                    new SqlParameter("@Observacoes", dto.Observacoes ?? (object)DBNull.Value)
-                );
+                @ClienteID, 
+                @FormaPgtoID, 
+                @VendedorID, 
+                @Observacoes",
+                    new SqlParameter("@ClienteID", clienteId),
+                    new SqlParameter("@FormaPgtoID", formaPgtoId),
+                    new SqlParameter("@VendedorID", vendedorId),
+                    new SqlParameter("@Observacoes", observacoes ?? (object)DBNull.Value)
+                )
+                .FirstAsync();
 
-                // =========================
-                // 2️⃣ ITENS + BAIXA ESTOQUE
-                // =========================
-                foreach (var item in dto.Itens)
-                {
-                    await _context.Database.ExecuteSqlRawAsync(
-                        @"EXEC sp_registrar_item_venda 
-                          @VendaID,
-                          @ProdutoID,
-                          @Quantidade,
-                          @PrecoUnitario",
-                        new SqlParameter("@VendaID", vendaId),
-                        new SqlParameter("@ProdutoID", item.ProdutoID),
-                        new SqlParameter("@Quantidade", item.Quantidade),
-                        new SqlParameter("@PrecoUnitario", item.PrecoUnitario)
-                    );
-                }
-
-                // =========================
-                // 3️⃣ PARCELAS
-                // =========================
-                foreach (var parcela in dto.Parcelas)
-                {
-                    await _context.Database.ExecuteSqlRawAsync(
-                        @"EXEC sp_gerar_parcela 
-                          @VendaID,
-                          @Numero,
-                          @DataVencimento,
-                          @Valor",
-                        new SqlParameter("@VendaID", vendaId),
-                        new SqlParameter("@Numero", parcela.Numero),
-                        new SqlParameter("@DataVencimento", parcela.DataVencimento),
-                        new SqlParameter("@Valor", parcela.Valor)
-                    );
-                }
-
-                await transaction.CommitAsync();
-                return vendaId;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            return vendaId;
+        }
+        public async Task RegistrarItemAsync(
+    int vendaId,
+    int produtoId,
+    int quantidade,
+    decimal precoUnitario
+)
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                @"INSERT INTO ItemVenda
+        (
+            VendaID,
+            ProdutoID,
+            Quantidade,
+            PrecoUnitario,
+            Subtotal
+        )
+        VALUES
+        (
+            @VendaID,
+            @ProdutoID,
+            @Quantidade,
+            @PrecoUnitario,
+            @Subtotal
+        )",
+                new SqlParameter("@VendaID", vendaId),
+                new SqlParameter("@ProdutoID", produtoId),
+                new SqlParameter("@Quantidade", quantidade),
+                new SqlParameter("@PrecoUnitario", precoUnitario),
+                new SqlParameter("@Subtotal", quantidade * precoUnitario)
+            );
+        }
+       
+        // ======================================================
+        // REGISTRA PARCELA (SP OU INSERT DIRETO)
+        // ======================================================
+        public async Task GerarParcelaAsync(
+            int vendaId,
+            int numeroParcela,
+            DateTime dataVencimento,
+            decimal valor
+        )
+        {
+            await _context.Database.ExecuteSqlRawAsync(
+                @"
+                INSERT INTO Parcela
+                (
+                    VendaID,
+                    NumeroParcela,
+                    DataVencimento,
+                    ValorParcela,
+                    Status
+                )
+                VALUES
+                (
+                    @VendaID,
+                    @NumeroParcela,
+                    @DataVencimento,
+                    @ValorParcela,
+                    'Pendente'
+                )
+                ",
+                new SqlParameter("@VendaID", vendaId),
+                new SqlParameter("@NumeroParcela", numeroParcela),
+                new SqlParameter("@DataVencimento", dataVencimento),
+                new SqlParameter("@ValorParcela", valor)
+            );
         }
     }
 }

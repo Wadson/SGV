@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SGVendas.Application.DTOs
+﻿namespace SGVendas.Application.DTOs
 {
     public class CriarVendaDto
     {
         public int ClienteID { get; set; }
         public int VendedorID { get; set; }
         public int FormaPgtoID { get; set; }
-
-        public string TipoPagamento { get; set; } = "avista"; // avista | parcelado
         public string? Observacoes { get; set; }
 
         public List<CriarVendaItemDto> Itens { get; set; } = new();

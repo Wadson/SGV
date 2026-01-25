@@ -1,29 +1,56 @@
-﻿using SGVendas.Application.DTOs;
+﻿using System.Transactions;
+using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
 
-
-
-
-namespace SGVendas.Application.Services
+public class VendaService : IVendaService
 {
-    public class VendaService : IVendaService
+    private readonly IVendaCommandRepository _command;
+
+    public VendaService(IVendaCommandRepository command)
     {
-        private readonly IVendaCommandRepository _command;
+        _command = command;
+    }
 
-        public VendaService(IVendaCommandRepository command)
+    public async Task<int> CriarVendaAsync(CriarVendaDto dto)
+    {
+        using var scope = new TransactionScope(
+            TransactionScopeAsyncFlowOption.Enabled
+        );
+
+        // 1️⃣ VENDA
+        var vendaId = await _command.RegistrarVendaAsync(
+            dto.ClienteID,
+            dto.FormaPgtoID,
+            dto.VendedorID,
+            dto.Observacoes
+        );
+
+        // 2️⃣ ITENS
+        foreach (var item in dto.Itens)
         {
-            _command = command;
+            await _command.RegistrarItemAsync(
+                vendaId,
+                item.ProdutoID,
+                item.Quantidade,
+                item.PrecoUnitario
+            );
         }
 
-        public async Task<int> CriarVendaAsync(CriarVendaDto dto)
+        // 3️⃣ PARCELAS
+        if (dto.Parcelas != null)
         {
-            if (!dto.Itens.Any())
-                throw new Exception("Venda sem itens.");
-
-            if (dto.TipoPagamento == "parcelado" && !dto.Parcelas.Any())
-                throw new Exception("Parcelamento inválido.");
-
-            return await _command.RegistrarVendaAsync(dto);
+            foreach (var p in dto.Parcelas)
+            {
+                await _command.GerarParcelaAsync(
+                    vendaId,
+                    p.Numero,
+                    p.DataVencimento,
+                    p.Valor
+                );
+            }
         }
+
+        scope.Complete();
+        return vendaId;
     }
 }
