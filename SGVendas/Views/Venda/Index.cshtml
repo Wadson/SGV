@@ -25,9 +25,7 @@
 
     <div class="col-md-4">
         <label>Data da Venda</label>
-        <input type="date"
-               id="dataVenda"
-               class="form-control"
+        <input type="date" id="dataVenda" class="form-control"
                value="@DateTime.Now.ToString("yyyy-MM-dd")" />
     </div>
 
@@ -36,7 +34,7 @@
 <hr />
 
 <!-- ========================================================= -->
-<!-- INCLUSÃO DE PRODUTOS -->
+<!-- PRODUTOS -->
 <!-- ========================================================= -->
 <h4>Produtos</h4>
 
@@ -60,9 +58,7 @@
 
     <div class="col-md-2">
         <label>&nbsp;</label>
-        <button id="btnAdicionar" class="btn btn-success w-100">
-            Adicionar
-        </button>
+        <button id="btnAdicionar" class="btn btn-success w-100">Adicionar</button>
     </div>
 
 </div>
@@ -70,38 +66,99 @@
 <hr />
 
 <!-- ========================================================= -->
-<!-- GRID DE ITENS DA VENDA -->
+<!-- GRID DE ITENS -->
 <!-- ========================================================= -->
 <table class="table table-bordered" id="gridItens">
     <thead class="table-light">
         <tr>
             <th>Produto</th>
-            <th style="width: 100px;">Qtd</th>
-            <th style="width: 120px;">Preço</th>
-            <th style="width: 120px;">Subtotal</th>
-            <th style="width: 80px;">Ação</th>
+            <th width="100">Qtd</th>
+            <th width="120">Preço</th>
+            <th width="120">Subtotal</th>
+            <th width="80">Ação</th>
         </tr>
     </thead>
-    <tbody>
-        <!-- Itens inseridos via JavaScript -->
-    </tbody>
+    <tbody></tbody>
 </table>
 
 <hr />
 
 <!-- ========================================================= -->
-<!-- TOTAL DA VENDA -->
+<!-- TOTAL -->
 <!-- ========================================================= -->
 <div class="row">
     <div class="col-md-4 offset-md-8 text-end">
-        <h4>
-            Total: R$
-            <span id="TotalVenda">0,00</span>
-        </h4>
+        <h4>Total: R$ <span id="TotalVenda">0,00</span></h4>
+        <button id="btnFinalizar" class="btn btn-primary mt-2">Finalizar Venda</button>
+    </div>
+</div>
 
-        <button id="btnFinalizar" class="btn btn-primary mt-2">
-            Finalizar Venda
-        </button>
+<!-- ========================================================= -->
+<!-- MODAL PAGAMENTO -->
+<!-- ========================================================= -->
+<div class="modal fade" id="modalPagamento" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Forma de Pagamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label>Forma de Pagamento</label>
+                        <select id="FormaPgtoID" class="form-control"></select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Tipo</label>
+                        <select id="TipoPagamento" class="form-control">
+                            <option value="avista">À Vista</option>
+                            <option value="parcelado">Parcelado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="areaParcelas" style="display:none;">
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Nº Parcelas</label>
+                            <input type="number" id="NumeroParcelas" class="form-control" value="1" min="1" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>1º Vencimento</label>
+                            <input type="date" id="DataPrimeiroVencimento"
+                                   class="form-control"
+                                   value="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" />
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered" id="gridParcelas">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Vencimento</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button id="btnConfirmarPagamento" class="btn btn-success">Confirmar</button>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -110,18 +167,10 @@
 <!-- ========================================================= -->
 @section Scripts {
 
-    <!-- ========================= -->
-    <!-- LIBRARIES -->
-    <!-- ========================= -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <link rel="stylesheet"
-          href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-    <!-- ========================= -->
-    <!-- FIX Z-INDEX AUTOCOMPLETE -->
-    <!-- ========================= -->
     <style>
         .ui-autocomplete {
             z-index: 1055 !important;
@@ -131,208 +180,104 @@
     <script>
         $(function () {
 
-            // =====================================================
-            // VARIÁVEL PRINCIPAL DA VENDA (FONTE DA VERDADE)
-            // =====================================================
             let itens = [];
 
-            // =====================================================
-            // AUTOCOMPLETE CLIENTE
-            // =====================================================
+            // ================= AUTOCOMPLETE CLIENTE =================
             $("#txtCliente").autocomplete({
-                source: function (request, response) {
-                    $.getJSON("/api/clientes/buscar", {
-                        termo: request.term
-                    }, response);
-                },
-                select: function (event, ui) {
-                    $("#ClienteID").val(ui.item.id);
-                },
+                source: (r, s) => $.getJSON("/api/clientes/buscar", { termo: r.term }, s),
+                select: (_, ui) => $("#ClienteID").val(ui.item.id),
                 minLength: 2
             });
 
-            // =====================================================
-            // AUTOCOMPLETE VENDEDOR
-            // =====================================================
+            // ================= AUTOCOMPLETE VENDEDOR =================
             $("#txtVendedor").autocomplete({
-                source: function (request, response) {
-                    $.getJSON("/api/clientes/vendedores", {
-                        termo: request.term
-                    }, response);
-                },
-                select: function (event, ui) {
-                    $("#VendedorID").val(ui.item.id);
-                },
+                source: (r, s) => $.getJSON("/api/clientes/vendedores", { termo: r.term }, s),
+                select: (_, ui) => $("#VendedorID").val(ui.item.id),
                 minLength: 2
             });
 
-            // =====================================================
-            // AUTOCOMPLETE PRODUTO
-            // =====================================================
+            // ================= AUTOCOMPLETE PRODUTO =================
             $("#txtProduto").autocomplete({
-                source: function (request, response) {
-                    $.getJSON("/api/produtos/buscar", {
-                        termo: request.term
-                    }, response);
-                },
-                select: function (event, ui) {
-
+                source: (r, s) => $.getJSON("/api/produtos/buscar", { termo: r.term }, s),
+                select: (_, ui) => {
                     $("#ProdutoID").val(ui.item.id);
                     $("#txtProduto").val(ui.item.label);
                     $("#PrecoUnitario").val(ui.item.preco.toFixed(2));
-
-                    // Guarda estoque no input
                     $("#txtProduto").data("estoque", ui.item.estoque);
-
                     return false;
                 },
                 minLength: 2
             });
 
-            // =====================================================
-            // ADICIONAR ITEM AO GRID
-            // =====================================================
-            $("#btnAdicionar").click(function () {
+            // ================= ADICIONAR ITEM =================
+            $("#btnAdicionar").click(() => {
 
-                const produtoId = parseInt($("#ProdutoID").val());
-                const produtoNome = $("#txtProduto").val();
-                const quantidade = parseInt($("#Quantidade").val());
-                const preco = parseFloat($("#PrecoUnitario").val().replace(",", "."));
-                const estoqueDisponivel = parseInt($("#txtProduto").data("estoque"));
+                const id = +$("#ProdutoID").val();
+                const nome = $("#txtProduto").val();
+                const qtd = +$("#Quantidade").val();
+                const preco = +$("#PrecoUnitario").val();
+                const estoque = +$("#txtProduto").data("estoque");
 
-                if (!produtoId || quantidade <= 0 || isNaN(preco)) {
-                    alert("Informe um produto válido.");
+                if (!id || qtd <= 0 || qtd > estoque) {
+                    alert("Produto inválido ou estoque insuficiente.");
                     return;
                 }
 
-                const itemExistente = itens.find(i => i.produtoId === produtoId);
-
-                if (itemExistente) {
-
-                    if (itemExistente.quantidade + quantidade > itemExistente.estoque) {
-                        alert("Estoque insuficiente.");
-                        return;
-                    }
-
-                    itemExistente.quantidade += quantidade;
-                    itemExistente.subtotal = itemExistente.quantidade * itemExistente.preco;
-
+                const existente = itens.find(i => i.produtoId === id);
+                if (existente) {
+                    existente.quantidade += qtd;
+                    existente.subtotal = existente.quantidade * existente.preco;
                 } else {
-
-                    if (quantidade > estoqueDisponivel) {
-                        alert("Estoque insuficiente.");
-                        return;
-                    }
-
-                    itens.push({
-                        produtoId,
-                        produtoNome,
-                        quantidade,
-                        preco,
-                        estoque: estoqueDisponivel,
-                        subtotal: quantidade * preco
-                    });
+                    itens.push({ produtoId: id, produtoNome: nome, quantidade: qtd, preco, subtotal: qtd * preco });
                 }
 
                 atualizarGrid();
-                limparProduto();
             });
 
-            // =====================================================
-            // ATUALIZAR GRID E TOTAL
-            // =====================================================
             function atualizarGrid() {
-
-                const tbody = $("#gridItens tbody");
-                tbody.empty();
-
                 let total = 0;
-
-                itens.forEach((item, index) => {
-
-                    total += item.subtotal;
-
-                    tbody.append(`
-                        <tr>
-                            <td>${item.produtoNome}</td>
-                            <td>${item.quantidade}</td>
-                            <td>R$ ${item.preco.toFixed(2)}</td>
-                            <td>R$ ${item.subtotal.toFixed(2)}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm"
-                                    onclick="removerItem(${index})">X</button>
-                            </td>
-                        </tr>
-                    `);
-                });
-
+                $("#gridItens tbody").html(itens.map((i, idx) => {
+                    total += i.subtotal;
+                    return `<tr>
+                        <td>${i.produtoNome}</td>
+                        <td>${i.quantidade}</td>
+                        <td>R$ ${i.preco.toFixed(2)}</td>
+                        <td>R$ ${i.subtotal.toFixed(2)}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="removerItem(${idx})">X</button></td>
+                    </tr>`;
+                }));
                 $("#TotalVenda").text(total.toFixed(2));
             }
 
-            // =====================================================
-            // REMOVER ITEM
-            // =====================================================
-            window.removerItem = function (index) {
-                itens.splice(index, 1);
-                atualizarGrid();
-            };
+            window.removerItem = i => { itens.splice(i,1); atualizarGrid(); };
 
-            // =====================================================
-            // LIMPAR CAMPOS DO PRODUTO
-            // =====================================================
-            function limparProduto() {
-                $("#ProdutoID").val("");
-                $("#txtProduto").val("").removeData("estoque");
-                $("#Quantidade").val(1);
-                $("#PrecoUnitario").val("");
-            }
+            // ================= PAGAMENTO =================
+            $("#btnFinalizar").click(() => $("#modalPagamento").modal("show"));
 
-        });
-
-
-
-                // =====================================================
-        // FINALIZAR VENDA
-        // =====================================================
-        $("#btnFinalizar").click(function () {
-
-            if (itens.length === 0) {
-                alert("Adicione ao menos um produto.");
-                return;
-            }
-
-            const venda = {
-                clienteID: parseInt($("#ClienteID").val()),
-                vendedorID: parseInt($("#VendedorID").val()),
-                formaPgtoID: null,
-                observacoes: null,
-                itens: itens.map(i => ({
-                    produtoID: i.produtoId,
-                    quantidade: i.quantidade,
-                    precoUnitario: i.preco
-                }))
-            };
-
-            $.ajax({
-                url: "/api/vendas/finalizar",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(venda),
-                success: function (res) {
-                    alert("Venda realizada com sucesso! Nº " + res.vendaId);
-                    location.reload();
-                },
-                error: function (err) {
-                    alert("Erro ao finalizar venda.");
-                }
+            $.getJSON("/api/formas-pagamento", data => {
+                $("#FormaPgtoID").html('<option value="">Selecione</option>');
+                data.forEach(f => $("#FormaPgtoID").append(`<option value="${f.id}">${f.descricao}</option>`));
             });
+
+            $("#TipoPagamento").change(() => {
+                $("#areaParcelas").toggle($("#TipoPagamento").val() === "parcelado");
+                gerarParcelas();
+            });
+
+            $("#NumeroParcelas, #DataPrimeiroVencimento").on("change", gerarParcelas);
+
+            function gerarParcelas() {
+                const qtd = +$("#NumeroParcelas").val();
+                const total = +$("#TotalVenda").text();
+                let data = new Date($("#DataPrimeiroVencimento").val());
+                const valor = (total / qtd).toFixed(2);
+                $("#gridParcelas tbody").empty();
+                for (let i = 1; i <= qtd; i++) {
+                    $("#gridParcelas tbody").append(`<tr><td>${i}</td><td>${data.toISOString().split("T")[0]}</td><td>${valor}</td></tr>`);
+                    data.setMonth(data.getMonth()+1);
+                }
+            }
+
         });
-
-
-
-
-
-
-
     </script>
 }

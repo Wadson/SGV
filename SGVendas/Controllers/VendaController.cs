@@ -15,6 +15,7 @@ namespace SGVendas.Web.Controllers
         public IActionResult Index()
         {
             return View();
+            
         }
     }
 }

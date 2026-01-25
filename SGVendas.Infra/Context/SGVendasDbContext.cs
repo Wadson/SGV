@@ -22,8 +22,10 @@ namespace SGVendas.Infra.Context
         public DbSet<Cliente> Clientes => Set<Cliente>();
         public DbSet<Venda> Vendas => Set<Venda>();    
         public DbSet<Parcela> Parcelas => Set<Parcela>();       
-        public DbSet<Produto> Produtos => Set<Produto>();       
+        public DbSet<Produto> Produtos => Set<Produto>();
+        public DbSet<FormaPagamento> FormaPagamento => Set<FormaPagamento>();
 
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Aplica automaticamente todos os mapeamentos da pasta Mappings

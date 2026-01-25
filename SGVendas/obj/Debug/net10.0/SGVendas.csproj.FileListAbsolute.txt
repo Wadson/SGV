@@ -144,5 +144,5 @@ C:\SGV\SGVendas\obj\Debug\net10.0\refint\SGVendas.dll
 C:\SGV\SGVendas\obj\Debug\net10.0\SGVendas.pdb
 C:\SGV\SGVendas\obj\Debug\net10.0\SGVendas.genruntimeconfig.cache
 C:\SGV\SGVendas\obj\Debug\net10.0\ref\SGVendas.dll
-C:\SGV\SGVendas\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\x9q4kffgl9-{0}-0t47pc8l94-0t47pc8l94.gz
+C:\SGV\SGVendas\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

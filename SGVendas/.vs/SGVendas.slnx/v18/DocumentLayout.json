@@ -1,7 +1,19 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4414E522-E632-209E-A6C7-1FF8A8754814}|..\\SGVendas.Infra\\SGVendas.Infra.csproj|c:\\sgv\\sgvendas.infra\\context\\sgvendasdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\controllers\\formapagamentoapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:controllers\\formapagamentoapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\venda\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\venda\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +21,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 24,
           "Children": [
             {
               "$type": "Bookmark",
@@ -106,6 +118,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SGVendasDbContext.cs",
+              "DocumentMoniker": "C:\\SGV\\SGVendas.Infra\\Context\\SGVendasDbContext.cs",
+              "RelativeDocumentMoniker": "..\\SGVendas.Infra\\Context\\SGVendasDbContext.cs",
+              "ToolTip": "C:\\SGV\\SGVendas.Infra\\Context\\SGVendasDbContext.cs",
+              "RelativeToolTip": "..\\SGVendas.Infra\\Context\\SGVendasDbContext.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAIwBwAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T00:36:01.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormaPagamentoApiController.cs",
+              "DocumentMoniker": "C:\\SGV\\SGVendas\\Controllers\\FormaPagamentoApiController.cs",
+              "RelativeDocumentMoniker": "Controllers\\FormaPagamentoApiController.cs",
+              "ToolTip": "C:\\SGV\\SGVendas\\Controllers\\FormaPagamentoApiController.cs",
+              "RelativeToolTip": "Controllers\\FormaPagamentoApiController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-25T00:22:56.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Venda\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Venda\\Index.cshtml",
+              "ToolTip": "C:\\SGV\\SGVendas\\Views\\Venda\\Index.cshtml",
+              "RelativeToolTip": "Views\\Venda\\Index.cshtml",
+              "ViewState": "AgIAALkAAAAAAAAAAAAmwBsBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-24T23:23:31.126Z",
+              "EditorCaption": ""
             }
           ]
         },
