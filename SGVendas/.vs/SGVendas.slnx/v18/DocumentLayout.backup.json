@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\venda\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\venda\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\cliente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\cliente\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\cliente\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\cliente\\criar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": 24,
+          "SelectedChildIndex": 25,
           "Children": [
             {
               "$type": "Bookmark",
@@ -114,15 +118,28 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Criar.cshtml",
+              "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Cliente\\Criar.cshtml",
+              "RelativeDocumentMoniker": "Views\\Cliente\\Criar.cshtml",
+              "ToolTip": "C:\\SGV\\SGVendas\\Views\\Cliente\\Criar.cshtml",
+              "RelativeToolTip": "Views\\Cliente\\Criar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-26T21:20:19.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Venda\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Venda\\Index.cshtml",
-              "ToolTip": "C:\\SGV\\SGVendas\\Views\\Venda\\Index.cshtml",
-              "RelativeToolTip": "Views\\Venda\\Index.cshtml",
-              "ViewState": "AgIAAJ4BAAAAAAAAAAAqwMUBAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Cliente\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Cliente\\Index.cshtml",
+              "ToolTip": "C:\\SGV\\SGVendas\\Views\\Cliente\\Index.cshtml*",
+              "RelativeToolTip": "Views\\Cliente\\Index.cshtml*",
+              "ViewState": "AgIAAJUBAAAAAAAAAAAqwLwBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-26T21:13:22.956Z",
+              "WhenOpened": "2026-01-26T21:20:17.84Z",
               "EditorCaption": ""
             }
           ]

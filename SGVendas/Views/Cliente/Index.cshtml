@@ -3,73 +3,443 @@
 @{
     ViewData["Title"] = "Clientes";
 }
-@if (TempData["Sucesso"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Sucesso"]
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SGVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --sgvendas-primary: #2c3e50;
+            --sgvendas-secondary: #3498db;
+            --sgvendas-success: #27ae60;
+            --sgvendas-warning: #f39c12;
+            --sgvendas-info: #1abc9c;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header-clientes {
+            background: linear-gradient(135deg, var(--sgvendas-primary) 0%, var(--sgvendas-secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .card-dashboard {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header-dashboard {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-bottom: 2px solid #3498db;
+            padding: 1.25rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        .card-body-dashboard {
+            padding: 1.5rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid #3498db;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-custom {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-secondary-custom {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+            color: white;
+        }
+
+        .btn-danger-custom {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .input-group-custom {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .input-group-custom .form-control {
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+
+        .input-group-custom .form-control:focus {
+            box-shadow: none;
+        }
+
+        .input-group-custom .btn {
+            border-radius: 0;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .table-custom {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: white;
+        }
+
+        .table-custom thead {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+        .table-custom th {
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table-custom td {
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+            border-color: #e9ecef;
+        }
+
+        .table-custom tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .table-custom tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+            transform: translateX(5px);
+        }
+
+        .badge-status {
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(39, 174, 96, 0.3);
+        }
+
+        .badge-inactive {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .alert-custom {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .alert-success-custom {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(39, 174, 96, 0.05) 100%);
+            border-left: 4px solid #27ae60;
+            color: #155724;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Responsividade */
+        @Html.Raw("@media (max-width: 768px) { .header-title { font-size: 1.5rem; } .stats-card { margin-bottom: 1rem; } .action-buttons { flex-direction: column; } .action-btn { width: 100%; } }")
+    </style>
+</head>
+<body>
+    <div class="header-clientes">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="header-title">Clientes</h1>
+                    <p class="header-subtitle">Sistema SGVendas | Gestão de Clientes</p>
+                </div>
+                <div class="d-none d-md-block">
+                    <span class="badge bg-light text-dark fs-6 p-2">
+                        <i class="bi bi-people me-1"></i> Cadastro
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-}
 
-
-<h2>Cadastro de Clientes</h2>
-
-<p>Total de registros: @ViewBag.Total</p>
-
-
-<form method="get" class="mb-3">
-    <div class="input-group">
-        <input type="text"
-               name="filtro"
-               value="@ViewBag.Filtro"
-               class="form-control"
-               placeholder="Pesquisar cliente por nome, CPF ou CNPJ" />
-
-        <button type="submit" class="btn btn-primary">
-            Pesquisar
-        </button>
-
-        @if (!string.IsNullOrEmpty(ViewBag.Filtro))
+    <div class="container">
+        <!-- Mensagem de Sucesso -->
+        @if (TempData["Sucesso"] != null)
         {
-            <a asp-action="Index" class="btn btn-secondary">
-                Limpar
-            </a>
+            <div class="alert alert-success-custom alert-custom mb-4">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-3" style="font-size: 1.5rem; color: #27ae60;"></i>
+                    <div>
+                        <h6 class="alert-heading mb-1">Operação concluída!</h6>
+                        @TempData["Sucesso"]
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Estatísticas -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <div class="stats-number">@ViewBag.Total</div>
+                    <div class="stats-label">Total de Clientes</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <div class="stats-number">0</div>
+                    <div class="stats-label">Clientes Ativos</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <div class="stats-number">R$ 0,00</div>
+                    <div class="stats-label">Faturamento Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pesquisa e Ações -->
+        <div class="card-dashboard mb-4">
+            <div class="card-header-dashboard">
+                <i class="bi bi-search me-2"></i> Pesquisar Clientes
+            </div>
+            <div class="card-body-dashboard">
+                <form method="get" class="mb-4">
+                    <div class="input-group input-group-custom">
+                        <input type="text"
+                               name="filtro"
+                               id="filtro"
+                               value="@ViewBag.Filtro"
+                               class="form-control"
+                               placeholder="Digite nome, CPF, CNPJ, email ou telefone para pesquisar..." />
+                        <button type="submit" class="btn btn-primary-custom">
+                            <i class="bi bi-search me-1"></i> Pesquisar
+                        </button>
+                        @if (!string.IsNullOrEmpty(ViewBag.Filtro))
+                        {
+                            <a asp-action="Index" class="btn btn-secondary-custom">
+                                <i class="bi bi-x-circle me-1"></i> Limpar
+                            </a>
+                        }
+                    </div>
+                </form>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">
+                            <i class="bi bi-list-ul me-2"></i>
+                            Lista de Clientes
+                        </h5>
+                    </div>
+                    <div>
+                        <a asp-action="Criar" class="btn btn-success-custom btn-custom">
+                            <i class="bi bi-plus-circle me-1"></i> Novo Cliente
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div id="resultado">
+            @Html.Partial("_TabelaClientes", Model)
+        </div>
+
+        <!-- Estado Vazio -->
+        @if (!Model.Any())
+        {
+            <div class="card-dashboard">
+                <div class="card-body-dashboard">
+                    <div class="empty-state">
+                        <i class="bi bi-people"></i>
+                        <h4>Nenhum cliente encontrado</h4>
+                        <p class="mb-4">@(string.IsNullOrEmpty(ViewBag.Filtro) ? "Comece cadastrando seu primeiro cliente." : "Tente buscar com outros termos.")</p>
+                        @if (string.IsNullOrEmpty(ViewBag.Filtro))
+                        {
+                            <a asp-action="Criar" class="btn btn-success-custom btn-custom">
+                                <i class="bi bi-plus-circle me-1"></i> Cadastrar Primeiro Cliente
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Index" class="btn btn-primary-custom btn-custom">
+                                <i class="bi bi-arrow-clockwise me-1"></i> Ver Todos os Clientes
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
         }
     </div>
-</form>
 
+    @section Scripts {
+        <script>
+            let timer = null;
 
+            document.getElementById("filtro").addEventListener("keyup", function () {
+                clearTimeout(timer);
 
+                const termo = this.value;
 
-<p>
-    <a asp-action="Criar" class="btn btn-primary">Novo</a>
-</p>
+                timer = setTimeout(() => {
+                    fetch(`/Cliente/BuscarAjax?termo=${termo}`)
+                        .then(r => r.text())
+                        .then(html => {
+                            document.getElementById("resultado").innerHTML = html;
+                            
+                            // Se não houver resultados, mostra estado vazio
+                            const table = document.querySelector('.table-custom tbody');
+                            if (!table || table.children.length === 0) {
+                                document.getElementById("resultado").innerHTML = `
+                                    <div class="card-dashboard">
+                                        <div class="card-body-dashboard">
+                                            <div class="empty-state">
+                                                <i class="bi bi-search"></i>
+                                                <h4>Nenhum cliente encontrado</h4>
+                                                <p>Não foram encontrados clientes para: "${termo}"</p>
+                                                <a href="/Cliente" class="btn btn-primary-custom btn-custom">
+                                                    <i class="bi bi-arrow-clockwise me-1"></i> Ver Todos os Clientes
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro na busca:', error);
+                        });
+                }, 400); // debounce
+            });
 
-
-
-
-
-
-<div id="resultado">
-    @Html.Partial("_TabelaClientes", Model)
-</div>
-
-
-@section Scripts {
-    <script>
-        let timer = null;
-
-        document.getElementById("filtro").addEventListener("keyup", function () {
-            clearTimeout(timer);
-
-            const termo = this.value;
-
-            timer = setTimeout(() => {
-                fetch(`/Cliente/BuscarAjax?termo=${termo}`)
-                    .then(r => r.text())
-                    .then(html => {
-                        document.getElementById("resultado").innerHTML = html;
-                    });
-            }, 400); // debounce
-        });
-    </script>
-}
+            // Atualiza estatísticas (simulação)
+            document.addEventListener('DOMContentLoaded', function() {
+                // Em uma aplicação real, isso viria de uma API
+                setTimeout(() => {
+                    const statsCards = document.querySelectorAll('.stats-card .stats-number');
+                    if (statsCards.length >= 3) {
+                        // Simula dados de clientes ativos e faturamento
+                        statsCards[1].textContent = Math.floor(@ViewBag.Total * 0.85); // 85% ativos
+                        statsCards[2].textContent = 'R$ ' + (@ViewBag.Total * 1250).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                    }
+                }, 500);
+            });
+        </script>
+    }
+</body>
+</html>
