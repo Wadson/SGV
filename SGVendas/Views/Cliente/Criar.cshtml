@@ -1,205 +1,747 @@
 ﻿@model SGVendas.Domain.Entities.Cliente
 
 @{
-    ViewData["Title"] = "Novo Cliente";
+    ViewData["Title"] = Model.ClienteID == 0 ? "Novo Cliente" : "Editar Cliente";
 }
 
-<h2>Cadastro de Cliente</h2>
-
-<form asp-action="@(Model.ClienteID == 0 ? "Criar" : "Editar")" method="post">
-    
-    <!-- ID OCULTO (ESSENCIAL PARA EDIÇÃO) -->
-    <input type="hidden" asp-for="ClienteID" />
-    <input type="hidden" asp-for="DataCriacao" />
-
-    <!-- IDENTIFICAÇÃO (OBRIGATÓRIO) -->
-    <fieldset class="border p-3 mb-3">
-        <legend>Identificação</legend>
-
-        <div class="form-group">
-            <label>Nome / Razão Social</label>
-            <input asp-for="Nome" class="form-control" />
-            <span asp-validation-for="Nome" class="text-danger"></span>
-        </div>
-    </fieldset>
-
-
-
-    <!-- TIPO DE PESSOA -->
-    <fieldset class="border p-3 mb-3">
-        <legend>Tipo de Pessoa</legend>
-
-        <div class="form-group">
-            <label>Tipo</label>
-            <select asp-for="TipoCliente" id="TipoCliente" class="form-control">
-                <option value="">Selecione</option>
-                <option value="FISICA">Pessoa Física</option>
-                <option value="JURIDICA">Pessoa Jurídica</option>
-            </select>
-        </div>
-    </fieldset>
-
-    <!-- PESSOA FÍSICA -->
-    <fieldset id="PessoaFisica" class="border p-3 mb-3" style="display:none">
-        <legend>Pessoa Física</legend>
-
-        <div class="form-group">
-            <label>CPF</label>
-            <input asp-for="Cpf" class="form-control" maxlength="11" />            
-        </div>
-
-        <div class="form-group">
-            <label>RG</label>
-            <input asp-for="RG" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Órgão Expedidor</label>
-            <input asp-for="OrgaoExpedidorRG" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Data de Nascimento</label>
-            <input asp-for="DataNascimento" type="date" class="form-control" />
-        </div>
-    </fieldset>
-
-    <!-- PESSOA JURÍDICA -->
-    <fieldset id="PessoaJuridica" class="border p-3 mb-3" style="display:none">
-        <legend>Pessoa Jurídica</legend>
-
-        <div class="form-group">
-            <label>CNPJ</label>
-            <input asp-for="Cnpj" class="form-control" maxlength="14" />
-        </div>
-
-        <div class="form-group">
-            <label>Inscrição Estadual</label>
-            <input asp-for="IE" class="form-control" />
-        </div>
-    </fieldset>
-
-    <!-- CONTATO -->
-    <fieldset class="border p-3 mb-3">
-        <legend>Contato</legend>
-
-        <div class="form-group">
-            <label>Telefone</label>
-            <input asp-for="Telefone" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <input asp-for="Email" class="form-control" />
-        </div>
-    </fieldset>
-
-    <!-- ENDEREÇO -->
-    <fieldset class="border p-3 mb-3">
-        <legend>Endereço</legend>
-
-        <div class="form-group">
-            <label>CEP</label>
-            <input asp-for="Cep" id="Cep" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Logradouro</label>
-            <input asp-for="Logradouro" id="Logradouro" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Número</label>
-            <input asp-for="Numero" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Bairro</label>
-            <input asp-for="Bairro" id="Bairro" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Cidade</label>
-            <select asp-for="CidadeID" id="CidadeID" class="form-control">
-                <option value="">Selecione</option>
-            </select>
-        </div>
-    </fieldset>
-
-    <!-- OUTROS -->
-    <fieldset class="border p-3 mb-3">
-        <legend>Outros</legend>
-
-        <div class="form-group">
-            <label>Limite de Crédito</label>
-            <input asp-for="LimiteCredito" class="form-control" />
-        </div>
-
-        <div class="form-group">
-            <label>Observações</label>
-            <textarea asp-for="Observacoes" class="form-control"></textarea>
-        </div>
-
-        <div class="form-check">
-            <input asp-for="IsVendedor" class="form-check-input" />
-            <label class="form-check-label">É vendedor</label>
-        </div>
-    </fieldset>
-
-    <!-- BOTÕES -->
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-
-</form>
-
-
-
-
-
-
-
-
-@section Scripts {
-    <script>
-         function ajustarCamposTipoCliente() {
-            const tipo = document.getElementById('TipoCliente').value;
-
-            document.getElementById('PessoaFisica').style.display =
-                tipo === 'FISICA' ? 'block' : 'none';
-
-            document.getElementById('PessoaJuridica').style.display =
-                tipo === 'JURIDICA' ? 'block' : 'none';
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SGVendas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --sgvendas-primary: #2c3e50;
+            --sgvendas-secondary: #3498db;
+            --sgvendas-success: #27ae60;
+            --sgvendas-warning: #f39c12;
+            --sgvendas-info: #1abc9c;
         }
 
-        // Quando mudar manualmente
-        document.getElementById('TipoCliente')
-            .addEventListener('change', ajustarCamposTipoCliente);
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        // 🔥 QUANDO A PÁGINA CARREGAR (EDIÇÃO)
-        document.addEventListener('DOMContentLoaded', ajustarCamposTipoCliente);
+        .header-cliente {
+            background: linear-gradient(135deg, var(--sgvendas-primary) 0%, var(--sgvendas-secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
 
-        // Busca CEP
-        document.getElementById("Cep").addEventListener("blur", function () {
+        .header-title {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
 
-            const cep = this.value.replace(/\D/g, '');
-            if (cep.length !== 8) return;
+        .header-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
 
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(r => r.json())
-                .then(d => {
-                    if (d.erro) return;
+        .form-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            background: white;
+        }
 
-                    document.getElementById("Logradouro").value = d.logradouro;
-                    document.getElementById("Bairro").value = d.bairro;
+        .form-card-header {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-bottom: 2px solid #3498db;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
 
-                    fetch(`/api/cidades/buscar?nome=${d.localidade}&uf=${d.uf}`)
-                        .then(r => r.json())
-                        .then(cidade => {
-                            const select = document.getElementById("CidadeID");
-                            select.innerHTML =
-                                `<option value="${cidade.id}">${cidade.nome}</option>`;
-                        });
+        .form-card-body {
+            padding: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section-title i {
+            margin-right: 0.75rem;
+            color: #3498db;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .input-group-icon {
+            position: relative;
+        }
+
+        .input-group-icon input {
+            padding-left: 2.5rem;
+        }
+
+        .input-group-icon i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 3;
+        }
+
+        .btn-custom {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+            color: white;
+        }
+
+        .btn-success-custom:hover {
+            background: linear-gradient(135deg, #219653 0%, #1e8449 100%);
+        }
+
+        .btn-secondary-custom {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+
+        .btn-secondary-custom:hover {
+            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+        }
+
+        .fieldset-custom {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .fieldset-custom:hover {
+            border-color: #3498db;
+            box-shadow: 0 3px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .fieldset-custom legend {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            width: auto;
+            padding: 0 1rem;
+            margin-bottom: 1rem;
+            border-bottom: none;
+        }
+
+        .toggle-section {
+            border-left: 4px solid #3498db;
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-check-input:checked {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            color: #495057;
+            margin-left: 0.5rem;
+        }
+
+        .validation-summary {
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #e74c3c;
+            background-color: rgba(231, 76, 60, 0.05);
+        }
+
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .text-danger i {
+            margin-right: 0.5rem;
+        }
+
+        .cep-search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #3498db;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .cep-search-btn:hover {
+            color: #2980b9;
+        }
+
+        .switch-tipo {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .switch-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .switch-option:hover {
+            border-color: #3498db;
+            transform: translateY(-2px);
+        }
+
+        .switch-option.active {
+            border-color: #27ae60;
+            background-color: rgba(39, 174, 96, 0.05);
+            color: #27ae60;
+        }
+
+        .switch-option i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .switch-option span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .hidden-input {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .loading-cep {
+            position: relative;
+        }
+
+        .loading-cep::after {
+            content: "Buscando...";
+            position: absolute;
+            right: 2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* Responsividade */
+        @Html.Raw("@media (max-width: 768px) { .header-title { font-size: 1.5rem; } .form-card-body { padding: 1.5rem; } .switch-tipo { flex-direction: column; } .fieldset-custom { padding: 1.5rem; } }")
+
+        @Html.Raw("@media (max-width: 576px) { .form-card-body { padding: 1rem; } .btn-custom { width: 100%; margin-bottom: 0.5rem; } }")
+    </style>
+</head>
+<body>
+    <div class="header-cliente">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="header-title">
+                        @(Model.ClienteID == 0 ? "Novo Cliente" : "Editar Cliente")
+                    </h1>
+                    <p class="header-subtitle">
+                        @(Model.ClienteID == 0 ? "Cadastre um novo cliente no sistema" : "Edite as informações do cliente")
+                    </p>
+                </div>
+                <div class="d-none d-md-block">
+                    <span class="badge bg-light text-dark fs-6 p-2">
+                        <i class="bi bi-person me-1"></i> @(Model.ClienteID == 0 ? "Cadastro" : "Edição")
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <i class="bi bi-person-badge me-2"></i>
+                        Formulário de Cliente
+                    </div>
+                    
+                    <form asp-action="@(Model.ClienteID == 0 ? "Criar" : "Editar")" method="post" class="form-card-body">
+                        <!-- ID OCULTO (ESSENCIAL PARA EDIÇÃO) -->
+                        <input type="hidden" asp-for="ClienteID" />
+                        <input type="hidden" asp-for="DataCriacao" />
+
+                        <!-- IDENTIFICAÇÃO -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="bi bi-person"></i> Identificação
+                            </div>
+                            <div class="fieldset-custom">
+                                <div class="mb-3">
+                                    <label asp-for="Nome" class="form-label required">Nome / Razão Social</label>
+                                    <div class="input-group-icon">
+                                        <i class="bi bi-person"></i>
+                                        <input asp-for="Nome" class="form-control" placeholder="Digite o nome completo ou razão social" />
+                                    </div>
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TIPO DE PESSOA -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="bi bi-person-vcard"></i> Tipo de Pessoa
+                            </div>
+                            <div class="fieldset-custom">
+                                <input asp-for="TipoCliente" id="TipoCliente" class="form-control hidden-input" />
+                                
+                                <div class="switch-tipo">
+                                    <div class="switch-option" data-value="" onclick="selectTipo('')">
+                                        <i class="bi bi-question-circle"></i>
+                                        <span>Selecione</span>
+                                    </div>
+                                    <div class="switch-option" data-value="FISICA" onclick="selectTipo('FISICA')">
+                                        <i class="bi bi-person"></i>
+                                        <span>Pessoa Física</span>
+                                    </div>
+                                    <div class="switch-option" data-value="JURIDICA" onclick="selectTipo('JURIDICA')">
+                                        <i class="bi bi-building"></i>
+                                        <span>Pessoa Jurídica</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo Selecionado</label>
+                                    <select id="TipoClienteSelect" class="form-select" onchange="updateTipo(this.value)">
+                                        <option value="">Selecione o tipo</option>
+                                        <option value="FISICA">Pessoa Física</option>
+                                        <option value="JURIDICA">Pessoa Jurídica</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PESSOA FÍSICA -->
+                        <div id="PessoaFisica" class="form-section" style="display:none">
+                            <div class="form-section-title">
+                                <i class="bi bi-person"></i> Dados da Pessoa Física
+                            </div>
+                            <div class="fieldset-custom">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="Cpf" class="form-label">CPF</label>
+                                        <div class="input-group-icon">
+                                            <i class="bi bi-credit-card"></i>
+                                            <input asp-for="Cpf" class="form-control cpf" placeholder="000.000.000-00" />
+                                        </div>
+                                        <span asp-validation-for="Cpf" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="RG" class="form-label">RG</label>
+                                        <input asp-for="RG" class="form-control" placeholder="Digite o número do RG" />
+                                        <span asp-validation-for="RG" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="OrgaoExpedidorRG" class="form-label">Órgão Expedidor</label>
+                                        <input asp-for="OrgaoExpedidorRG" class="form-control" placeholder="Ex: SSP/SP" />
+                                        <span asp-validation-for="OrgaoExpedidorRG" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="DataNascimento" class="form-label">Data de Nascimento</label>
+                                        <div class="input-group-icon">
+                                            <i class="bi bi-calendar"></i>
+                                            <input asp-for="DataNascimento" type="date" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PESSOA JURÍDICA -->
+                        <div id="PessoaJuridica" class="form-section" style="display:none">
+                            <div class="form-section-title">
+                                <i class="bi bi-building"></i> Dados da Pessoa Jurídica
+                            </div>
+                            <div class="fieldset-custom">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="Cnpj" class="form-label">CNPJ</label>
+                                        <div class="input-group-icon">
+                                            <i class="bi bi-building"></i>
+                                            <input asp-for="Cnpj" class="form-control cnpj" placeholder="00.000.000/0000-00" />
+                                        </div>
+                                        <span asp-validation-for="Cnpj" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="IE" class="form-label">Inscrição Estadual</label>
+                                        <input asp-for="IE" class="form-control" placeholder="Digite a Inscrição Estadual" />
+                                        <span asp-validation-for="IE" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CONTATO -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="bi bi-telephone"></i> Contato
+                            </div>
+                            <div class="fieldset-custom">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="Telefone" class="form-label">Telefone</label>
+                                        <div class="input-group-icon">
+                                            <i class="bi bi-telephone"></i>
+                                            <input asp-for="Telefone" class="form-control telefone" placeholder="(00) 00000-0000" />
+                                        </div>
+                                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="Email" class="form-label">Email</label>
+                                        <div class="input-group-icon">
+                                            <i class="bi bi-envelope"></i>
+                                            <input asp-for="Email" type="email" class="form-control" placeholder="cliente@email.com" />
+                                        </div>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ENDEREÇO -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="bi bi-geo-alt"></i> Endereço
+                            </div>
+                            <div class="fieldset-custom">
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label asp-for="Cep" class="form-label">CEP</label>
+                                        <div class="input-group-icon position-relative">
+                                            <i class="bi bi-postcard"></i>
+                                            <input asp-for="Cep" id="Cep" class="form-control cep" placeholder="00000-000" />
+                                            <button type="button" class="cep-search-btn" onclick="buscarCEP()" title="Buscar endereço pelo CEP">
+                                                <i class="bi bi-search"></i>
+                                            </button>
+                                        </div>
+                                        <span asp-validation-for="Cep" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-9 mb-3">
+                                        <label asp-for="Logradouro" class="form-label">Logradouro</label>
+                                        <input asp-for="Logradouro" id="Logradouro" class="form-control" placeholder="Rua, Avenida, etc." />
+                                        <span asp-validation-for="Logradouro" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label asp-for="Numero" class="form-label">Número</label>
+                                        <input asp-for="Numero" class="form-control" placeholder="123" />
+                                        <span asp-validation-for="Numero" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-9 mb-3">
+                                        <label asp-for="Bairro" class="form-label">Bairro</label>
+                                        <input asp-for="Bairro" id="Bairro" class="form-control" placeholder="Nome do bairro" />
+                                        <span asp-validation-for="Bairro" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label asp-for="CidadeID" class="form-label">Cidade</label>
+                                        <select asp-for="CidadeID" id="CidadeID" class="form-select">
+                                            <option value="">Selecione a cidade</option>
+                                        </select>
+                                        <span asp-validation-for="CidadeID" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- OUTROS -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <i class="bi bi-gear"></i> Outras Informações
+                            </div>
+                            <div class="fieldset-custom">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label asp-for="LimiteCredito" class="form-label">Limite de Crédito (R$)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">R$</span>
+                                            <input asp-for="LimiteCredito" class="form-control" placeholder="0,00" />
+                                        </div>
+                                        <span asp-validation-for="LimiteCredito" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-check mt-4 pt-2">
+                                            <input asp-for="IsVendedor" class="form-check-input" style="width: 1.5em; height: 1.5em;" />
+                                            <label class="form-check-label" asp-for="IsVendedor">
+                                                Este cliente também é vendedor
+                                            </label>
+                                        </div>
+                                        <span asp-validation-for="IsVendedor" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Observacoes" class="form-label">Observações</label>
+                                    <textarea asp-for="Observacoes" class="form-control" rows="4" placeholder="Informações adicionais sobre o cliente..."></textarea>
+                                    <span asp-validation-for="Observacoes" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BOTÕES -->
+                        <div class="form-section">
+                            <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                                <a asp-action="Index" class="btn btn-secondary-custom btn-custom">
+                                    <i class="bi bi-arrow-left me-1"></i> Voltar para Lista
+                                </a>
+                                <button type="submit" class="btn btn-success-custom btn-custom">
+                                    <i class="bi bi-check-circle me-1"></i> Salvar Cliente
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            // Funções para o toggle visual do tipo de pessoa
+            function selectTipo(value) {
+                document.getElementById('TipoCliente').value = value;
+                document.getElementById('TipoClienteSelect').value = value;
+                ajustarCamposTipoCliente();
+                updateToggleVisual();
+            }
+
+            function updateTipo(value) {
+                document.getElementById('TipoCliente').value = value;
+                ajustarCamposTipoCliente();
+                updateToggleVisual();
+            }
+
+            function updateToggleVisual() {
+                const tipo = document.getElementById('TipoCliente').value;
+                document.querySelectorAll('.switch-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.getAttribute('data-value') === tipo) {
+                        option.classList.add('active');
+                    }
                 });
-        });
-    </script>
-}
+            }
+
+            function ajustarCamposTipoCliente() {
+                const tipo = document.getElementById('TipoCliente').value;
+
+                document.getElementById('PessoaFisica').style.display =
+                    tipo === 'FISICA' ? 'block' : 'none';
+
+                document.getElementById('PessoaJuridica').style.display =
+                    tipo === 'JURIDICA' ? 'block' : 'none';
+
+                // Inicializa máscaras se necessário
+                if (tipo === 'FISICA') {
+                    initMask(document.querySelector('.cpf'), '999.999.999-99');
+                } else if (tipo === 'JURIDICA') {
+                    initMask(document.querySelector('.cnpj'), '99.999.999/9999-99');
+                }
+            }
+
+            // Quando mudar manualmente
+            document.getElementById('TipoClienteSelect')
+                .addEventListener('change', function() {
+                    updateTipo(this.value);
+                });
+
+            // Inicializa ao carregar a página
+            document.addEventListener('DOMContentLoaded', function() {
+                ajustarCamposTipoCliente();
+                updateToggleVisual();
+                
+                // Configura máscaras
+                initMask(document.querySelector('.telefone'), '(99) 99999-9999');
+                initMask(document.querySelector('.cep'), '99999-999');
+                
+                // Se já houver valor no tipo, atualiza o toggle visual
+                const tipo = document.getElementById('TipoCliente').value;
+                if (tipo) {
+                    document.getElementById('TipoClienteSelect').value = tipo;
+                }
+            });
+
+            // Máscaras simples
+            function initMask(element, pattern) {
+                if (!element) return;
+                
+                element.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    let formatted = '';
+                    let patternIndex = 0;
+                    
+                    for (let i = 0; i < pattern.length && value.length > patternIndex; i++) {
+                        if (pattern[i] === '9') {
+                            formatted += value[patternIndex];
+                            patternIndex++;
+                        } else {
+                            formatted += pattern[i];
+                        }
+                    }
+                    
+                    e.target.value = formatted;
+                });
+            }
+
+            // Busca CEP - CORRIGIDA para não limpar o campo
+            function buscarCEP() {
+                const cepInput = document.getElementById("Cep");
+                const cepOriginal = cepInput.value; // Guarda o valor original
+                const cep = cepOriginal.replace(/\D/g, '');
+                
+                if (cep.length !== 8) {
+                    alert("Por favor, digite um CEP válido com 8 dígitos.");
+                    cepInput.focus();
+                    return;
+                }
+
+                // Salva o valor atual para restaurar em caso de erro
+                const cepValue = cepInput.value;
+                
+                // Mostra loading sem remover o valor
+                cepInput.classList.add('loading-cep');
+                cepInput.disabled = true;
+                
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(r => r.json())
+                    .then(d => {
+                        cepInput.classList.remove('loading-cep');
+                        cepInput.disabled = false;
+                        
+                        if (d.erro) {
+                            alert("CEP não encontrado. Por favor, verifique o número.");
+                            return;
+                        }
+
+                        // Preenche os campos do endereço
+                        document.getElementById("Logradouro").value = d.logradouro || '';
+                        document.getElementById("Bairro").value = d.bairro || '';
+                        
+                        // Busca a cidade no sistema
+                        if (d.localidade && d.uf) {
+                            fetch(`/api/cidades/buscar?nome=${d.localidade}&uf=${d.uf}`)
+                                .then(r => r.json())
+                                .then(cidade => {
+                                    const select = document.getElementById("CidadeID");
+                                    if (cidade && cidade.id) {
+                                        select.innerHTML = 
+                                            `<option value="${cidade.id}">${cidade.nome} - ${d.uf}</option>`;
+                                    } else {
+                                        select.innerHTML = 
+                                            `<option value="">Cidade não encontrada no sistema</option>`;
+                                        select.innerHTML += 
+                                            `<option value="">${d.localidade} - ${d.uf} (não cadastrada)</option>`;
+                                    }
+                                })
+                                .catch(() => {
+                                    document.getElementById("CidadeID").innerHTML = 
+                                        `<option value="">Erro ao buscar cidade</option>`;
+                                });
+                        }
+                    })
+                    .catch(error => {
+                        cepInput.classList.remove('loading-cep');
+                        cepInput.disabled = false;
+                        // Restaura o valor original em caso de erro
+                        cepInput.value = cepValue;
+                        console.error('Erro ao buscar CEP:', error);
+                        alert("Erro ao buscar CEP. Verifique sua conexão e tente novamente.");
+                    });
+            }
+
+            // Também mantém o evento blur original
+            document.getElementById("Cep").addEventListener("blur", buscarCEP);
+        </script>
+    }
+</body>
+</html>
