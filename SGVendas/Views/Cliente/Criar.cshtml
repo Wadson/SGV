@@ -338,10 +338,16 @@
                         Formulário de Cliente
                     </div>
                     
-                    <form asp-action="@(Model.ClienteID == 0 ? "Criar" : "Editar")" method="post" class="form-card-body">
+                    <form asp-action="@(Model.ClienteID == 0 ? "Criar" : "Editar")" method="post" class="form-card-body" id="formCliente">
                         <!-- ID OCULTO (ESSENCIAL PARA EDIÇÃO) -->
                         <input type="hidden" asp-for="ClienteID" />
                         <input type="hidden" asp-for="DataCriacao" />
+
+                        <!-- CAMPOS OCULTOS PARA VALORES LIMPOS -->
+                        <input type="hidden" id="CpfLimpo" name="CpfLimpo" />
+                        <input type="hidden" id="CnpjLimpo" name="CnpjLimpo" />
+                        <input type="hidden" id="CepLimpo" name="CepLimpo" />
+                        <input type="hidden" id="TelefoneLimpo" name="TelefoneLimpo" />
 
                         <!-- IDENTIFICAÇÃO -->
                         <div class="form-section">
@@ -405,7 +411,7 @@
                                         <label asp-for="Cpf" class="form-label">CPF</label>
                                         <div class="input-group-icon">
                                             <i class="bi bi-credit-card"></i>
-                                            <input asp-for="Cpf" class="form-control cpf" placeholder="000.000.000-00" />
+                                            <input asp-for="Cpf" id="CpfVisual" class="form-control" placeholder="000.000.000-00" />
                                         </div>
                                         <span asp-validation-for="Cpf" class="text-danger"></span>
                                     </div>
@@ -445,7 +451,7 @@
                                         <label asp-for="Cnpj" class="form-label">CNPJ</label>
                                         <div class="input-group-icon">
                                             <i class="bi bi-building"></i>
-                                            <input asp-for="Cnpj" class="form-control cnpj" placeholder="00.000.000/0000-00" />
+                                            <input asp-for="Cnpj" id="CnpjVisual" class="form-control" placeholder="00.000.000/0000-00" />
                                         </div>
                                         <span asp-validation-for="Cnpj" class="text-danger"></span>
                                     </div>
@@ -469,7 +475,7 @@
                                         <label asp-for="Telefone" class="form-label">Telefone</label>
                                         <div class="input-group-icon">
                                             <i class="bi bi-telephone"></i>
-                                            <input asp-for="Telefone" class="form-control telefone" placeholder="(00) 00000-0000" />
+                                            <input asp-for="Telefone" id="TelefoneVisual" class="form-control" placeholder="(00) 00000-0000" />
                                         </div>
                                         <span asp-validation-for="Telefone" class="text-danger"></span>
                                     </div>
@@ -496,7 +502,7 @@
                                         <label asp-for="Cep" class="form-label">CEP</label>
                                         <div class="input-group-icon position-relative">
                                             <i class="bi bi-postcard"></i>
-                                            <input asp-for="Cep" id="Cep" class="form-control cep" placeholder="00000-000" />
+                                            <input asp-for="Cep" id="CepVisual" class="form-control" placeholder="00000-000" />
                                             <button type="button" class="cep-search-btn" onclick="buscarCEP()" title="Buscar endereço pelo CEP">
                                                 <i class="bi bi-search"></i>
                                             </button>
@@ -575,7 +581,7 @@
                                 <a asp-action="Index" class="btn btn-secondary-custom btn-custom">
                                     <i class="bi bi-arrow-left me-1"></i> Voltar para Lista
                                 </a>
-                                <button type="submit" class="btn btn-success-custom btn-custom">
+                                <button type="submit" class="btn btn-success-custom btn-custom" onclick="limparMascarasAntesEnvio()">
                                     <i class="bi bi-check-circle me-1"></i> Salvar Cliente
                                 </button>
                             </div>
@@ -621,11 +627,11 @@
                 document.getElementById('PessoaJuridica').style.display =
                     tipo === 'JURIDICA' ? 'block' : 'none';
 
-                // Inicializa máscaras se necessário
+                // Inicializa máscaras
                 if (tipo === 'FISICA') {
-                    initMask(document.querySelector('.cpf'), '999.999.999-99');
+                    aplicarMascara(document.getElementById('CpfVisual'), '999.999.999-99');
                 } else if (tipo === 'JURIDICA') {
-                    initMask(document.querySelector('.cnpj'), '99.999.999/9999-99');
+                    aplicarMascara(document.getElementById('CnpjVisual'), '99.999.999/9999-99');
                 }
             }
 
@@ -640,43 +646,141 @@
                 ajustarCamposTipoCliente();
                 updateToggleVisual();
                 
-                // Configura máscaras
-                initMask(document.querySelector('.telefone'), '(99) 99999-9999');
-                initMask(document.querySelector('.cep'), '99999-999');
+                // Aplicar máscaras
+                aplicarMascara(document.getElementById('TelefoneVisual'), '(99) 99999-9999');
+                aplicarMascara(document.getElementById('CepVisual'), '99999-999');
                 
                 // Se já houver valor no tipo, atualiza o toggle visual
                 const tipo = document.getElementById('TipoCliente').value;
                 if (tipo) {
                     document.getElementById('TipoClienteSelect').value = tipo;
                 }
+
+                // Se já houver valores nos campos com máscara, formata
+                formatarCamposExistentes();
             });
 
-            // Máscaras simples
-            function initMask(element, pattern) {
-                if (!element) return;
+            // Função para aplicar máscara a um campo
+            function aplicarMascara(campo, mascara) {
+                if (!campo) return;
                 
-                element.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    let formatted = '';
-                    let patternIndex = 0;
+                campo.addEventListener('input', function(e) {
+                    let valor = e.target.value.replace(/\D/g, '');
+                    let valorFormatado = '';
+                    let indiceMascara = 0;
                     
-                    for (let i = 0; i < pattern.length && value.length > patternIndex; i++) {
-                        if (pattern[i] === '9') {
-                            formatted += value[patternIndex];
-                            patternIndex++;
+                    for (let i = 0; i < mascara.length && valor.length > indiceMascara; i++) {
+                        if (mascara[i] === '9') {
+                            valorFormatado += valor[indiceMascara];
+                            indiceMascara++;
                         } else {
-                            formatted += pattern[i];
+                            valorFormatado += mascara[i];
                         }
                     }
                     
-                    e.target.value = formatted;
+                    e.target.value = valorFormatado;
                 });
             }
 
-            // Busca CEP - CORRIGIDA para não limpar o campo
+            // Função para formatar campos que já tenham valor ao carregar a página
+            function formatarCamposExistentes() {
+                // CPF
+                const cpfVisual = document.getElementById('CpfVisual');
+                if (cpfVisual && cpfVisual.value) {
+                    let cpf = cpfVisual.value.replace(/\D/g, '');
+                    if (cpf.length === 11) {
+                        cpfVisual.value = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                    }
+                }
+
+                // CNPJ
+                const cnpjVisual = document.getElementById('CnpjVisual');
+                if (cnpjVisual && cnpjVisual.value) {
+                    let cnpj = cnpjVisual.value.replace(/\D/g, '');
+                    if (cnpj.length === 14) {
+                        cnpjVisual.value = cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+                    }
+                }
+
+                // Telefone
+                const telefoneVisual = document.getElementById('TelefoneVisual');
+                if (telefoneVisual && telefoneVisual.value) {
+                    let telefone = telefoneVisual.value.replace(/\D/g, '');
+                    if (telefone.length === 11) {
+                        telefoneVisual.value = telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    } else if (telefone.length === 10) {
+                        telefoneVisual.value = telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                    }
+                }
+
+                // CEP
+                const cepVisual = document.getElementById('CepVisual');
+                if (cepVisual && cepVisual.value) {
+                    let cep = cepVisual.value.replace(/\D/g, '');
+                    if (cep.length === 8) {
+                        cepVisual.value = cep.replace(/(\d{5})(\d{3})/, '$1-$2');
+                    }
+                }
+            }
+
+            // Função para limpar máscaras antes do envio do formulário
+            function limparMascarasAntesEnvio() {
+                // CPF
+                const cpfVisual = document.getElementById('CpfVisual');
+                const cpfOriginal = document.querySelector('input[name="Cpf"]');
+                if (cpfVisual && cpfVisual.value) {
+                    let cpfLimpo = cpfVisual.value.replace(/\D/g, '');
+                    document.getElementById('CpfLimpo').value = cpfLimpo;
+                    // Atualiza o campo original se existir
+                    if (cpfOriginal) {
+                        cpfOriginal.value = cpfLimpo;
+                    }
+                }
+
+                // CNPJ
+                const cnpjVisual = document.getElementById('CnpjVisual');
+                const cnpjOriginal = document.querySelector('input[name="Cnpj"]');
+                if (cnpjVisual && cnpjVisual.value) {
+                    let cnpjLimpo = cnpjVisual.value.replace(/\D/g, '');
+                    document.getElementById('CnpjLimpo').value = cnpjLimpo;
+                    // Atualiza o campo original se existir
+                    if (cnpjOriginal) {
+                        cnpjOriginal.value = cnpjLimpo;
+                    }
+                }
+
+                // Telefone
+                const telefoneVisual = document.getElementById('TelefoneVisual');
+                const telefoneOriginal = document.querySelector('input[name="Telefone"]');
+                if (telefoneVisual && telefoneVisual.value) {
+                    let telefoneLimpo = telefoneVisual.value.replace(/\D/g, '');
+                    document.getElementById('TelefoneLimpo').value = telefoneLimpo;
+                    // Atualiza o campo original se existir
+                    if (telefoneOriginal) {
+                        telefoneOriginal.value = telefoneLimpo;
+                    }
+                }
+
+                // CEP
+                const cepVisual = document.getElementById('CepVisual');
+                const cepOriginal = document.querySelector('input[name="Cep"]');
+                if (cepVisual && cepVisual.value) {
+                    let cepLimpo = cepVisual.value.replace(/\D/g, '');
+                    document.getElementById('CepLimpo').value = cepLimpo;
+                    // Atualiza o campo original se existir
+                    if (cepOriginal) {
+                        cepOriginal.value = cepLimpo;
+                    }
+                }
+
+                // Permite o envio do formulário
+                return true;
+            }
+
+            // Busca CEP
             function buscarCEP() {
-                const cepInput = document.getElementById("Cep");
-                const cepOriginal = cepInput.value; // Guarda o valor original
+                const cepInput = document.getElementById("CepVisual");
+                const cepOriginal = cepInput.value;
                 const cep = cepOriginal.replace(/\D/g, '');
                 
                 if (cep.length !== 8) {
@@ -685,10 +789,8 @@
                     return;
                 }
 
-                // Salva o valor atual para restaurar em caso de erro
                 const cepValue = cepInput.value;
                 
-                // Mostra loading sem remover o valor
                 cepInput.classList.add('loading-cep');
                 cepInput.disabled = true;
                 
@@ -703,11 +805,9 @@
                             return;
                         }
 
-                        // Preenche os campos do endereço
                         document.getElementById("Logradouro").value = d.logradouro || '';
                         document.getElementById("Bairro").value = d.bairro || '';
                         
-                        // Busca a cidade no sistema
                         if (d.localidade && d.uf) {
                             fetch(`/api/cidades/buscar?nome=${d.localidade}&uf=${d.uf}`)
                                 .then(r => r.json())
@@ -732,15 +832,26 @@
                     .catch(error => {
                         cepInput.classList.remove('loading-cep');
                         cepInput.disabled = false;
-                        // Restaura o valor original em caso de erro
                         cepInput.value = cepValue;
                         console.error('Erro ao buscar CEP:', error);
                         alert("Erro ao buscar CEP. Verifique sua conexão e tente novamente.");
                     });
             }
 
-            // Também mantém o evento blur original
-            document.getElementById("Cep").addEventListener("blur", buscarCEP);
+            // Evento blur para CEP
+            document.getElementById("CepVisual").addEventListener("blur", buscarCEP);
+
+            // Intercepta o envio do formulário para limpar máscaras
+            document.getElementById('formCliente').addEventListener('submit', function(e) {
+                // Previne o envio imediato para processarmos as máscaras
+                e.preventDefault();
+                
+                // Limpa as máscaras
+                limparMascarasAntesEnvio();
+                
+                // Envia o formulário
+                this.submit();
+            });
         </script>
     }
 </body>
