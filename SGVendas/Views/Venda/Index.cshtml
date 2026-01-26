@@ -1,100 +1,108 @@
 ﻿@{
-    ViewData["Title"] = "Nova Venda";
-    Layout = "_LayoutSistema";
+    ViewData["Title"] = "Venda";
 }
 
-<h3 class="mb-3">💰 Nova Venda</h3>
+<h2>Nova Venda</h2>
 
-<!-- ================= DADOS DA VENDA ================= -->
-<div class="card mb-3">
-    <div class="card-header bg-light"><strong>Dados da Venda</strong></div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-4">
-                <label>Vendedor</label>
-                <input type="text" id="txtVendedor" class="form-control">
-                <input type="hidden" id="VendedorID">
-            </div>
+<hr />
 
-            <div class="col-md-4">
-                <label>Cliente</label>
-                <input type="text" id="txtCliente" class="form-control">
-                <input type="hidden" id="ClienteID">
-            </div>
+<!-- ========================================================= -->
+<!-- CABEÇALHO DA VENDA -->
+<!-- ========================================================= -->
+<div class="row mb-3">
 
-            <div class="col-md-4">
-                <label>Data</label>
-                <input type="date" id="dataVenda" class="form-control"
-                       value="@DateTime.Now.ToString("yyyy-MM-dd")">
-            </div>
-        </div>
+    <div class="col-md-4">
+        <label>Vendedor</label>
+        <input type="text" id="txtVendedor" class="form-control" placeholder="Buscar vendedor..." />
+        <input type="hidden" id="VendedorID" />
     </div>
+
+    <div class="col-md-4">
+        <label>Cliente</label>
+        <input type="text" id="txtCliente" class="form-control" placeholder="Buscar cliente..." />
+        <input type="hidden" id="ClienteID" />
+    </div>
+
+    <div class="col-md-4">
+        <label>Data da Venda</label>
+        <input type="date" id="dataVenda" class="form-control"
+               value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+    </div>
+
 </div>
 
-<!-- ================= PRODUTOS ================= -->
-<div class="card mb-3">
-    <div class="card-header bg-light"><strong>Adicionar Produto</strong></div>
-    <div class="card-body">
-        <div class="row align-items-end">
+<hr />
 
-            <div class="col-md-5">
-                <label>Produto</label>
-                <input type="text" id="txtProduto" class="form-control">
-                <input type="hidden" id="ProdutoID">
-            </div>
+<!-- ========================================================= -->
+<!-- PRODUTOS -->
+<!-- ========================================================= -->
+<h4>Produtos</h4>
 
-            <div class="col-md-2">
-                <label>Qtd</label>
-                <input type="number" id="Quantidade" class="form-control" value="1">
-            </div>
+<div class="row mb-3">
 
-            <div class="col-md-3">
-                <label>Preço</label>
-                <input type="number" id="PrecoUnitario" class="form-control">
-            </div>
-
-            <div class="col-md-2">
-                <button id="btnAdicionar" class="btn btn-success w-100">Adicionar</button>
-            </div>
-
-        </div>
+    <div class="col-md-5">
+        <label>Produto</label>
+        <input type="text" id="txtProduto" class="form-control" placeholder="Buscar produto..." />
+        <input type="hidden" id="ProdutoID" />
     </div>
+
+    <div class="col-md-2">
+        <label>Quantidade</label>
+        <input type="number" id="Quantidade" class="form-control" value="1" min="1" />
+    </div>
+
+    <div class="col-md-3">
+        <label>Preço Unitário</label>
+        <input type="text" id="PrecoUnitario" class="form-control" readonly />
+    </div>
+
+    <div class="col-md-2">
+        <label>&nbsp;</label>
+        <button id="btnAdicionar" class="btn btn-success w-100">Adicionar</button>
+    </div>
+
 </div>
 
-<!-- ================= ITENS ================= -->
-<table class="table table-bordered">
+<hr />
+
+<!-- ========================================================= -->
+<!-- GRID DE ITENS -->
+<!-- ========================================================= -->
+<table class="table table-bordered" id="gridItens">
     <thead class="table-light">
         <tr>
             <th>Produto</th>
-            <th width="80">Qtd</th>
+            <th width="100">Qtd</th>
             <th width="120">Preço</th>
             <th width="120">Subtotal</th>
-            <th width="60"></th>
+            <th width="80">Ação</th>
         </tr>
     </thead>
-    <tbody id="gridItens"></tbody>
+    <tbody></tbody>
 </table>
 
-<!-- ================= TOTAL ================= -->
-<div class="card border-success">
-    <div class="card-body text-end">
-        <h3 class="text-success">
-            Total: R$ <span id="TotalVenda">0,00</span>
-        </h3>
-        <button id="btnFinalizar" class="btn btn-success btn-lg mt-2">
-            Finalizar Venda
-        </button>
+<hr />
+
+<!-- ========================================================= -->
+<!-- TOTAL -->
+<!-- ========================================================= -->
+<div class="row">
+    <div class="col-md-4 offset-md-8 text-end">
+        <h4>Total: R$ <span id="TotalVenda">0,00</span></h4>
+        <button id="btnFinalizar" class="btn btn-primary mt-2">Finalizar Venda</button>
     </div>
 </div>
 
-<!-- ================= MODAL PAGAMENTO ================= -->
-<div class="modal fade" id="modalPagamento">
+<!-- ========================================================= -->
+<!-- MODAL PAGAMENTO -->
+<!-- ========================================================= -->
+<div class="modal fade" id="modalPagamento" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Pagamento</h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title">Forma de Pagamento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
@@ -115,146 +123,331 @@
                 </div>
 
                 <div id="areaParcelas" style="display:none;">
+
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Nº Parcelas</label>
-                            <input type="number" id="NumeroParcelas" class="form-control" value="1">
+                            <input type="number" id="NumeroParcelas" class="form-control" value="1" min="1" />
                         </div>
+
                         <div class="col-md-6">
                             <label>1º Vencimento</label>
-                            <input type="date" id="DataPrimeiroVencimento" class="form-control"
-                                   value="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")">
+                            <input type="date" id="DataPrimeiroVencimento"
+                                   class="form-control"
+                                   value="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" />
                         </div>
                     </div>
 
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="gridParcelas">
                         <thead class="table-light">
-                            <tr><th>#</th><th>Vencimento</th><th>Valor</th></tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Vencimento</th>
+                                <th>Valor</th>
+                            </tr>
                         </thead>
-                        <tbody id="gridParcelas"></tbody>
+                        <tbody></tbody>
                     </table>
+
                 </div>
 
             </div>
 
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button id="btnConfirmarPagamento" class="btn btn-success">
-                    Confirmar
-                </button>
+                <button id="btnConfirmarPagamento" class="btn btn-success">Confirmar</button>
             </div>
 
         </div>
     </div>
 </div>
 
-
+<!-- ========================================================= -->
+<!-- SCRIPTS -->
+<!-- ========================================================= -->
 @section Scripts {
+
+    <!-- ========================= -->
+    <!-- DEPENDÊNCIAS -->
+    <!-- ========================= -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet"
+          href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <style>
+        .ui-autocomplete {
+            z-index: 1055 !important;
+        }
+    </style>
+
     <script>
-        // =============================
-        // SCRIPT FINAL DA VENDA
-        // =============================
-
-        let itens = [];
-
         $(function () {
 
+            // =====================================================
+            // ESTADO GLOBAL DA VENDA
+            // =====================================================
+            let itens = [];
+
+            // =====================================================
             // AUTOCOMPLETE CLIENTE
+            // =====================================================
             $("#txtCliente").autocomplete({
-                source: (r, s) =>
-                    $.getJSON("/api/clientes/buscar", { termo: r.term }, s),
-                select: (e, ui) => {
+                source: function (request, response) {
+                    $.getJSON("/api/clientes/buscar", { termo: request.term }, response);
+                },
+                select: function (event, ui) {
                     $("#ClienteID").val(ui.item.id);
+                    $("#txtCliente").val(ui.item.label);
                     return false;
                 },
                 minLength: 2
             });
 
+            // =====================================================
             // AUTOCOMPLETE VENDEDOR
+            // =====================================================
             $("#txtVendedor").autocomplete({
-                source: (r, s) =>
-                    $.getJSON("/api/clientes/vendedores", { termo: r.term }, s),
-                select: (e, ui) => {
+                source: function (request, response) {
+                    $.getJSON("/api/clientes/vendedores", { termo: request.term }, response);
+                },
+                select: function (event, ui) {
                     $("#VendedorID").val(ui.item.id);
+                    $("#txtVendedor").val(ui.item.label);
+                    return false;
                 },
                 minLength: 2
             });
 
+            // =====================================================
             // AUTOCOMPLETE PRODUTO
+            // =====================================================
             $("#txtProduto").autocomplete({
-                source: (r, s) =>
-                    $.getJSON("/api/produtos/buscar", { termo: r.term }, s),
-                select: (e, ui) => {
+                source: function (request, response) {
+                    $.getJSON("/api/produtos/buscar", { termo: request.term }, response);
+                },
+                select: function (event, ui) {
+
                     $("#ProdutoID").val(ui.item.id);
+                    $("#txtProduto").val(ui.item.label);
                     $("#PrecoUnitario").val(ui.item.preco.toFixed(2));
                     $("#txtProduto").data("estoque", ui.item.estoque);
+
                     return false;
                 },
                 minLength: 2
             });
 
-            // ADICIONAR ITEM
+            // =====================================================
+            // ADICIONAR ITEM AO GRID
+            // =====================================================
             $("#btnAdicionar").click(function () {
 
                 const produtoId = +$("#ProdutoID").val();
-                const nome = $("#txtProduto").val();
-                const qtd = +$("#Quantidade").val();
+                const produtoNome = $("#txtProduto").val();
+                const quantidade = +$("#Quantidade").val();
                 const preco = +$("#PrecoUnitario").val();
+                const estoque = +$("#txtProduto").data("estoque");
 
-                if (!produtoId || qtd <= 0 || preco <= 0) {
-                    alert("Produto inválido.");
+                if (!produtoId || quantidade <= 0 || quantidade > estoque) {
+                    alert("Produto inválido ou estoque insuficiente.");
                     return;
                 }
 
-                const existente = itens.find(i => i.produtoId === produtoId);
+                const itemExistente = itens.find(i => i.produtoId === produtoId);
 
-                if (existente) {
-                    existente.quantidade += qtd;
-                    existente.subtotal = existente.quantidade * existente.preco;
+                if (itemExistente) {
+                    itemExistente.quantidade += quantidade;
+                    itemExistente.subtotal =
+                        itemExistente.quantidade * itemExistente.preco;
                 } else {
                     itens.push({
                         produtoId,
-                        nome,
-                        quantidade: qtd,
+                        produtoNome,
+                        quantidade,
                         preco,
-                        subtotal: qtd * preco
+                        subtotal: quantidade * preco
                     });
                 }
 
                 atualizarGrid();
+                limparProdutoEFocar();
             });
 
+            // =====================================================
+            // ATUALIZA GRID DE ITENS + TOTAL
+            // =====================================================
             function atualizarGrid() {
-                let total = 0;
 
-                $("#gridItens").html(itens.map((i, idx) => {
-                    total += i.subtotal;
-                    return `
+                let total = 0;
+                const tbody = $("#gridItens tbody");
+                tbody.empty();
+
+                itens.forEach((item, index) => {
+
+                    total += item.subtotal;
+
+                    tbody.append(`
                         <tr>
-                            <td>${i.nome}</td>
-                            <td>${i.quantidade}</td>
-                            <td>R$ ${i.preco.toFixed(2)}</td>
-                            <td>R$ ${i.subtotal.toFixed(2)}</td>
-                            <td>
+                            <td>${item.produtoNome}</td>
+                            <td class="text-center">${item.quantidade}</td>
+                            <td class="text-end">R$ ${item.preco.toFixed(2)}</td>
+                            <td class="text-end">R$ ${item.subtotal.toFixed(2)}</td>
+                            <td class="text-center">
                                 <button class="btn btn-danger btn-sm"
-                                    onclick="removerItem(${idx})">X</button>
+                                    onclick="removerItem(${index})">
+                                    X
+                                </button>
                             </td>
-                        </tr>`;
-                }));
+                        </tr>
+                    `);
+                });
 
                 $("#TotalVenda").text(total.toFixed(2));
             }
 
-            window.removerItem = function (idx) {
-                itens.splice(idx, 1);
+            // =====================================================
+            // REMOVER ITEM
+            // =====================================================
+            window.removerItem = function (index) {
+                itens.splice(index, 1);
                 atualizarGrid();
             };
 
-            // FINALIZAR VENDA
+            // =====================================================
+            // LIMPAR PRODUTO + FOCAR (UX PROFISSIONAL)
+            // =====================================================
+            function limparProdutoEFocar() {
+
+                $("#ProdutoID").val("");
+                $("#txtProduto").val("").removeData("estoque");
+                $("#PrecoUnitario").val("");
+                $("#Quantidade").val(1);
+
+                // 🔥 FOCO AUTOMÁTICO PARA PRÓXIMO ITEM
+                $("#txtProduto").focus();
+            }
+
+            // =====================================================
+            // BOTÃO FINALIZAR VENDA (ABRE MODAL)
+            // =====================================================
             $("#btnFinalizar").click(function () {
+
+                if (!$("#ClienteID").val()) {
+                    alert("Selecione um cliente válido da lista.");
+                    return;
+                }
+
+                if (!$("#VendedorID").val()) {
+                    alert("Selecione um vendedor válido da lista.");
+                    return;
+                }
+
+                if (itens.length === 0) {
+                    alert("Adicione ao menos um produto.");
+                    return;
+                }
+
                 $("#modalPagamento").modal("show");
+            });
+
+            // =====================================================
+            // MOSTRA / ESCONDE PARCELAS
+            // =====================================================
+            $("#TipoPagamento").change(function () {
+
+                if ($(this).val() === "parcelado") {
+                    gerarParcelas();
+                    $("#areaParcelas").show();
+                } else {
+                    $("#areaParcelas").hide();
+                    $("#gridParcelas tbody").empty();
+                }
+            });
+
+            // =====================================================
+            // GERAR PARCELAS AUTOMATICAMENTE
+            // =====================================================
+           function gerarParcelas() {
+                const qtd = +$("#NumeroParcelas").val();
+                const total = +$("#TotalVenda").text();
+                let data = new Date($("#DataPrimeiroVencimento").val());
+                const valor = (total / qtd).toFixed(2);
+                $("#gridParcelas tbody").empty();
+                for (let i = 1; i <= qtd; i++) {
+                    $("#gridParcelas tbody").append(`<tr><td>${i}</td><td>${data.toISOString().split("T")[0]}</td><td>${valor}</td></tr>`);
+                    data.setMonth(data.getMonth()+1);
+                }
+            }
+
+            // =====================================================
+            // CONFIRMAR PAGAMENTO (ENVIA PARA API)
+            // =====================================================
+            $("#btnConfirmarPagamento").click(function () {
+
+                if (!$("#FormaPgtoID").val()) {
+                    alert("Selecione a forma de pagamento.");
+                    return;
+                }
+
+                const venda = {
+                    clienteID: parseInt($("#ClienteID").val()),
+                    vendedorID: parseInt($("#VendedorID").val()),
+                    formaPgtoID: parseInt($("#FormaPgtoID").val()),
+                    observacoes: "Venda Web",
+                    itens: itens.map(i => ({
+                        produtoID: i.produtoId,
+                        quantidade: i.quantidade,
+                        precoUnitario: i.preco
+                    })),
+                    parcelas: []
+                };
+
+                if ($("#TipoPagamento").val() === "parcelado") {
+                    $("#gridParcelas tbody tr").each(function () {
+                        venda.parcelas.push({
+                            numero: parseInt($(this).find("td:eq(0)").text()),
+                            dataVencimento: $(this).find("td:eq(1)").text(),
+                            valor: parseFloat($(this).find("td:eq(2)").text())
+                        });
+                    });
+                }
+
+                $.ajax({
+                    url: "/api/vendas/finalizar",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(venda),
+                    success: function (res) {
+                        alert("Venda realizada com sucesso! ID: " + res.vendaId);
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        console.error(xhr);
+                        alert(
+                            "ERRO AO FINALIZAR:\n\n" +
+                            (xhr.responseJSON?.erro || xhr.responseText || "Erro desconhecido")
+                        );
+                    }
+                });
+            });
+
+            // =====================================================
+            // CARREGA FORMAS DE PAGAMENTO
+            // =====================================================
+            $.getJSON("/api/formas-pagamento", function (data) {
+
+                const combo = $("#FormaPgtoID");
+                combo.empty();
+                combo.append('<option value="">Selecione</option>');
+
+                data.forEach(f => {
+                    combo.append(`<option value="${f.id}">${f.descricao}</option>`);
+                });
             });
 
         });
     </script>
 }
+
+
