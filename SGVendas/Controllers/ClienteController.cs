@@ -106,6 +106,7 @@ namespace SGVendas.Web.Controllers
             cliente.DataAtualizacao = DateTime.Now;
             _repo.Atualizar(cliente);
 
+
             TempData["Sucesso"] = "Cliente atualizado com sucesso!";
             return RedirectToAction(nameof(Index));
         }
@@ -116,5 +117,15 @@ namespace SGVendas.Web.Controllers
             _repo.Excluir(id);
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public IActionResult BuscarAjax(string termo)
+        {
+            var clientes = string.IsNullOrWhiteSpace(termo)
+                ? _repo.Listar()
+                : _repo.Buscar(termo);
+
+            return PartialView("_TabelaClientes", clientes);
+        }
+
     }
 }

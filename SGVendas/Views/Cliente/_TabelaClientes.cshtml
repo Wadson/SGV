@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SGVendas.Domain.Entities.Cliente>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ClienteID</td>
+                <td>@item.Nome</td>
+                <td>@item.Cpf</td>
+                <td>@item.Telefone</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.ClienteID">Editar</a> |
+                    <a asp-action="Excluir" asp-route-id="@item.ClienteID"
+                       onclick="return confirm('Confirma exclusão?')">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

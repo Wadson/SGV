@@ -10,7 +10,7 @@
     
     <!-- ID OCULTO (ESSENCIAL PARA EDIÇÃO) -->
     <input type="hidden" asp-for="ClienteID" />
-
+    <input type="hidden" asp-for="DataCriacao" />
 
     <!-- IDENTIFICAÇÃO (OBRIGATÓRIO) -->
     <fieldset class="border p-3 mb-3">
@@ -161,14 +161,22 @@
 
 @section Scripts {
     <script>
-        // Alterna PF / PJ
-        document.getElementById('TipoCliente').addEventListener('change', function () {
+         function ajustarCamposTipoCliente() {
+            const tipo = document.getElementById('TipoCliente').value;
+
             document.getElementById('PessoaFisica').style.display =
-                this.value === 'FISICA' ? 'block' : 'none';
+                tipo === 'FISICA' ? 'block' : 'none';
 
             document.getElementById('PessoaJuridica').style.display =
-                this.value === 'JURIDICA' ? 'block' : 'none';
-        });
+                tipo === 'JURIDICA' ? 'block' : 'none';
+        }
+
+        // Quando mudar manualmente
+        document.getElementById('TipoCliente')
+            .addEventListener('change', ajustarCamposTipoCliente);
+
+        // 🔥 QUANDO A PÁGINA CARREGAR (EDIÇÃO)
+        document.addEventListener('DOMContentLoaded', ajustarCamposTipoCliente);
 
         // Busca CEP
         document.getElementById("Cep").addEventListener("blur", function () {

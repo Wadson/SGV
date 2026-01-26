@@ -132,8 +132,6 @@ C:\SGV\SGVendas\obj\Debug\net10.0\compressed\4ae5t31uq4-{0}-2z0ns9nrw6-2z0ns9nrw
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\vt4jz4gduv-{0}-muycvpuwrr-muycvpuwrr.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\c6lzisz7xg-{0}-87fc7y1x7t-87fc7y1x7t.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\zl9cuckhyl-{0}-mlv21k5csn-mlv21k5csn.gz
-C:\SGV\SGVendas\obj\Debug\net10.0\compressed\p95ru7wmq4-{0}-9re60m9d45-9re60m9d45.gz
-C:\SGV\SGVendas\obj\Debug\net10.0\compressed\lwsy0izfpr-{0}-9re60m9d45-9re60m9d45.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\staticwebassets.build.json
 C:\SGV\SGVendas\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\SGV\SGVendas\obj\Debug\net10.0\staticwebassets.development.json
@@ -146,3 +144,6 @@ C:\SGV\SGVendas\obj\Debug\net10.0\refint\SGVendas.dll
 C:\SGV\SGVendas\obj\Debug\net10.0\SGVendas.pdb
 C:\SGV\SGVendas\obj\Debug\net10.0\SGVendas.genruntimeconfig.cache
 C:\SGV\SGVendas\obj\Debug\net10.0\ref\SGVendas.dll
+C:\SGV\SGVendas\obj\Debug\net10.0\scopedcss\Views\Shared\_LayoutSistema.cshtml.rz.scp.css
+C:\SGV\SGVendas\obj\Debug\net10.0\compressed\p95ru7wmq4-{0}-614g74yz78-614g74yz78.gz
+C:\SGV\SGVendas\obj\Debug\net10.0\compressed\lwsy0izfpr-{0}-614g74yz78-614g74yz78.gz

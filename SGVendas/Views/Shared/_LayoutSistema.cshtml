@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - SGVendas</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery UI -->
+    <link rel="stylesheet"
+          href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .ui-autocomplete {
+            z-index: 1055 !important;
+        }
+    </style>
+
+    @RenderSection("Styles", false)
+</head>
+<body>
+
+    <!-- MENU SUPERIOR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="/">SGVendas</a>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/Venda">Vendas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Cliente">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Produto">Produtos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Fornecedor">Fornecedores</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO -->
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

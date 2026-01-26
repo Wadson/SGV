@@ -38,4 +38,16 @@ public class ClienteCadastroRepository : IClienteCadastroRepository
             _context.SaveChanges();
         }
     }
+    public IEnumerable<Cliente> Buscar(string termo)
+    {
+        return _context.Clientes
+            .Where(c =>
+                c.Nome.Contains(termo) ||
+                c.Cpf.Contains(termo) ||
+                c.Cnpj.Contains(termo))
+            .OrderBy(c => c.Nome)
+            .Take(20)
+            .ToList();
+    }
+
 }
