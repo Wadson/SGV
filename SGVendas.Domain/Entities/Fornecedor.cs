@@ -31,5 +31,5 @@ public class Fornecedor
 
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
-    public virtual ICollection<Produto> Produtos { get; set; } = new List<Produto>();
+    public virtual ICollection<Produto> Produto { get; set; } = new List<Produto>();
 }

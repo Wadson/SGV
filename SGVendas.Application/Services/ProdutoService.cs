@@ -13,24 +13,63 @@ namespace SGVendas.Application.Services
             _repository = repository;
         }
 
+        // 📄 LISTAGEM
         public IEnumerable<ProdutoDto> Listar()
         {
             return _repository.Listar()
-                .Select(p => MapToDto(p));
+                .Select(MapToDto);
         }
 
+        // 🔎 PESQUISA PARCIAL (TELA DE PRODUTOS)
+        public IEnumerable<ProdutoDto> Pesquisar(string termo)
+        {
+            var query = _repository.Query();
+
+            if (!string.IsNullOrWhiteSpace(termo))
+            {
+                termo = termo.Trim();
+
+                query = query.Where(p =>
+                    p.NomeProduto.Contains(termo) ||
+                    (p.Referencia != null && p.Referencia.Contains(termo)) ||
+                    (p.GtinEan != null && p.GtinEan.Contains(termo))
+                );
+            }
+
+            return query
+                .Select(p => new ProdutoDto
+                {
+                    ProdutoID = p.ProdutoID,
+                    NomeProduto = p.NomeProduto,
+                    PrecoDeVenda = p.PrecoDeVenda,
+                    Estoque = p.Estoque,
+                    Status = p.Status
+                })
+                .ToList(); // ✅ EXECUTA SÓ AQUI
+        }
+
+
+        // 🔍 AUTOCOMPLETE (VENDA)
+        public IEnumerable<Produto> BuscarProdutos(string termo)
+        {
+            return _repository.BuscarProdutos(termo);
+        }
+
+        // 🔎 OBTER POR ID
         public ProdutoDto? ObterPorId(int id)
         {
             var produto = _repository.ObterPorId(id);
             return produto == null ? null : MapToDto(produto);
         }
 
+        // ➕ CRIAR
         public void Criar(ProdutoDto dto)
         {
             var produto = MapToEntity(dto);
             _repository.Add(produto);
         }
 
+        // ✏️ ATUALIZAR
         public void Atualizar(int id, ProdutoDto dto)
         {
             var produto = _repository.ObterPorId(id);
@@ -41,24 +80,15 @@ namespace SGVendas.Application.Services
             _repository.Atualizar(produto);
         }
 
+        // ❌ EXCLUIR
         public void Excluir(int id)
         {
             _repository.Excluir(id);
         }
 
-        public IEnumerable<ProdutoDto> BuscarProdutos(string termo)
-        {
-            return _repository.BuscarProdutos(termo)
-                .Select(p => new ProdutoDto
-                {
-                    ProdutoID = p.ProdutoID,
-                    NomeProduto = p.NomeProduto,
-                    PrecoDeVenda = p.PrecoDeVenda,
-                    Estoque = p.Estoque
-                });
-        }
-
-        // 🔽 Mapeamentos (sem AutoMapper por enquanto)
+        // =========================
+        // 🔽 MAPEAMENTOS MANUAIS
+        // =========================
 
         private static ProdutoDto MapToDto(Produto p) => new()
         {

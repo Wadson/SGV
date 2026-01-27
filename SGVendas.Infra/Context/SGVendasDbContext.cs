@@ -22,7 +22,7 @@ namespace SGVendas.Infra.Context
         public DbSet<Cliente> Clientes => Set<Cliente>();
         public DbSet<Venda> Vendas => Set<Venda>();    
         public DbSet<Parcela> Parcelas => Set<Parcela>();       
-        public DbSet<Produto> Produtos => Set<Produto>();
+        public DbSet<Produto> Produto => Set<Produto>();
         public DbSet<FormaPagamento> FormaPagamento => Set<FormaPagamento>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,11 +43,16 @@ namespace SGVendas.Infra.Context
                       .IsRequired(false);
             });
 
+            // 🔴 CORREÇÃO PARA TABELA PRODUTOS COM TRIGGER (NÃO QUEBRA NADA)
+            modelBuilder.Entity<Produto>()
+                .ToTable(tb => tb.UseSqlOutputClause(false));
+
             // Aplica automaticamente todos os mapeamentos da pasta Mappings
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SGVendasDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
         }
+
 
 
     }

@@ -81,7 +81,7 @@
   {
     "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
     "Method": "Listar",
-    "RelativePath": "api/produtos",
+    "RelativePath": "api/produto",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -91,7 +91,7 @@
   {
     "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
     "Method": "Create",
-    "RelativePath": "api/produtos",
+    "RelativePath": "api/produto",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -107,7 +107,23 @@
   {
     "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
     "Method": "Buscar",
-    "RelativePath": "api/produtos/buscar",
+    "RelativePath": "api/produto/buscar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "termo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "Method": "Pesquisar",
+    "RelativePath": "api/produto/pesquisar",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

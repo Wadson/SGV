@@ -13,55 +13,78 @@ namespace SGVendas.Infra.Repositories
         {
             _context = context;
         }
+        public IEnumerable<Produto> Listar()
+        {
+            return _context.Produto
+                .AsNoTracking()
+                .OrderBy(p => p.NomeProduto)
+                .ToList();
+        }
 
         public IEnumerable<Produto> BuscarProdutos(string termo)
         {
-           
-               return _context.Produtos
-                .Where(p =>
-                (p.Status == "Disponível" || p.Status == "Em Produção") &&
-                p.NomeProduto.Contains(termo))
+            if (string.IsNullOrWhiteSpace(termo))
+                return Enumerable.Empty<Produto>();
 
+            return _context.Produto
+                .Where(p =>
+                    (p.Status == "Disponível" || p.Status == "Em Produção") &&
+                    p.NomeProduto.Contains(termo))
                 .OrderBy(p => p.NomeProduto)
                 .Take(10)
                 .ToList();
         }
 
+        public IEnumerable<Produto> Pesquisar(string termo)
+        {
+            var query = _context.Produto
+                .AsNoTracking()
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(termo))
+            {
+                query = query.Where(p =>
+                    EF.Functions.Like(p.NomeProduto, $"%{termo}%"));
+            }
+
+            return query
+                .OrderBy(p => p.NomeProduto)
+                .ToList();
+        }
+
         public Produto? ObterPorId(int produtoId)
         {
-            return _context.Produtos
+            return _context.Produto
                 .FirstOrDefault(p => p.ProdutoID == produtoId);
-        }   
-
-
-
+        }
 
         // 🔽 Métodos adicionais (necessários para o Service)
 
-        public IEnumerable<Produto> Listar()
+        public IQueryable<Produto> Query()
         {
-            return _context.Produtos
+            return _context.Produto
                 .AsNoTracking()
-                .OrderBy(p => p.NomeProduto)
-                .ToList();
-        }       
+                .OrderBy(p => p.NomeProduto);
+        }
+
         public void Add(Produto produto)
         {
-            _context.Produtos.Add(produto);
+            _context.Produto.Add(produto);
             _context.SaveChanges();
         }
+
         public void Atualizar(Produto produto)
         {
-            _context.Produtos.Update(produto);
+            _context.Produto.Update(produto);
             _context.SaveChanges();
         }
 
         public void Excluir(int produtoId)
         {
-            var produto = _context.Produtos.Find(produtoId);
+            var produto = _context.Produto.Find(produtoId);
             if (produto == null) return;
 
-            _context.Produtos.Remove(produto);
+            _context.Produto.Remove(produto);
             _context.SaveChanges();
         }
     }

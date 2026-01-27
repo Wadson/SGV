@@ -47,7 +47,7 @@
 		// =========================
 		$("#txtProduto").autocomplete({
 			source: function (request, response) {
-				$.getJSON("/api/produtos/buscar", {
+				$.getJSON("/api/produto/buscar", {
 					termo: request.term
 				}, response);
 			},

@@ -27,7 +27,7 @@ public class ProdutoMap : IEntityTypeConfiguration<Produto>
                .IsRequired();
 
         builder.HasOne(p => p.Fornecedor)
-               .WithMany(f => f.Produtos)
+               .WithMany(f => f.Produto)
                .HasForeignKey(p => p.FornecedorID)
                .OnDelete(DeleteBehavior.SetNull);
     }

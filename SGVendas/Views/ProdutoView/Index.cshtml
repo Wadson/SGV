@@ -17,11 +17,20 @@
     <!-- Campo de busca -->
     <div class="row mb-3">
         <div class="col-md-4">
-            <input type="text"
-                   id="txtBusca"
-                   class="form-control"
-                   placeholder="Buscar produto..."
-                   onkeyup="buscarProdutos()" />
+            <div class="input-group">
+                <input type="text"
+                       id="txtBusca"
+                       class="form-control"
+                       placeholder="Buscar produto..." />
+
+                <button class="btn btn-outline-primary"
+                        type="button"
+                        onclick="buscarProdutos()">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+
+
         </div>
     </div>
 
@@ -53,7 +62,7 @@
         });
 
         function carregarProdutos() {
-            fetch('/api/produtos')
+            fetch('/api/produto')
                 .then(response => {
                     if (!response.ok)
                         throw new Error('Erro ao carregar produtos');
@@ -96,7 +105,47 @@
                     </tr>`;
             });
         }
+
+
+        <!-- 🧱 FUNÇÃO DE BUSCA -->
+              document.addEventListener('DOMContentLoaded', function () {
+            carregarProdutos();
+        });
+
+        function carregarProdutos() {
+            fetch('/api/produto')
+                .then(r => r.json())
+                .then(data => montarTabela(data));
+        }
+
+        function buscarProdutos() 
+        {
+            const termo = document.getElementById('txtBusca').value.trim();
+
+            // Se vazio, volta a listar tudo
+            if (termo === '') {
+                carregarProdutos();
+                return;
+            }
+
+            fetch(`/api/produto/pesquisar?termo=${encodeURIComponent(termo)}`)
+                .then(r => r.json())
+                .then(data => montarTabela(data))
+                .catch(() => {
+                    document.getElementById('tbodyProdutos').innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center text-danger">
+                                Erro ao pesquisar produtos
+                            </td>
+                        </tr>`;
+                });
+        }
     </script>
+      
+    
 }
+
+
+
 
 

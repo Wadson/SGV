@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
 
 namespace SGVendas.Web.Controllers
 {
     [ApiController]
-    [Route("api/produtos")]
+    [Route("api/produto")]
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutoService _produtoService;
@@ -30,6 +31,15 @@ namespace SGVendas.Web.Controllers
                 estoque = p.Estoque
             }));
         }
+        
+        // 🔍 PESQUISA DA TELA DE PRODUTOS       
+
+        [HttpGet("pesquisar")]
+        public IActionResult Pesquisar(string termo)
+        {
+            return Ok(_produtoService.Pesquisar(termo));
+        }
+
 
         // 📄 LISTAGEM
         [HttpGet]
@@ -38,6 +48,7 @@ namespace SGVendas.Web.Controllers
             var produtos = _produtoService.Listar();
             return Ok(produtos);
         }
+
 
         // ➕ CADASTRO (API)
         [HttpPost]
