@@ -147,3 +147,5 @@ C:\SGV\SGVendas\obj\Debug\net10.0\ref\SGVendas.dll
 C:\SGV\SGVendas\obj\Debug\net10.0\scopedcss\Views\Shared\_LayoutSistema.cshtml.rz.scp.css
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\p95ru7wmq4-{0}-614g74yz78-614g74yz78.gz
 C:\SGV\SGVendas\obj\Debug\net10.0\compressed\lwsy0izfpr-{0}-614g74yz78-614g74yz78.gz
+C:\SGV\SGVendas\bin\Debug\net10.0\AutoMapper.dll
+C:\SGV\SGVendas\bin\Debug\net10.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

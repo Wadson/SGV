@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "wYFgVOp25UQ=",
+  "dgSpecHash": "6ZUtofbIRRc=",
   "success": true,
   "projectFilePath": "C:\\SGV\\SGVendas\\SGVendas.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\iConnect\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\iConnect\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\iConnect\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\iConnect\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
     "C:\\Users\\iConnect\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",

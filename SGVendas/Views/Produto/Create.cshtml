@@ -1,0 +1,37 @@
+﻿@model SGVendas.Application.DTOs.ProdutoDto
+
+@{
+    ViewData["Title"] = "Cadastrar Produto";
+}
+
+<h2>Cadastrar Produto</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label>Nome</label>
+        <input asp-for="NomeProduto" class="form-control" />
+    </div>
+
+    <div>
+        <label>Referência</label>
+        <input asp-for="Referencia" class="form-control" />
+    </div>
+
+    <div>
+        <label>Preço de Venda</label>
+        <input asp-for="PrecoDeVenda" class="form-control" />
+    </div>
+
+    <div>
+        <label>Estoque</label>
+        <input asp-for="Estoque" class="form-control" />
+    </div>
+
+    <div>
+        <label>Status</label>
+        <input asp-for="Status" class="form-control" />
+    </div>
+
+    <button type="submit">Salvar</button>
+    <a asp-action="Index">Voltar</a>
+</form>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SGVendas.Application.DTOs.ProdutoDto>
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<h2>Produtos</h2>
+
+<form method="get">
+    <input type="text" name="filtro" placeholder="Buscar produto..." />
+    <button type="submit">Buscar</button>
+    <a asp-action="Create">Novo Produto</a>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Produto</th>
+            <th>Referência</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProdutoID</td>
+                <td>@item.NomeProduto</td>
+                <td>@item.Referencia</td>
+                <td>@item.PrecoDeVenda.ToString("C")</td>
+                <td>@item.Estoque</td>
+                <td>@item.Status</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProdutoID">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProdutoID">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

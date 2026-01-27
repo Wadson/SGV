@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
 
 namespace SGVendas.Web.Controllers
@@ -14,6 +15,7 @@ namespace SGVendas.Web.Controllers
             _produtoService = produtoService;
         }
 
+        // 🔍 AUTOCOMPLETE / BUSCA
         [HttpGet("buscar")]
         public IActionResult Buscar(string termo)
         {
@@ -27,6 +29,25 @@ namespace SGVendas.Web.Controllers
                 preco = p.PrecoDeVenda,
                 estoque = p.Estoque
             }));
+        }
+
+        // 📄 LISTAGEM
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            var produtos = _produtoService.Listar();
+            return Ok(produtos);
+        }
+
+        // ➕ CADASTRO (API)
+        [HttpPost]
+        public IActionResult Create([FromBody] ProdutoDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _produtoService.Criar(dto);
+            return Ok();
         }
     }
 }

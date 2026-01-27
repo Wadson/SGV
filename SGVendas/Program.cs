@@ -16,17 +16,18 @@ namespace SGVendas
             builder.Services.AddControllersWithViews();
 
             // Repositórios
+            builder.Services.AddScoped<IClienteCadastroRepository, ClienteCadastroRepository>();
+            builder.Services.AddScoped<IVendaCommandRepository, VendaCommandRepository>();
             builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
             builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-            builder.Services.AddScoped<IVendaRepository, VendaRepository>();
-            builder.Services.AddScoped<IVendaCommandRepository, VendaCommandRepository>();
+            builder.Services.AddScoped<ICidadeRepository, CidadeRepository>();
+            builder.Services.AddScoped<IVendaRepository, VendaRepository>();          
             builder.Services.AddScoped<IClienteService, ClienteService>();
             builder.Services.AddScoped<IProdutoService, ProdutoService>();
-
-            builder.Services.AddScoped<IClienteCadastroRepository, ClienteCadastroRepository>();
-            builder.Services.AddScoped<ICidadeRepository, CidadeRepository>();
-
-
+            
+           
+           
+            
 
 
 

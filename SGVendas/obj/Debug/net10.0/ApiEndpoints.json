@@ -80,6 +80,32 @@
   },
   {
     "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "Method": "Listar",
+    "RelativePath": "api/produtos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "Method": "Create",
+    "RelativePath": "api/produtos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SGVendas.Application.DTOs.ProdutoDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
     "Method": "Buscar",
     "RelativePath": "api/produtos/buscar",
     "HttpMethod": "GET",
