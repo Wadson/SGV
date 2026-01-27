@@ -86,6 +86,7 @@ namespace SGVendas.Application.Services
             _repository.Excluir(id);
         }
 
+
         // =========================
         // 🔽 MAPEAMENTOS MANUAIS
         // =========================

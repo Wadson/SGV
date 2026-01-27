@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SGVendas.Infra")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7000d04e9bf3d8b019cbe9aa261dcfac9bc6ce1a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+945fc2b006c18ee1aec413521c89ea36e21a6750")]
 [assembly: System.Reflection.AssemblyProductAttribute("SGVendas.Infra")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SGVendas.Infra")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

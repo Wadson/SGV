@@ -60,5 +60,16 @@ namespace SGVendas.Web.Controllers
             _produtoService.Criar(dto);
             return Ok();
         }
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, [FromBody] ProdutoDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _produtoService.Atualizar(id, dto);
+            return Ok();
+        }
+
+
     }
 }

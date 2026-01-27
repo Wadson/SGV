@@ -13,10 +13,12 @@ namespace SGVendas.Infra.Repositories
         {
             _context = context;
         }
+       
         public IEnumerable<Produto> Listar()
         {
             return _context.Produto
                 .AsNoTracking()
+                .Where(p => p.Situacao == "Ativo" && p.Status == "Disponível" || p.Status == "Em Produção")
                 .OrderBy(p => p.NomeProduto)
                 .ToList();
         }
@@ -27,9 +29,7 @@ namespace SGVendas.Infra.Repositories
                 return Enumerable.Empty<Produto>();
 
             return _context.Produto
-                .Where(p =>
-                    (p.Status == "Disponível" || p.Status == "Em Produção") &&
-                    p.NomeProduto.Contains(termo))
+                .Where(p => p.Situacao == "Ativo" && p.Status == "Disponível" || p.Status == "Em Produção" && p.NomeProduto.Contains(termo))
                 .OrderBy(p => p.NomeProduto)
                 .Take(10)
                 .ToList();
@@ -37,20 +37,18 @@ namespace SGVendas.Infra.Repositories
 
         public IEnumerable<Produto> Pesquisar(string termo)
         {
-            var query = _context.Produto
+            return _context.Produto
                 .AsNoTracking()
-                .AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(termo))
-            {
-                query = query.Where(p =>
-                    EF.Functions.Like(p.NomeProduto, $"%{termo}%"));
-            }
-
-            return query
+                .Where(p =>
+                    p.Situacao == "Ativo" &&
+                    (string.IsNullOrWhiteSpace(termo) ||
+                     p.NomeProduto.Contains(termo) ||
+                     (p.Referencia != null && p.Referencia.Contains(termo)) ||
+                     (p.GtinEan != null && p.GtinEan.Contains(termo))))
                 .OrderBy(p => p.NomeProduto)
                 .ToList();
         }
+
 
         public Produto? ObterPorId(int produtoId)
         {
@@ -87,5 +85,16 @@ namespace SGVendas.Infra.Repositories
             _context.Produto.Remove(produto);
             _context.SaveChanges();
         }
+        public void Inativar(int produtoId)
+        {
+            var produto = _context.Produto.Find(produtoId);
+            if (produto == null) return;
+
+            produto.Situacao = "Inativo";
+
+            _context.Produto.Update(produto);
+            _context.SaveChanges();
+        }
+
     }
 }

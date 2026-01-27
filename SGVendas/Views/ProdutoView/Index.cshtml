@@ -41,7 +41,8 @@
                 <th>Código</th>
                 <th>Produto</th>
                 <th>Preço</th>
-                <th>Estoque</th>
+                <th>Estoque<th>
+                <th style="width:140px">Ações</th>
             </tr>
         </thead>
         <tbody id="tbodyProdutos">
@@ -95,15 +96,28 @@
                 return;
             }
 
-            produtos.forEach(p => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${p.produtoID}</td>
-                        <td>${p.nomeProduto}</td>
-                        <td>R$ ${p.precoDeVenda.toFixed(2)}</td>
-                        <td>${p.estoque}</td>
-                    </tr>`;
-            });
+                 produtos.forEach(p => { tbody.innerHTML += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.label}</td>
+                    <td>${p.referencia ?? ''}</td>
+                    <td>R$ ${p.preco.toFixed(2)}</td>
+                    <td>${p.estoque}</td>
+                    <td>${p.status}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-warning me-1"
+                                onclick="editarProduto(${p.id})">
+                            ✏️
+                        </button>
+
+                        <button class="btn btn-sm btn-danger"
+                                onclick="excluirProduto(${p.id})">
+                            🗑️
+                        </button>
+                    </td>
+                </tr>            `;
+        });
+
         }
 
 
@@ -140,6 +154,24 @@
                         </tr>`;
                 });
         }
+                function editarProduto(id) { window.location.href = `/ProdutoView/Editar/${id}`; // <-- COLOQUE AQUI
+        }
+                function excluirProduto(id) 
+                {
+                    if (!confirm('Deseja realmente inativar este produto?'))
+                        return;
+
+                    fetch(`/api/produto/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(r => {
+                        if (!r.ok) throw new Error();
+                        buscarProdutos(); // Atualiza a lista após inativar
+                    })
+                    .catch(() => alert('Erro ao inativar produto'));
+        }
+
+
     </script>
       
     
