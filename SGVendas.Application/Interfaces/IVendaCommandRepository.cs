@@ -7,8 +7,9 @@ namespace SGVendas.Application.Interfaces
         Task<int> RegistrarVendaAsync(
             int clienteId,
             int formaPgtoId,
-            int vendedorId,
-            string? observacoes
+            int vendedorId,           
+            string? observacoes,  
+            List<CriarVendaItemDto> itens
         );
 
         Task RegistrarItemAsync(

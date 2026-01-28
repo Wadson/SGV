@@ -1,4 +1,3 @@
-
 +---SGVendas
 ¦   ¦ 
 ¦   ¦                   
@@ -10,7 +9,7 @@
 ¦   ¦       FormaPagamentoApiController.cs
 ¦   ¦       HomeController.cs
 ¦   ¦       ProdutoController.cs
-¦   ¦       ProdutoViewController.cs
+¦   ¦       ProdutoApiController.cs
 ¦   ¦       VendaApiControlle.cs
 ¦   ¦       VendaController.cs
 ¦   ¦       
@@ -34,10 +33,7 @@
 ¦   ¦   ¦       Create.cshtml
 ¦   ¦   ¦       Edit.cshtml
 ¦   ¦   ¦       Index.cshtml
-¦   ¦   ¦       
-¦   ¦   +---ProdutoView
-¦   ¦   ¦       Index.cshtml
-¦   ¦   ¦       Novo.cshtml
+¦   ¦   ¦       Novo.cshtml      
 ¦   ¦   ¦       
 ¦   ¦   +---Shared
 ¦   ¦   ¦       Criar.cshtml
@@ -162,4 +158,3 @@
             ProdutoRepository.cs
             VendaCommandRepository.cs
             VendaRepository.cs
-            

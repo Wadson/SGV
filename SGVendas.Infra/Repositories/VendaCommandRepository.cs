@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
 using SGVendas.Infra.Context;
 
@@ -18,12 +19,21 @@ namespace SGVendas.Infra.Repositories
         // REGISTRA VENDA + ITENS (SP sp_registrar_venda)
         // ======================================================
         public async Task<int> RegistrarVendaAsync(
-           int clienteId,
-           int formaPgtoId,
-           int vendedorId,
-           string? observacoes
-       )
+             int clienteId,
+            int formaPgtoId,
+            int vendedorId,
+            string? observacoes,           
+            List<CriarVendaItemDto> itens)
         {
+            var itensJson = System.Text.Json.JsonSerializer.Serialize(
+                itens.Select(i => new
+                {
+                    ProdutoID = i.ProdutoID,
+                    Quantidade = i.Quantidade,
+                    PrecoUnitario = i.PrecoUnitario
+                })
+            );
+
             var vendaIdParam = new SqlParameter
             {
                 ParameterName = "@VendaID",
@@ -36,54 +46,59 @@ namespace SGVendas.Infra.Repositories
         EXEC sp_registrar_venda
             @ClienteID,
             @FormaPgtoID,
-            @VendedorID,
-            @Observacoes,
-            @VendaID OUTPUT
-        ",
+            @VendedorID,           
+            @Observacoes,            
+            @Itens,
+            @VendaID OUTPUT",
+               
                 new SqlParameter("@ClienteID", clienteId),
                 new SqlParameter("@FormaPgtoID", formaPgtoId),
-                new SqlParameter("@VendedorID", vendedorId),
-                new SqlParameter("@Observacoes", observacoes ?? (object)DBNull.Value),
+                new SqlParameter("@VendedorID", vendedorId),               
+                new SqlParameter("@Observacoes", observacoes ?? (object)DBNull.Value),               
+                new SqlParameter("@Itens", itensJson),
                 vendaIdParam
             );
 
             return (int)vendaIdParam.Value;
         }
 
+           // ======================================================
+        // IMPLEMENTAÇÃO OBRIGATÓRIA DA INTERFACE (LEGACY)
+        // ======================================================
 
-
-
+        // SÓ PARA COMPATIBILIDADE LEGACY, NÃO SERÁ USADO
         public async Task RegistrarItemAsync(
-                                            int vendaId,
-                                            int produtoId,
-                                            int quantidade,
-                                            decimal precoUnitario)
+            int vendaId,
+            int produtoId,
+            int quantidade,
+            decimal precoUnitario)
         {
             await _context.Database.ExecuteSqlRawAsync(
-                @"INSERT INTO ItemVenda
-        (
-            VendaID,
-            ProdutoID,
-            Quantidade,
-            PrecoUnitario,
-            Subtotal
-        )
-        VALUES
-        (
-            @VendaID,
-            @ProdutoID,
-            @Quantidade,
-            @PrecoUnitario,
-            @Subtotal
-        )",
-                new SqlParameter("@VendaID", vendaId),
+                        @"INSERT INTO ItemVenda
+                        (
+                            VendaID,
+                            ProdutoID,
+                            Quantidade,
+                            PrecoUnitario,
+                            Subtotal
+                        )
+                        VALUES
+                        (
+                            @VendaID,
+                            @ProdutoID,
+                            @Quantidade,
+                            @PrecoUnitario,
+                            @Subtotal
+                        )",
+                        new SqlParameter("@VendaID", vendaId),
                 new SqlParameter("@ProdutoID", produtoId),
                 new SqlParameter("@Quantidade", quantidade),
                 new SqlParameter("@PrecoUnitario", precoUnitario),
                 new SqlParameter("@Subtotal", quantidade * precoUnitario)
             );
         }
-       
+
+
         // ======================================================
         // REGISTRA PARCELA (SP OU INSERT DIRETO)
         // ======================================================

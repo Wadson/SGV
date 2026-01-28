@@ -1,6 +1,7 @@
 ﻿using System.Transactions;
 using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
+using System.Text.Json; // Adicione este using no topo do arquivo
 
 public class VendaService : IVendaService
 {
@@ -13,32 +14,36 @@ public class VendaService : IVendaService
 
     public async Task<int> CriarVendaAsync(CriarVendaDto dto)
     {
-        using var scope = new TransactionScope(
-            TransactionScopeAsyncFlowOption.Enabled
-        );
+        if (dto.Itens == null || !dto.Itens.Any())
+            throw new Exception("A venda deve possuir itens.");
 
-        // 1️⃣ VENDA
-        var vendaId = await _command.RegistrarVendaAsync(
-            dto.ClienteID,
-            dto.FormaPgtoID,
-            dto.VendedorID,
-            dto.Observacoes
-        );
         if (dto.FormaPgtoID <= 0)
             throw new Exception("Forma de pagamento inválida.");
 
-        // 2️⃣ ITENS
+        // Serializa os itens para JSON conforme esperado pelo repositório
+        var itensJson = JsonSerializer.Serialize(dto.Itens);
+
+        var vendaId = await _command.RegistrarVendaAsync(
+          dto.ClienteID,
+          dto.FormaPgtoID,
+          dto.VendedorID,
+          dto.Observacoes,
+          dto.Itens // ✅ PASSA OS ITENS REAIS
+
+
+      );
+        // 🔥 BAIXAR ESTOQUE PRODUTO A PRODUTO
         foreach (var item in dto.Itens)
         {
-            await _command.RegistrarItemAsync(
-                vendaId,
+            await _command.BaixarEstoqueAsync(
                 item.ProdutoID,
-                item.Quantidade,
-                item.PrecoUnitario
+                item.Quantidade
             );
         }
 
-        // 3️⃣ PARCELAS
+
+
+        // Parcelas continuam fora da SP (regra financeira)
         if (dto.Parcelas != null)
         {
             foreach (var p in dto.Parcelas)
@@ -52,29 +57,7 @@ public class VendaService : IVendaService
             }
         }
 
-        decimal totalVenda = 0;
-
-        // 2️⃣ ITENS
-        foreach (var item in dto.Itens)
-        {
-            totalVenda += item.Quantidade * item.PrecoUnitario;
-
-            await _command.RegistrarItemAsync(
-                vendaId,
-                item.ProdutoID,
-                item.Quantidade,
-                item.PrecoUnitario);
-
-                 // 🔥 BAIXA ESTOQUE
-            await _command.BaixarEstoqueAsync(
-                item.ProdutoID,
-                item.Quantidade);
-        }
-
-        // 🔥 ATUALIZA TOTAL DA VENDA
-        await _command.AtualizarValorTotalAsync(vendaId, totalVenda);
-
-        scope.Complete();
         return vendaId;
     }
+
 }

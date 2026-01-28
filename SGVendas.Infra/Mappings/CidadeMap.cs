@@ -17,9 +17,10 @@ namespace SGVendas.Infra.Mappings
                    .IsRequired();
 
             builder.HasOne(c => c.Estado)
-                   .WithMany()
-                   .HasForeignKey(c => c.EstadoID)
-                   .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany(e => e.Cidades)
+                    .HasForeignKey(c => c.EstadoID)
+                    .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

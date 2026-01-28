@@ -3,22 +3,13 @@
   "WorkspaceRootPath": "C:\\SGV\\SGVendas\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\controllers\\produtoapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:controllers\\produtoapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B79A40F1-53C1-DEFE-788E-24E0F75C6A89}|..\\SGVendas.Application\\SGVendas.Application.csproj|c:\\sgv\\sgvendas.application\\services\\vendaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\controllers\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:controllers\\produtocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B79A40F1-53C1-DEFE-788E-24E0F75C6A89}|..\\SGVendas.Application\\SGVendas.Application.csproj|c:\\sgv\\sgvendas.application\\interfaces\\ivendacommandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4414E522-E632-209E-A6C7-1FF8A8754814}|..\\SGVendas.Infra\\SGVendas.Infra.csproj|c:\\sgv\\sgvendas.infra\\repositories\\produtorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B79A40F1-53C1-DEFE-788E-24E0F75C6A89}|..\\SGVendas.Application\\SGVendas.Application.csproj|c:\\sgv\\sgvendas.application\\services\\produtoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|c:\\sgv\\sgvendas\\views\\produto\\novo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4C652D3F-D91F-5FD8-5AC5-29BFB96253C6}|SGVendas.csproj|solutionrelative:views\\produto\\novo.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{4414E522-E632-209E-A6C7-1FF8A8754814}|..\\SGVendas.Infra\\SGVendas.Infra.csproj|c:\\sgv\\sgvendas.infra\\repositories\\vendacommandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,12 +19,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": 24,
+          "SelectedChildIndex": 22,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:5:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
@@ -112,83 +99,53 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:1061461490:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:2:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+              "Name": "ST:1061461490:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ProdutoApiController.cs",
-              "DocumentMoniker": "C:\\SGV\\SGVendas\\Controllers\\ProdutoApiController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProdutoApiController.cs",
-              "ToolTip": "C:\\SGV\\SGVendas\\Controllers\\ProdutoApiController.cs",
-              "RelativeToolTip": "Controllers\\ProdutoApiController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAADwvz0AAAAnAAAAAAAAAA==",
+              "Title": "VendaService.cs",
+              "DocumentMoniker": "C:\\SGV\\SGVendas.Application\\Services\\VendaService.cs",
+              "RelativeDocumentMoniker": "..\\SGVendas.Application\\Services\\VendaService.cs",
+              "ToolTip": "C:\\SGV\\SGVendas.Application\\Services\\VendaService.cs",
+              "RelativeToolTip": "..\\SGVendas.Application\\Services\\VendaService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAUwCoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T17:02:52.808Z",
+              "WhenOpened": "2026-01-28T19:05:49.282Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ProdutoController.cs",
-              "DocumentMoniker": "C:\\SGV\\SGVendas\\Controllers\\ProdutoController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ProdutoController.cs",
-              "ToolTip": "C:\\SGV\\SGVendas\\Controllers\\ProdutoController.cs",
-              "RelativeToolTip": "Controllers\\ProdutoController.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwA8AAAAkAAAAAAAAAA==",
+              "Title": "IVendaCommandRepository.cs",
+              "DocumentMoniker": "C:\\SGV\\SGVendas.Application\\Interfaces\\IVendaCommandRepository.cs",
+              "RelativeDocumentMoniker": "..\\SGVendas.Application\\Interfaces\\IVendaCommandRepository.cs",
+              "ToolTip": "C:\\SGV\\SGVendas.Application\\Interfaces\\IVendaCommandRepository.cs",
+              "RelativeToolTip": "..\\SGVendas.Application\\Interfaces\\IVendaCommandRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T17:02:38.289Z",
+              "WhenOpened": "2026-01-28T19:03:08.047Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ProdutoRepository.cs",
-              "DocumentMoniker": "C:\\SGV\\SGVendas.Infra\\Repositories\\ProdutoRepository.cs",
-              "RelativeDocumentMoniker": "..\\SGVendas.Infra\\Repositories\\ProdutoRepository.cs",
-              "ToolTip": "C:\\SGV\\SGVendas.Infra\\Repositories\\ProdutoRepository.cs",
-              "RelativeToolTip": "..\\SGVendas.Infra\\Repositories\\ProdutoRepository.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAkwA8AAAAHAAAAAAAAAA==",
+              "Title": "VendaCommandRepository.cs",
+              "DocumentMoniker": "C:\\SGV\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
+              "RelativeDocumentMoniker": "..\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
+              "ToolTip": "C:\\SGV\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
+              "RelativeToolTip": "..\\SGVendas.Infra\\Repositories\\VendaCommandRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T17:02:08.532Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ProdutoService.cs",
-              "DocumentMoniker": "C:\\SGV\\SGVendas.Application\\Services\\ProdutoService.cs",
-              "RelativeDocumentMoniker": "..\\SGVendas.Application\\Services\\ProdutoService.cs",
-              "ToolTip": "C:\\SGV\\SGVendas.Application\\Services\\ProdutoService.cs",
-              "RelativeToolTip": "..\\SGVendas.Application\\Services\\ProdutoService.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAIwF8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T17:01:25.822Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Novo.cshtml",
-              "DocumentMoniker": "C:\\SGV\\SGVendas\\Views\\Produto\\Novo.cshtml",
-              "RelativeDocumentMoniker": "Views\\Produto\\Novo.cshtml",
-              "ToolTip": "C:\\SGV\\SGVendas\\Views\\Produto\\Novo.cshtml",
-              "RelativeToolTip": "Views\\Produto\\Novo.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-28T17:01:05.439Z",
+              "WhenOpened": "2026-01-28T17:54:58.736Z",
               "EditorCaption": ""
             }
           ]
