@@ -41,8 +41,6 @@ public class VendaService : IVendaService
             );
         }
 
-
-
         // Parcelas continuam fora da SP (regra financeira)
         if (dto.Parcelas != null)
         {
