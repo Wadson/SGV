@@ -1,75 +1,49 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SGVendas.Application.DTOs;
 using SGVendas.Application.Interfaces;
+using SGVendas.Application.Services;
 
 namespace SGVendas.Web.Controllers
 {
-    [ApiController]
-    [Route("api/produto")]
-    public class ProdutoController : ControllerBase
+    public class ProdutoController : Controller
     {
+        //private readonly ProdutoService? _produtoService_;
         private readonly IProdutoService _produtoService;
-
         public ProdutoController(IProdutoService produtoService)
         {
             _produtoService = produtoService;
         }
-
-        // 🔍 AUTOCOMPLETE / BUSCA
-        [HttpGet("buscar")]
-        public IActionResult Buscar(string termo)
+        public IActionResult Index()
         {
-            var produtos = _produtoService.BuscarProdutos(termo);
-
-            return Ok(produtos.Select(p => new
-            {
-                id = p.ProdutoID,
-                label = p.NomeProduto,
-                value = p.NomeProduto,
-                preco = p.PrecoDeVenda,
-                estoque = p.Estoque
-            }));
-        }
-        
-        // 🔍 PESQUISA DA TELA DE PRODUTOS       
-
-        [HttpGet("pesquisar")]
-        public IActionResult Pesquisar(string termo)
-        {
-            return Ok(_produtoService.Pesquisar(termo));
+            return View();
         }
 
-
-        // 📄 LISTAGEM
-        [HttpGet]
-        public IActionResult Listar()
+        public IActionResult Novo()
         {
-            var produtos = _produtoService.Listar();
-            return Ok(produtos);
+            return View();
         }
 
+        // ✏️ EDITAR (GET)
+        public IActionResult Edit(int id)
+        {
+            var produto = _produtoService.ObterPorId(id);
 
-        // ➕ CADASTRO (API)
+            if (produto == null)
+                return NotFound();
+
+            return View(produto);
+        }
+
+        // 💾 EDITAR (POST)
         [HttpPost]
-        public IActionResult Create([FromBody] ProdutoDto dto)
+        public IActionResult Edit(ProdutoDto dto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return View(dto);
 
-            _produtoService.Criar(dto);
-            return Ok();
+            _produtoService.Atualizar(dto.ProdutoID, dto);
+            return RedirectToAction(nameof(Index));
         }
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] ProdutoDto dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            _produtoService.Atualizar(id, dto);
-            return Ok();
-        }
-
 
     }
 }

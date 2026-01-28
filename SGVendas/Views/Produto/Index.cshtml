@@ -1,44 +1,624 @@
 ﻿@model IEnumerable<SGVendas.Application.DTOs.ProdutoDto>
-
 @{
-    ViewData["Title"] = "Produtos";
+    ViewData["Title"] = "Gestão de Produtos";
 }
 
-<h2>Produtos</h2>
+<style>
+    .table th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-top: none;
+        color: #6c757d;
+    }
 
-<form method="get">
-    <input type="text" name="filtro" placeholder="Buscar produto..." />
-    <button type="submit">Buscar</button>
-    <a asp-action="Create">Novo Produto</a>
-</form>
+    .table tbody tr {
+        transition: background-color 0.15s ease;
+    }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Produto</th>
-            <th>Referência</th>
-            <th>Preço</th>
-            <th>Estoque</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.ProdutoID</td>
-                <td>@item.NomeProduto</td>
-                <td>@item.Referencia</td>
-                <td>@item.PrecoDeVenda.ToString("C")</td>
-                <td>@item.Estoque</td>
-                <td>@item.Status</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProdutoID">Editar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProdutoID">Excluir</a>
-                </td>
-            </tr>
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
         }
-    </tbody>
-</table>
+
+    .progress {
+        min-width: 60px;
+        max-width: 80px;
+    }
+
+    .badge {
+        font-size: 0.8em;
+        padding: 4px 8px;
+    }
+
+    .input-group .form-control:focus {
+        box-shadow: none;
+        border-color: #dee2e6;
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+
+    /* Loading spinner */
+    .spinner-container {
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Modal para alternância entre modos */
+    .mode-switch {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .mode-badge {
+        cursor: pointer;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+        .mode-badge:hover {
+            transform: scale(1.05);
+        }
+
+    .mode-server {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .mode-api {
+        background-color: #198754;
+        color: white;
+    }
+
+    /* Alternância entre tabelas */
+    #tabelaServerSide {
+        display: none;
+    }
+
+    #tabelaAPISide {
+        display: block;
+    }
+
+    .active-mode #tabelaServerSide {
+        display: table;
+    }
+
+    .active-mode #tabelaAPISide {
+        display: none;
+    }
+</style>
+
+<div class="container-fluid py-4">
+    <!-- Cabeçalho com título e ações -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-bold text-primary mb-1">Gestão de Produtos</h1>
+            <p class="text-muted mb-0">Gerencie seu catálogo de produtos</p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <!-- Botões para ambos os modos -->
+            <a href="/Produto/Novo" class="btn btn-primary btn-lg shadow-sm" id="btnNovoServer">
+                <i class="bi bi-plus-circle me-2"></i>Novo Produto
+            </a>
+            <a href="/Produto/Novo" class="btn btn-primary btn-lg shadow-sm" id="btnNovoAPI" style="display: none;">
+                <i class="bi bi-plus-circle me-2"></i>Novo Produto
+            </a>
+
+            <!-- Alternador de modos (visível apenas para admin/dev) -->
+            <button type="button" class="btn btn-outline-secondary btn-lg" id="toggleMode" title="Alternar modo de carregamento">
+                <i class="bi bi-arrow-repeat"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Card principal -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <!-- Barra de ferramentas para ambos os modos -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-6 col-lg-4">
+                    <!-- Formulário de busca server-side -->
+                    <form method="get" asp-action="Index" id="formBuscaServer" class="d-none">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text"
+                                   name="filtro"
+                                   class="form-control form-control-lg border-start-0"
+                                   placeholder="Buscar produto..."
+                                   value="@Context.Request.Query["filtro"]" />
+                            <button class="btn btn-outline-primary" type="submit">
+                                Buscar
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Busca API-side -->
+                    <div id="buscaAPI">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input type="text"
+                                   id="txtBusca"
+                                   class="form-control form-control-lg border-start-0"
+                                   placeholder="Buscar produto..."
+                                   onkeypress="if(event.key === 'Enter') buscarProdutosAPI()" />
+                            <button class="btn btn-outline-primary"
+                                    type="button"
+                                    onclick="buscarProdutosAPI()"
+                                    title="Buscar produtos">
+                                Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-8 text-md-end mt-3 mt-md-0">
+                    <!-- Contador API-side -->
+                    <div class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-1" id="contadorAPI">
+                        <span class="me-2 text-muted small">Total:</span>
+                        <span id="totalProdutos" class="fw-bold text-primary">0</span>
+                    </div>
+
+                    <!-- Contador server-side -->
+                    <div class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-1 d-none" id="contadorServer">
+                        <span class="me-2 text-muted small">Total:</span>
+                        <span class="fw-bold text-primary">@(Model?.Count() ?? 0)</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela API-side (carregamento via JavaScript) -->
+            <div id="tabelaAPISide">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4" width="100">CÓDIGO</th>
+                                <th>PRODUTO</th>
+                                <th>REFERÊNCIA</th>
+                                <th width="150">PREÇO</th>
+                                <th width="120">ESTOQUE</th>
+                                <th width="120">STATUS</th>
+                                <th width="140" class="text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyProdutos">
+                            <tr>
+                                <td colspan="7" class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Carregando...</span>
+                                    </div>
+                                    <p class="text-muted mt-2 mb-0">Carregando produtos...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela server-side (carregamento via Model) -->
+            <div id="tabelaServerSide">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4" width="100">CÓDIGO</th>
+                                <th>PRODUTO</th>
+                                <th>REFERÊNCIA</th>
+                                <th width="150">PREÇO</th>
+                                <th width="120">ESTOQUE</th>
+                                <th width="120">STATUS</th>
+                                <th width="140" class="text-center">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr class="align-middle">
+                                        <td class="ps-4 fw-semibold text-muted">#@item.ProdutoID</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0">@item.NomeProduto</h6>
+                                                    <small class="text-muted">@item.Marca</small>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.Referencia))
+                                            {
+                                                <span class="badge bg-light text-dark font-monospace">@item.Referencia</span>
+                                            }
+                                            else
+                                            {
+                                                <span>-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold text-success">@item.PrecoDeVenda.ToString("C")</span>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var estoque = item.Estoque;
+                                                var percentual = Math.Min((estoque / 100.0) * 100, 100);
+                                                var progressClass = estoque < 20 ? "bg-danger" : estoque < 50 ? "bg-warning" : "bg-success";
+                                            }
+                                            <div class="d-flex align-items-center">
+                                                <span class="me-2">@estoque</span>
+                                                <div class="progress flex-grow-1" style="height: 4px;">
+                                                    <div class="progress-bar @progressClass" style="width: @percentual%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var statusBadgeClass = item.Status == "Inativo" ? "bg-danger" : "bg-success";
+                                            }
+                                            <span class="badge @statusBadgeClass">@item.Status</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a href="/Produto/Edit/@item.ProdutoID"
+                                                   class="btn btn-outline-primary"
+                                                   title="Editar">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button"
+                                                        class="btn btn-outline-danger"
+                                                        onclick="excluirProdutoServer(@item.ProdutoID, '@item.NomeProduto.Replace("'", "\\'")')"
+                                                        title="Inativar">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center py-5">
+                                        <div class="py-4">
+                                            <i class="bi bi-box-seam display-6 text-muted mb-3"></i>
+                                            <h5 class="text-muted">Nenhum produto encontrado</h5>
+                                            <p class="text-muted mb-0">Cadastre seu primeiro produto clicando em "Novo Produto"</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alternador de modos flutuante -->
+<div class="mode-switch">
+    <span class="mode-badge mode-api" id="modeIndicator">
+        <i class="bi bi-lightning-charge me-1"></i> Modo API
+    </span>
+</div>
+
+<script>
+    // Estado global para controlar o modo
+    let modoAtual = 'api'; // 'api' ou 'server'
+    let modoInicializado = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Inicializa no modo API por padrão
+        inicializarModoAPI();
+
+        // Alternador de modos
+        document.getElementById('toggleMode').addEventListener('click', alternarModo);
+        document.getElementById('modeIndicator').addEventListener('click', alternarModo);
+
+        // Verifica se há parâmetro de busca no server-side
+        const filtro = '@Context.Request.Query["filtro"]';
+        if (filtro) {
+            // Se houver filtro, força modo server-side
+            alternarModo('server');
+        }
+    });
+
+    function alternarModo(modoForcado = null) {
+        if (modoForcado) {
+            modoAtual = modoForcado;
+        } else {
+            modoAtual = modoAtual === 'api' ? 'server' : 'api';
+        }
+
+        if (modoAtual === 'api') {
+            // Modo API
+            document.body.classList.remove('active-mode');
+            document.getElementById('formBuscaServer').classList.add('d-none');
+            document.getElementById('buscaAPI').style.display = 'block';
+            document.getElementById('contadorAPI').style.display = 'flex';
+            document.getElementById('contadorServer').classList.add('d-none');
+            document.getElementById('btnNovoServer').style.display = 'none';
+            document.getElementById('btnNovoAPI').style.display = 'block';
+            document.getElementById('modeIndicator').className = 'mode-badge mode-api';
+            document.getElementById('modeIndicator').innerHTML = '<i class="bi bi-lightning-charge me-1"></i> Modo API';
+
+            if (!modoInicializado) {
+                inicializarModoAPI();
+            }
+        } else {
+            // Modo Server
+            document.body.classList.add('active-mode');
+            document.getElementById('formBuscaServer').classList.remove('d-none');
+            document.getElementById('buscaAPI').style.display = 'none';
+            document.getElementById('contadorAPI').style.display = 'none';
+            document.getElementById('contadorServer').classList.remove('d-none');
+            document.getElementById('btnNovoServer').style.display = 'block';
+            document.getElementById('btnNovoAPI').style.display = 'none';
+            document.getElementById('modeIndicator').className = 'mode-badge mode-server';
+            document.getElementById('modeIndicator').innerHTML = '<i class="bi bi-server me-1"></i> Modo Server';
+        }
+
+        modoInicializado = true;
+    }
+
+    // Funções do modo API
+    function inicializarModoAPI() {
+        carregarProdutosAPI();
+
+        // Debounce na busca
+        let timeoutBusca;
+        document.getElementById('txtBusca').addEventListener('input', (e) => {
+            clearTimeout(timeoutBusca);
+            timeoutBusca = setTimeout(() => {
+                if (e.target.value.trim() !== '') {
+                    buscarProdutosAPI();
+                } else {
+                    carregarProdutosAPI();
+                }
+            }, 500);
+        });
+    }
+
+    function carregarProdutosAPI() {
+        const tbody = document.getElementById('tbodyProdutos');
+        if (!tbody) return;
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </td>
+            </tr>`;
+
+        fetch('/api/produto')
+            .then(response => {
+                if (!response.ok) throw new Error('Erro na rede');
+                return response.json();
+            })
+            .then(data => {
+                montarTabelaAPI(data);
+                atualizarContadorAPI(data);
+            })
+            .catch(err => {
+                console.error('Erro:', err);
+                showErrorAPI('Erro ao carregar produtos. Tente novamente.');
+            });
+    }
+
+    function buscarProdutosAPI() {
+        const termo = document.getElementById('txtBusca').value.trim();
+        const tbody = document.getElementById('tbodyProdutos');
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                </td>
+            </tr>`;
+
+        let url = '/api/produto';
+        if (termo) {
+            url = `/api/produto/pesquisar?termo=${encodeURIComponent(termo)}`;
+        }
+
+        fetch(url)
+            .then(r => {
+                if (!r.ok) throw new Error('Erro na busca');
+                return r.json();
+            })
+            .then(data => {
+                montarTabelaAPI(data);
+                atualizarContadorAPI(data);
+            })
+            .catch(() => {
+                showErrorAPI('Erro ao pesquisar produtos');
+            });
+    }
+
+    function montarTabelaAPI(produtos) {
+        const tbody = document.getElementById('tbodyProdutos');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        if (!produtos || produtos.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center py-5">
+                        <div class="py-4">
+                            <i class="bi bi-box-seam display-6 text-muted mb-3"></i>
+                            <h5 class="text-muted">Nenhum produto encontrado</h5>
+                            <p class="text-muted mb-0">Cadastre seu primeiro produto clicando em "Novo Produto"</p>
+                        </div>
+                    </td>
+                </tr>`;
+            return;
+        }
+
+        produtos.forEach(p => {
+            const estoque = p.estoque || 0;
+            const maxEstoque = 100;
+            const percentual = Math.min((estoque / maxEstoque) * 100, 100);
+            let progressBarClass = 'progress-bar';
+
+            if (percentual < 20) progressBarClass += ' bg-danger';
+            else if (percentual < 50) progressBarClass += ' bg-warning';
+            else progressBarClass += ' bg-success';
+
+            const statusBadge = p.status === 'Inativo'
+                ? '<span class="badge bg-danger">Inativo</span>'
+                : '<span class="badge bg-success">Ativo</span>';
+
+            const referencia = p.referencia ? `<span class="badge bg-light text-dark font-monospace">${p.referencia}</span>` : '-';
+            const precoFormatado = parseFloat(p.precoDeVenda).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            tbody.innerHTML += `
+                <tr class="align-middle">
+                    <td class="ps-4 fw-semibold text-muted">#${p.produtoID}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">${p.nomeProduto}</h6>
+                                <small class="text-muted">${p.marca || ''}</small>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td>${referencia}</td>
+                    <td>
+                        <span class="fw-bold text-success">${precoFormatado}</span>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2">${estoque}</span>
+                            <div class="progress flex-grow-1" style="height: 4px;">
+                                <div class="${progressBarClass}" style="width: ${percentual}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${statusBadge}</td>
+                    <td class="text-center">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary"
+                                    onclick="editarProdutoAPI(${p.produtoID})"
+                                    title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-danger"
+                                    onclick="excluirProdutoAPI(${p.produtoID}, '${p.nomeProduto.replace(/'/g, "\\'")}')"
+                                    title="Inativar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`;
+        });
+    }
+
+    function editarProdutoAPI(id) {
+       window.location.href = `/Produto/Edit/${id}`;
+    }
+
+    function excluirProdutoAPI(id, nomeProduto) {
+        if (!confirm(`Deseja realmente inativar o produto "${nomeProduto}"?`)) {
+            return;
+        }
+
+        fetch(`/api/produto/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(r => {
+            if (!r.ok) throw new Error('Erro ao inativar');
+            alert('✅ Produto inativado com sucesso!');
+            buscarProdutosAPI();
+        })
+        .catch(() => {
+            alert('❌ Erro ao inativar produto');
+        });
+    }
+
+    function showErrorAPI(message) {
+        const tbody = document.getElementById('tbodyProdutos');
+        if (!tbody) return;
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center py-5">
+                    <i class="bi bi-exclamation-triangle text-danger display-6 mb-3"></i>
+                    <h5 class="text-danger">${message}</h5>
+                    <button class="btn btn-outline-primary mt-3" onclick="carregarProdutosAPI()">
+                        Tentar novamente
+                    </button>
+                </td>
+            </tr>`;
+    }
+
+    function atualizarContadorAPI(produtos) {
+        const total = produtos?.length || 0;
+        const elemento = document.getElementById('totalProdutos');
+        if (elemento) {
+            elemento.textContent = total;
+        }
+    }
+
+    // Funções do modo Server (para uso na tabela server-side)
+    function excluirProdutoServer(id, nomeProduto) {
+        if (!confirm(`Deseja realmente excluir o produto "${nomeProduto}"?`)) {
+            return;
+        }
+
+        // Você pode implementar uma chamada AJAX aqui ou redirecionar para a ação Delete
+        // Exemplo com fetch:
+        fetch(`/Produto/Delete/${id}`, {
+            method: 'POST',
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Erro ao excluir produto');
+            }
+        })
+        .catch(() => {
+            alert('Erro ao excluir produto');
+        });
+    }
+
+    // Inicializa automaticamente se detectar filtro
+    @if (!string.IsNullOrEmpty(Context.Request.Query["filtro"]))
+    {
+            <text>
+            document.addEventListener('DOMContentLoaded', function() {
+                alternarModo('server');
+            });
+            </text>
+    }
+</script>

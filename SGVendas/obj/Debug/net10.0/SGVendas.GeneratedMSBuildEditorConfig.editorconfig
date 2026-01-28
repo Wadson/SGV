@@ -42,14 +42,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/SGV/SGVendas/Views/ProdutoView/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1ZpZXdcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/SGV/SGVendas/Views/ProdutoView/Novo.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1ZpZXdcTm92by5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/SGV/SGVendas/Views/Produto/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -60,6 +52,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/SGV/SGVendas/Views/Produto/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SGV/SGVendas/Views/Produto/Novo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHV0b1xOb3ZvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/SGV/SGVendas/Views/Shared/Criar.cshtml]

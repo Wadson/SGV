@@ -24,10 +24,12 @@ namespace SGVendas
             builder.Services.AddScoped<IVendaRepository, VendaRepository>();          
             builder.Services.AddScoped<IClienteService, ClienteService>();
             builder.Services.AddScoped<IProdutoService, ProdutoService>();
+
             
-           
-           
-            
+
+
+
+
 
 
 

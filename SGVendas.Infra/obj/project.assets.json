@@ -3694,8 +3694,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\wadso\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\iConnect\\.nuget\\packages\\": {},
+    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3703,14 +3703,14 @@
       "projectUniqueName": "C:\\SGV\\SGVendas.Infra\\SGVendas.Infra.csproj",
       "projectName": "SGVendas.Infra",
       "projectPath": "C:\\SGV\\SGVendas.Infra\\SGVendas.Infra.csproj",
-      "packagesPath": "C:\\Users\\wadso\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\iConnect\\.nuget\\packages\\",
       "outputPath": "C:\\SGV\\SGVendas.Infra\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\wadso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\iConnect\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

@@ -1,0 +1,165 @@
+
++---SGVendas
+¦   ¦ 
+¦   ¦                   
+¦   +---Controllers
+¦   ¦       CidadeController.cs
+¦   ¦       ClienteApiController.cs
+¦   ¦       ClienteController.cs
+¦   ¦       EnderecoController.cs
+¦   ¦       FormaPagamentoApiController.cs
+¦   ¦       HomeController.cs
+¦   ¦       ProdutoController.cs
+¦   ¦       ProdutoViewController.cs
+¦   ¦       VendaApiControlle.cs
+¦   ¦       VendaController.cs
+¦   ¦       
+¦   +---Models
+¦   ¦       ErrorViewModel.cs
+¦   ¦      
+¦   +---Views
+¦   ¦   ¦   _ViewImports.cshtml
+¦   ¦   ¦   _ViewStart.cshtml
+¦   ¦   ¦   
+¦   ¦   +---Cliente
+¦   ¦   ¦       Criar.cshtml
+¦   ¦   ¦       Index.cshtml
+¦   ¦   ¦       _TabelaClientes.cshtml
+¦   ¦   ¦       
+¦   ¦   +---Home
+¦   ¦   ¦       Index.cshtml
+¦   ¦   ¦       Privacy.cshtml
+¦   ¦   ¦       
+¦   ¦   +---Produto
+¦   ¦   ¦       Create.cshtml
+¦   ¦   ¦       Edit.cshtml
+¦   ¦   ¦       Index.cshtml
+¦   ¦   ¦       
+¦   ¦   +---ProdutoView
+¦   ¦   ¦       Index.cshtml
+¦   ¦   ¦       Novo.cshtml
+¦   ¦   ¦       
+¦   ¦   +---Shared
+¦   ¦   ¦       Criar.cshtml
+¦   ¦   ¦       Error.cshtml
+¦   ¦   ¦       _Layout.cshtml
+¦   ¦   ¦       _Layout.cshtml.css
+¦   ¦   ¦       _LayoutSistema.cshtml
+¦   ¦   ¦       _LayoutSistema.cshtml.css
+¦   ¦   ¦       _ValidationScriptsPartial.cshtml
+¦   ¦   ¦       
+¦   ¦   +---Venda
+¦   ¦           Index.cshtml
+¦   ¦  
++---SGVendas.Application
+¦   ¦   SGVendas.Application.csproj
+¦   ¦  
+¦   ¦               
+¦   +---Common
+¦   ¦       IBaseService.cs
+¦   ¦       
+¦   +---DTOs
+¦   ¦       ClienteDto.cs
+¦   ¦       CriarClienteDto.cs
+¦   ¦       CriarVendaDto.cs
+¦   ¦       EmpresaDto.cs
+¦   ¦       FornecedorDto.cs
+¦   ¦       ItemVendaDto.cs
+¦   ¦       ItensPedidoDto.cs
+¦   ¦       MovimentacaoEstoqueDto.cs
+¦   ¦       PagamentoParcialDto.cs
+¦   ¦       PedidoDto.cs
+¦   ¦       ProdutoDto.cs
+¦   ¦       VendaDto.cs
+¦   ¦       
+¦   +---Interfaces
+¦   ¦       ICidadeRepository.cs
+¦   ¦       IClienteCadastroRepository.cs
+¦   ¦       IClienteRepository.cs
+¦   ¦       IClienteService.cs
+¦   ¦       IEmpresaRepository.cs
+¦   ¦       IEmpresaService.cs
+¦   ¦       IFornecedorService.cs
+¦   ¦       IMovimentacaoEstoqueService.cs
+¦   ¦       IPagamentoParcialService.cs
+¦   ¦       IPedidoService.cs
+¦   ¦       IProdutoRepository.cs
+¦   ¦       IProdutoService.cs
+¦   ¦       IVendaCommandRepository.cs
+¦   ¦       IVendaRepository.cs
+¦   ¦       IVendaService.cs
+¦   ¦       
+¦   ¦                   
+¦   +---Services
+¦           ClienteService.cs
+¦           EmpresaService.cs
+¦           FornecedorService.cs
+¦           MovimentacaoEstoqueService.cs
+¦           PagamentoParcialService.cs
+¦           PedidoService.cs
+¦           ProdutoService.cs
+¦           VendaService.cs
+¦           
++---SGVendas.Domain
+¦   ¦   SGVendas.Domain.csproj
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net10.0
+¦   ¦               SGVendas.Domain.deps.json
+¦   ¦               SGVendas.Domain.dll
+¦   ¦               SGVendas.Domain.pdb
+¦   ¦               
+¦   +---Entities
+¦   ¦       Cidade.cs
+¦   ¦       Cliente.cs
+¦   ¦       Empresa.cs
+¦   ¦       Estado.cs
+¦   ¦       FormaPagamento.cs
+¦   ¦       Fornecedor.cs
+¦   ¦       ItemVenda.cs
+¦   ¦       ItensPedido.cs
+¦   ¦       MovimentacaoEstoque.cs
+¦   ¦       PagamentoParcial.cs
+¦   ¦       Parcela.cs
+¦   ¦       Pedido.cs
+¦   ¦       Produto.cs
+¦   ¦       Venda.cs
+¦   ¦       
+¦   +---Enums
+¦   ¦       EnumStatusParcela.cs
+¦   ¦       EnumStatusVenda.cs
+¦   ¦ 
+¦                       
++---SGVendas.Infra
+    ¦   SGVendas.Infra.csproj
+    ¦ 
+    ¦               
+    +---Context
+    ¦       SGVendasDbContext.cs
+    ¦       
+    +---Mappings
+    ¦       CidadeMap.cs
+    ¦       ClienteMap.cs
+    ¦       EmpesaMap.cs
+    ¦       EstadoMap.cs
+    ¦       FormaPagamentoMap.cs
+    ¦       FornecedorMap.cs
+    ¦       ItemVendaMap.cs
+    ¦       ItensPedidoMap.cs
+    ¦       MovimentacaoEstoqueMap.cs
+    ¦       PagamentoParcialMap.cs
+    ¦       ParcelaMap.cs
+    ¦       PedidoMap.cs
+    ¦       ProdutoMap.cs
+    ¦       VendaMap.cs
+    ¦ 
+    ¦                   
+    +---Repositories
+            CidadeRepository.cs
+            ClienteCadastroRepository.cs
+            ClienteRepository.cs
+            ProdutoRepository.cs
+            VendaCommandRepository.cs
+            VendaRepository.cs
+            

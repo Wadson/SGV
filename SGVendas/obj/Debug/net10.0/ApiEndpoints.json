@@ -79,7 +79,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoApiController",
     "Method": "Listar",
     "RelativePath": "api/produto",
     "HttpMethod": "GET",
@@ -89,7 +89,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoApiController",
     "Method": "Create",
     "RelativePath": "api/produto",
     "HttpMethod": "POST",
@@ -105,7 +105,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoApiController",
     "Method": "Update",
     "RelativePath": "api/produto/{id}",
     "HttpMethod": "PUT",
@@ -126,7 +126,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoApiController",
     "Method": "Buscar",
     "RelativePath": "api/produto/buscar",
     "HttpMethod": "GET",
@@ -142,7 +142,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "SGVendas.Web.Controllers.ProdutoController",
+    "ContainingType": "SGVendas.Web.Controllers.ProdutoApiController",
     "Method": "Pesquisar",
     "RelativePath": "api/produto/pesquisar",
     "HttpMethod": "GET",

@@ -1,0 +1,681 @@
+﻿@model SGVendas.Application.DTOs.ProdutoDto
+
+@{
+    ViewData["Title"] = "Novo Produto";
+}
+
+<style>
+    .form-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .form-card {
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        border: none;
+        overflow: hidden;
+    }
+
+    .form-header {
+        background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .form-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #0d6efd;
+    }
+
+        .form-section h5 {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .form-section h5 i {
+                margin-right: 0.75rem;
+                color: #0d6efd;
+            }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+        .form-label .required {
+            color: #dc3545;
+            margin-left: 4px;
+        }
+
+    .form-control, .form-select, .form-textarea {
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        padding: 0.75rem;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+    }
+
+        .form-control:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #4dabf7;
+            box-shadow: 0 0 0 0.2rem rgba(77, 171, 247, 0.25);
+            transform: translateY(-1px);
+        }
+
+    .currency-input, .percentage-input {
+        position: relative;
+    }
+
+        .currency-input .input-group-text, .percentage-input .input-group-text {
+            background-color: #f8f9fa;
+            border-right: none;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .currency-input .form-control, .percentage-input .form-control {
+            border-left: none;
+            padding-left: 0.5rem;
+        }
+
+    .input-with-icon {
+        position: relative;
+    }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .input-with-icon .form-control {
+            padding-left: 40px;
+        }
+
+    .field-group {
+        position: relative;
+    }
+
+    .help-tooltip {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+        cursor: help;
+    }
+
+    .calculadora-preco {
+        background: #e7f1ff;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .calculadora-resultado {
+        font-weight: 600;
+        color: #0d6efd;
+        font-size: 1.1rem;
+    }
+
+    .btn-action {
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border-radius: 6px;
+        min-width: 140px;
+        transition: all 0.2s;
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #198754 0%, #157347 100%);
+        border: none;
+        color: white;
+    }
+
+        .btn-save:hover {
+            background: linear-gradient(135deg, #157347 0%, #146c43 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+        }
+
+    .btn-cancel {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        color: #495057;
+    }
+
+        .btn-cancel:hover {
+            background: #e9ecef;
+            border-color: #ced4da;
+            transform: translateY(-1px);
+        }
+
+    .validation-summary {
+        background: #f8d7da;
+        border: 1px solid #f5c2c7;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+        .validation-summary ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+    .preview-card {
+        background: white;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .preview-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .preview-label {
+        color: #6c757d;
+    }
+
+    .preview-value {
+        font-weight: 500;
+        color: #495057;
+    }
+
+    .step-indicator {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 2rem;
+        position: relative;
+    }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -40px;
+            width: 40px;
+            height: 2px;
+            background: #dee2e6;
+        }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    .step.active .step-number {
+        background: #0d6efd;
+        color: white;
+    }
+
+    .step-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .step.active .step-label {
+        color: #0d6efd;
+        font-weight: 600;
+    }
+</style>
+
+<div class="container-fluid py-4">
+    <div class="form-container">
+        <!-- Cabeçalho -->
+        <div class="form-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 fw-bold mb-2">Novo Produto</h1>
+                    <p class="mb-0 opacity-75">Preencha os dados para cadastrar um novo produto no sistema</p>
+                </div>
+                <div class="bg-white bg-opacity-10 rounded-pill px-3 py-1">
+                    <small><i class="bi bi-plus-circle me-1"></i> Cadastro Novo</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Indicador de Passos -->
+        <div class="step-indicator mt-4">
+            <div class="step active">
+                <div class="step-number">1</div>
+                <span class="step-label">Informações</span>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <span class="step-label">Preços</span>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <span class="step-label">Estoque</span>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <span class="step-label">Revisão</span>
+            </div>
+        </div>
+
+        <!-- Validação -->
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+        <form asp-action="Novo" method="post" class="form-card card p-4">
+
+            <!-- Seção: Informações do Produto -->
+            <div class="form-section">
+                <h5><i class="bi bi-box-seam"></i>Informações do Produto</h5>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="NomeProduto" class="form-label">
+                            Nome do Produto <span class="required">*</span>
+                        </label>
+                        <div class="field-group">
+                            <div class="input-with-icon">
+                                <i class="bi bi-tag"></i>
+                                <input asp-for="NomeProduto" class="form-control"
+                                       placeholder="Ex: Smartphone Galaxy S23 256GB" />
+                            </div>
+                            <span class="help-tooltip" title="Nome completo do produto para identificação no sistema">
+                                <i class="bi bi-question-circle"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="NomeProduto" class="text-danger small d-block mt-1"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="Referencia" class="form-label">Referência</label>
+                        <div class="field-group">
+                            <input asp-for="Referencia" class="form-control"
+                                   placeholder="Ex: REF-001" />
+                            <span class="help-tooltip" title="Código interno de referência">
+                                <i class="bi bi-question-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="GtinEan" class="form-label">GTIN / EAN</label>
+                        <div class="field-group">
+                            <input asp-for="GtinEan" class="form-control"
+                                   placeholder="Ex: 7891234567890" maxlength="13" />
+                            <span class="help-tooltip" title="Código de barras EAN-13 (13 dígitos)">
+                                <i class="bi bi-upc-scan"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção: Preços e Cálculos -->
+            <div class="form-section">
+                <h5><i class="bi bi-calculator"></i>Preços e Cálculos</h5>
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label asp-for="PrecoCusto" class="form-label">
+                            Preço de Custo <span class="required">*</span>
+                        </label>
+                        <div class="currency-input input-group">
+                            <span class="input-group-text">R$</span>
+                            <input asp-for="PrecoCusto" class="form-control" type="number" step="0.01" min="0"
+                                   placeholder="0,00" id="precoCusto" />
+                        </div>
+                        <span asp-validation-for="PrecoCusto" class="text-danger small d-block mt-1"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="Lucro" class="form-label">
+                            Margem de Lucro <span class="required">*</span>
+                        </label>
+                        <div class="percentage-input input-group">
+                            <input asp-for="Lucro" class="form-control" type="number" step="0.1" min="0"
+                                   placeholder="0,0" id="margemLucro" />
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <span asp-validation-for="Lucro" class="text-danger small d-block mt-1"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="PrecoDeVenda" class="form-label">
+                            Preço de Venda <span class="required">*</span>
+                        </label>
+                        <div class="currency-input input-group">
+                            <span class="input-group-text">R$</span>
+                            <input asp-for="PrecoDeVenda" class="form-control" type="number" step="0.01" min="0"
+                                   placeholder="0,00" id="precoVenda" readonly />
+                        </div>
+                        <span asp-validation-for="PrecoDeVenda" class="text-danger small d-block mt-1"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="Estoque" class="form-label">
+                            Estoque Inicial <span class="required">*</span>
+                        </label>
+                        <div class="input-group">
+                            <input asp-for="Estoque" class="form-control" type="number" min="0"
+                                   placeholder="0" />
+                            <span class="input-group-text">unid.</span>
+                        </div>
+                        <span asp-validation-for="Estoque" class="text-danger small d-block mt-1"></span>
+                    </div>
+                </div>
+
+                <!-- Calculadora automática -->
+                <div class="calculadora-preco">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <small class="text-primary fw-semibold">
+                                <i class="bi bi-lightning-charge me-1"></i>
+                                Cálculo automático: Preço de Venda = Custo × (1 + Margem%)
+                            </small>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <span class="calculadora-resultado" id="resultadoCalculo">
+                                R$ 0,00
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção: Detalhes Adicionais -->
+            <div class="form-section">
+                <h5><i class="bi bi-gear"></i>Detalhes Adicionais</h5>
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label asp-for="Status" class="form-label">Status</label>
+                        <select asp-for="Status" class="form-select">
+                            <option value="Disponível" selected>Disponível</option>
+                            <option value="Indisponível">Indisponível</option>
+                            <option value="Pré-venda">Pré-venda</option>
+                            <option value="Promocional">Promocional</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="Unidade" class="form-label">Unidade</label>
+                        <div class="field-group">
+                            <input asp-for="Unidade" class="form-control"
+                                   placeholder="Ex: un, kg, m" maxlength="10" />
+                            <span class="help-tooltip" title="Unidade de medida (unidade, quilo, metro, etc)">
+                                <i class="bi bi-rulers"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="Marca" class="form-label">Marca</label>
+                        <div class="field-group">
+                            <input asp-for="Marca" class="form-control"
+                                   placeholder="Ex: Samsung, Apple, Nike" />
+                            <span class="help-tooltip" title="Fabricante ou marca do produto">
+                                <i class="bi bi-tags"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="DataValidade" class="form-label">Data de Validade</label>
+                        <div class="field-group">
+                            <input asp-for="DataValidade" type="date" class="form-control" />
+                            <span class="help-tooltip" title="Opcional para produtos perecíveis">
+                                <i class="bi bi-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção: Observações -->
+            <div class="form-section">
+                <h5><i class="bi bi-chat-left-text"></i>Observações</h5>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label asp-for="Situacao" class="form-label">Observação / Situação</label>
+                        <textarea asp-for="Situacao" class="form-control form-textarea" rows="4"
+                                  placeholder="Informações adicionais sobre o produto, condições especiais, etc."></textarea>
+                        <small class="text-muted mt-1 d-block">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Campo opcional para observações relevantes
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Rápido -->
+            <div class="preview-card">
+                <h6 class="mb-3 text-primary">
+                    <i class="bi bi-eye me-2"></i>Preview do Produto
+                </h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="preview-item">
+                            <span class="preview-label">Produto:</span>
+                            <span class="preview-value" id="previewNome">-</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Referência:</span>
+                            <span class="preview-value" id="previewRef">-</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Marca:</span>
+                            <span class="preview-value" id="previewMarca">-</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="preview-item">
+                            <span class="preview-label">Preço Venda:</span>
+                            <span class="preview-value" id="previewPreco">R$ 0,00</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Estoque:</span>
+                            <span class="preview-value" id="previewEstoque">0 unid.</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Status:</span>
+                            <span class="preview-value" id="previewStatus">Disponível</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações do Formulário -->
+            <div class="d-flex justify-content-between align-items-center pt-4 mt-4 border-top">
+                <div>
+                    <a asp-action="Index" class="btn btn-cancel btn-action">
+                        <i class="bi bi-arrow-left me-2"></i>Cancelar e Voltar
+                    </a>
+                </div>
+
+                <div class="d-flex gap-3">
+                    <button type="reset" class="btn btn-cancel btn-action">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Limpar
+                    </button>
+                    <button type="submit" class="btn btn-save btn-action">
+                        <i class="bi bi-check-circle me-2"></i>Cadastrar Produto
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Nota de Rodapé -->
+        <div class="alert alert-light border mt-4">
+            <div class="d-flex">
+                <i class="bi bi-shield-check text-success me-2 mt-1"></i>
+                <div>
+                    <small class="text-muted">
+                        <strong>Importante:</strong> Todos os campos marcados com <span class="text-danger">*</span> são obrigatórios.
+                        Verifique os dados antes de cadastrar.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos para cálculo automático
+            const precoCustoInput = document.getElementById('precoCusto');
+            const margemLucroInput = document.getElementById('margemLucro');
+            const precoVendaInput = document.getElementById('precoVenda');
+            const resultadoCalculo = document.getElementById('resultadoCalculo');
+
+            // Elementos para preview
+            const previewNome = document.getElementById('previewNome');
+            const previewRef = document.getElementById('previewRef');
+            const previewMarca = document.getElementById('previewMarca');
+            const previewPreco = document.getElementById('previewPreco');
+            const previewEstoque = document.getElementById('previewEstoque');
+            const previewStatus = document.getElementById('previewStatus');
+
+            // Função para calcular preço de venda
+            function calcularPrecoVenda() {
+                const custo = parseFloat(precoCustoInput.value) || 0;
+                const margem = parseFloat(margemLucroInput.value) || 0;
+
+                // Cálculo: preço de venda = custo × (1 + margem/100)
+                const precoVenda = custo * (1 + (margem / 100));
+
+                // Atualiza o campo de preço de venda
+                if (!isNaN(precoVenda) && precoVenda > 0) {
+                    precoVendaInput.value = precoVenda.toFixed(2);
+                    resultadoCalculo.textContent = `R$ ${precoVenda.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                    previewPreco.textContent = `R$ ${precoVenda.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                } else {
+                    precoVendaInput.value = '';
+                    resultadoCalculo.textContent = 'R$ 0,00';
+                    previewPreco.textContent = 'R$ 0,00';
+                }
+            }
+
+            // Event listeners para cálculo automático
+            precoCustoInput.addEventListener('input', calcularPrecoVenda);
+            margemLucroInput.addEventListener('input', calcularPrecoVenda);
+
+            // Atualização em tempo real do preview
+            document.querySelectorAll('input, select, textarea').forEach(function(element) {
+                element.addEventListener('input', function() {
+                    updatePreview();
+                });
+
+                element.addEventListener('change', function() {
+                    updatePreview();
+                });
+            });
+
+            // Função para atualizar o preview
+            function updatePreview() {
+                // Nome
+                const nome = document.querySelector('input[name="NomeProduto"]').value;
+                previewNome.textContent = nome || '-';
+
+                // Referência
+                const referencia = document.querySelector('input[name="Referencia"]').value;
+                previewRef.textContent = referencia || '-';
+
+                // Marca
+                const marca = document.querySelector('input[name="Marca"]').value;
+                previewMarca.textContent = marca || '-';
+
+                // Estoque
+                const estoque = document.querySelector('input[name="Estoque"]').value;
+                previewEstoque.textContent = estoque ? `${estoque} unid.` : '0 unid.';
+
+                // Status
+                const status = document.querySelector('select[name="Status"]').value;
+                previewStatus.textContent = status || 'Disponível';
+
+                // Preço (já atualizado pela função calcularPrecoVenda)
+            }
+
+            // Formatação automática de campos numéricos
+            precoCustoInput.addEventListener('blur', function() {
+                let value = parseFloat(this.value);
+                if (!isNaN(value) && value >= 0) {
+                    this.value = value.toFixed(2);
+                }
+            });
+
+            margemLucroInput.addEventListener('blur', function() {
+                let value = parseFloat(this.value);
+                if (!isNaN(value) && value >= 0) {
+                    this.value = value.toFixed(1);
+                }
+            });
+
+            // Validação do GTIN/EAN
+            const gtinInput = document.querySelector('input[name="GtinEan"]');
+            gtinInput.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (value && !/^\d{13}$/.test(value)) {
+                    alert('GTIN/EAN deve conter exatamente 13 dígitos numéricos');
+                    this.focus();
+                }
+            });
+
+            // Data mínima para validade (hoje)
+            const hoje = new Date().toISOString().split('T')[0];
+            document.querySelector('input[name="DataValidade"]').min = hoje;
+
+            // Foco automático no primeiro campo
+            document.querySelector('input[name="NomeProduto"]').focus();
+
+            // Inicializa o preview
+            updatePreview();
+
+            // Cálculo inicial
+            calcularPrecoVenda();
+        });
+
+        // Confirmação antes de limpar o formulário
+        document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+            if (!confirm('Tem certeza que deseja limpar todos os campos do formulário?')) {
+                e.preventDefault();
+            }
+        });
+
+        // Previne envio acidental com Enter
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.type !== 'textarea') {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

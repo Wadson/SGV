@@ -65,9 +65,35 @@ namespace SGVendas.Application.Services
         // ➕ CRIAR
         public void Criar(ProdutoDto dto)
         {
-            var produto = MapToEntity(dto);
+            var produto = new Produto
+            {
+                NomeProduto = dto.NomeProduto,
+                Referencia = dto.Referencia,
+
+                // ✔ CAMPOS OBRIGATÓRIOS (NUNCA PODEM FICAR NULOS)
+                PrecoCusto = dto.PrecoCusto > 0 ? dto.PrecoCusto : 0,
+                Lucro = dto.Lucro > 0 ? dto.Lucro : 0,
+                PrecoDeVenda = dto.PrecoDeVenda,
+
+                Estoque = dto.Estoque,
+                DataDeEntrada = DateTime.Now,
+
+                Status = string.IsNullOrWhiteSpace(dto.Status)
+                            ? "Ativo"
+                            : dto.Status,
+
+                Situacao = dto.Situacao,
+                Unidade = dto.Unidade,
+                Marca = dto.Marca,
+                DataValidade = dto.DataValidade,
+                GtinEan = dto.GtinEan,
+                Imagem = dto.Imagem,
+                FornecedorID = dto.FornecedorID
+            };
+
             _repository.Add(produto);
         }
+
 
         // ✏️ ATUALIZAR
         public void Atualizar(int id, ProdutoDto dto)
@@ -76,9 +102,27 @@ namespace SGVendas.Application.Services
             if (produto == null)
                 throw new Exception("Produto não encontrado");
 
-            AtualizarEntity(produto, dto);
+            // ✔ Atualiza SOMENTE o que vem da tela
+            produto.NomeProduto = dto.NomeProduto;
+            produto.Referencia = dto.Referencia;
+            produto.PrecoDeVenda = dto.PrecoDeVenda;
+            produto.Estoque = dto.Estoque;
+            produto.Status = dto.Status;
+            produto.Unidade = dto.Unidade;
+            produto.Marca = dto.Marca;
+            produto.DataValidade = dto.DataValidade;
+            produto.Situacao = dto.Situacao;
+            produto.GtinEan = dto.GtinEan;
+            produto.Imagem = dto.Imagem;
+
+            // ❗ NÃO mexe nesses campos:
+            // produto.PrecoCusto
+            // produto.Lucro
+            // produto.DataDeEntrada
+
             _repository.Atualizar(produto);
         }
+
 
         // ❌ EXCLUIR
         public void Excluir(int id)
